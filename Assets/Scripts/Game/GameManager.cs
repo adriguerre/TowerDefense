@@ -13,7 +13,6 @@ public class GameManager : Singleton<GameManager>
     [Header("Main Camera")]
     [field: SerializeField] private GameObject _mainCamera { get; set; }
 
-    [field: SerializeField] private GameObject rootUI { get; set; }
     [SerializeField] private GameObject mainNavBarUI;
     [SerializeField] private GameObject topBarUI;
     //private PlayerData.PlayerData _playerData;
