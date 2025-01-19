@@ -6,7 +6,7 @@ public class CameraScroll : MonoBehaviour
 
     Vector3 touchStart;
     private float topLimit = 25f;
-    private float bottomLimit = 5f;
+    private float bottomLimit = 5.05f;
 
     private Vector3 _curPosition;
     private Vector3 _velocity;
@@ -52,9 +52,7 @@ public class CameraScroll : MonoBehaviour
 
             direction = touchStart - cam.ScreenToWorldPoint(Input.mousePosition);
             float finalYPos = cam.transform.position.y + direction.y;
-            Debug.Log("Old: " + finalYPos);
             finalYPos = Mathf.Clamp(finalYPos, bottomLimit, topLimit);
-            Debug.Log("New: " + finalYPos);
             Vector3 desiredPosition = new Vector3(cam.transform.position.x, finalYPos, cam.transform.position.z);
             cam.transform.position = desiredPosition;
 

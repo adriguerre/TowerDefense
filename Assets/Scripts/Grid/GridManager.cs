@@ -34,15 +34,26 @@ public class GridManager
                 grid[x, y] = CreateGridObject(this, gridPosition);
             }
         }
-        
     }
 
     private GridSlot CreateGridObject(GridManager gridManager, GridPosition gridPosition)
     {
-        Debug.LogWarning("CREATING GRID IN POSITION: " + gridPosition.x + "," + gridPosition.y);
         GridSlot newGridSlot = new GridSlot(gridPosition, null, GridPositionType.Free, true, null);
         LevelGrid.Instance.InstantiateGridSlotPrefab(gridPosition);
         return newGridSlot;
+    }
+    
+    public GridSlot GetGridSlotFromMousePosition()
+    {
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(new Vector2(worldPosition.x, worldPosition.y));
+        Debug.Log("Mouse Clicked in position: " + gridPosition);
+        return grid[gridPosition.x, gridPosition.y];
+    }
+
+    public GridSlot GetGridSlotFromGridPosition(GridPosition gridPosition)
+    {
+        return grid[gridPosition.x, gridPosition.y];
     }
     
 

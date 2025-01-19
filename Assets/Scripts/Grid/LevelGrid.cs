@@ -22,14 +22,17 @@ public class LevelGrid : Singleton<LevelGrid>
 
     void Update()
     {
-        
+	    if (Input.GetMouseButtonDown(0))
+	    {
+		    Debug.Log("Mouse Clicked in position");
+		    gridSystem.GetGridSlotFromMousePosition();
+	    }
     }
 
     #region Public Methods
 
     public void InstantiateGridSlotPrefab(GridPosition gridPosition)
     {
-
 	    Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
     }
 
@@ -39,7 +42,31 @@ public class LevelGrid : Singleton<LevelGrid>
 	    {
 		    for(int y = 0; y < height; y++)
 		    {
-			    Gizmos.color = new Color(0, 0, 2, 0.5f);
+			    GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(new GridPosition(x, y));
+			    switch (gridSlot._gridPositionType)
+			    {
+				    case GridPositionType.Path:
+					    Gizmos.color = new Color(1, 1, 0, 0.5f);
+					    break;
+				    case GridPositionType.Free:
+					    Gizmos.color = new Color(0, 1, 0, 0.5f);
+					    break;
+				    case GridPositionType.Obstacle:
+					    Gizmos.color = new Color(0.7f, 0.8f, 0.1f, 0.5f);
+					    break;
+				    case GridPositionType.CivilianBuilding:
+					    Gizmos.color = new Color(0.7f, 0.1f, 0.7f, 0.5f);
+					    break;
+				    case GridPositionType.MilitaryBuilding:
+					    Gizmos.color = new Color(0.2f, 0.1f, 0.7f, 0.5f);
+					    break;
+				    case GridPositionType.TemporaryObstacle:
+					    Gizmos.color = new Color(0.2f, 0.1f, 0.2f, 0.5f);
+					    break;
+				    default:
+					    Gizmos.color = new Color(1, 1, 1, 0.5f);
+					    break;
+			    }
 			    Gizmos.DrawCube(GetWorldPosition(new GridPosition(x, y)), new Vector2(cellSize, cellSize));
 		    }
 	    }
@@ -51,12 +78,12 @@ public class LevelGrid : Singleton<LevelGrid>
     {
 	    return new Vector2(gridPosition.x, gridPosition.y) * cellSize;
     }
-
-    public GridPosition GetGridPosition(Vector3 worldPosition)
+    
+    public GridPosition GetGridPosition(Vector2 worldPosition)
     {
 	    return new GridPosition(
 		    Mathf.RoundToInt(worldPosition.x / cellSize),
-		    Mathf.RoundToInt(worldPosition.z / cellSize));
+		    Mathf.RoundToInt(worldPosition.y / cellSize));
     }
     
     #region Private Methods 
