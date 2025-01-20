@@ -48,7 +48,13 @@ public class GridManager
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(new Vector2(worldPosition.x, worldPosition.y));
         Debug.Log("Mouse Clicked in position: " + gridPosition);
-        return grid[gridPosition.x, gridPosition.y];
+        if (IsValidGridPosition(gridPosition))
+        {
+            return grid[gridPosition.x, gridPosition.y];
+        }
+
+        return null;
+
     }
 
     public GridSlot GetGridSlotFromGridPosition(GridPosition gridPosition)
@@ -56,12 +62,6 @@ public class GridManager
         return grid[gridPosition.x, gridPosition.y];
     }
     
-
-
-
-    #region Public Methods
-
-
     public bool IsValidGridPosition(GridPosition gridPosition)
     {
         return gridPosition.x >= 0
@@ -69,9 +69,6 @@ public class GridManager
                && gridPosition.x < width
                && gridPosition.y < height;
     }
-
-
-    #endregion 	
 
 
 

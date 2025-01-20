@@ -5,7 +5,7 @@ public class GridSlot
 {
     #region Private Fields
 
-    GridPosition _gridPosition;
+    public GridPosition _gridPosition { get; private set; }
 	IBuilding _buildingInPosition;
 	List<GridPosition> _positionLinkedWithThisBuilding;
 	bool _isInteractable; 
@@ -30,6 +30,7 @@ public class GridSlot
 	    _isInteractable = true;
 
     }
+
 
   /*  public void AddCivilianBuildingSpot(IBuilding building, List<GridPosition> positionLinkedWithThisBuilding)
     {

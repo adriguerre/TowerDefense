@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using UnityEngine;
 
 public class LevelGrid : Singleton<LevelGrid>
@@ -10,6 +11,8 @@ public class LevelGrid : Singleton<LevelGrid>
 	[field: SerializeField] public GameObject gridDebugObjectPrefab {get; private set;}
 
 	private GridManager gridSystem;
+	private GameObject currentGridBuildingUI;
+	GridSlot currentGridSlot;
 
     private void Awake()
     {
@@ -22,18 +25,37 @@ public class LevelGrid : Singleton<LevelGrid>
 
     void Update()
     {
+	    if (CameraScroll.Instance.isMovingCamera)
+	    {
+		    return;
+	    }
+	    
 	    if (Input.GetMouseButtonDown(0))
 	    {
-		    Debug.Log("Mouse Clicked in position");
-		    gridSystem.GetGridSlotFromMousePosition();
+		    GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();
+		    if (gridSlot != null && currentGridSlot != gridSlot)
+		    {
+			    ActivateGridSlotBuildingUI(gridSlot); 
+		    }
+		 
 	    }
+    }
+
+    private void ActivateGridSlotBuildingUI(GridSlot gridSlot)
+    {
+	    if (currentGridBuildingUI != null)
+	    {
+		    Destroy(currentGridBuildingUI);
+	    }
+	    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity);
+	    currentGridBuildingUI.GetComponent<GridSlotHolder>().SetProperties(gridSlot);
     }
 
     #region Public Methods
 
     public void InstantiateGridSlotPrefab(GridPosition gridPosition)
     {
-	    Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
+	  // Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
     }
 
     private void OnDrawGizmos()
