@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 
+[Serializable]
 public class GridPosition
 {
     public int x;

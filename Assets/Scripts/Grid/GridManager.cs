@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridManager
@@ -18,7 +20,7 @@ public class GridManager
     #endregion 	
 
 
-    public GridManager(int width, int height, float cellSize)
+    public GridManager(int width, int height, float cellSize, LevelSO levelSO)
     {
         this.width = width;
         this.height = height;
@@ -31,14 +33,37 @@ public class GridManager
             for(int y = 0; y < height; y++)
             {
                 GridPosition gridPosition = new GridPosition(x, y);
-                grid[x, y] = CreateGridObject(this, gridPosition);
+                GridPositionType gridPositionType = GetSlotType(levelSO, gridPosition);
+                grid[x, y] = CreateGridObject(this, gridPosition, gridPositionType);
             }
         }
     }
 
-    private GridSlot CreateGridObject(GridManager gridManager, GridPosition gridPosition)
+    private GridPositionType GetSlotType(LevelSO levelMap, GridPosition gridPosition)
     {
-        GridSlot newGridSlot = new GridSlot(gridPosition, null, GridPositionType.Free, true, null);
+        if (levelMap.pathList.Contains(gridPosition))
+        {
+            return GridPositionType.Path;
+        }else if (levelMap.blockedSlotList.Contains(gridPosition))
+        {
+            return GridPositionType.Obstacle;
+        }else if (levelMap.temporaryBlockedSlotsList.Contains(gridPosition))
+        {
+            return GridPositionType.TemporaryObstacle;
+        }
+        else
+        {
+            return GridPositionType.Free;
+        }
+        // }else if (levelMap.CivilianBuildingGridPosisitions.gridPositionList...Contains(gridPosition))
+        // {
+        //     
+        // }
+    }
+
+    private GridSlot CreateGridObject(GridManager gridManager, GridPosition gridPosition, GridPositionType slotType)
+    {
+        GridSlot newGridSlot = new GridSlot(gridPosition, null, slotType, true, null);
         LevelGrid.Instance.InstantiateGridSlotPrefab(gridPosition);
         return newGridSlot;
     }

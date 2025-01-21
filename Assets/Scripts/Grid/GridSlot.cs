@@ -9,7 +9,7 @@ public class GridSlot
 	IBuilding _buildingInPosition;
 	List<GridPosition> _positionLinkedWithThisBuilding;
 	bool _isInteractable; 
-	public GridPositionType _gridPositionType { get; private set; }
+	public GridPositionType _gridPositionType { get; set; }
 	private GridManager _gridManager;
     #endregion
 

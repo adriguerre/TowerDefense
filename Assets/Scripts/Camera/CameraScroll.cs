@@ -50,7 +50,7 @@ public class CameraScroll : Singleton<CameraScroll>
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Mouse Button Down");
+            //Debug.Log("Mouse Button Down");
             touchStart = cam.ScreenToWorldPoint(Input.mousePosition);
             _underInertia = false;
             clickTimer = 0.0f; // Inicia el temporizador
@@ -66,7 +66,7 @@ public class CameraScroll : Singleton<CameraScroll>
             {
                 isClick = false;
                 isMovingCamera = true;
-                Debug.Log("Scrolling...");
+                //Debug.Log("Scrolling...");
 
                 direction = touchStart - cam.ScreenToWorldPoint(Input.mousePosition);
                 float finalYPos = cam.transform.position.y + direction.y;

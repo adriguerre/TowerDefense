@@ -21,7 +21,6 @@ public class GridSlotHolder : MonoBehaviour
         if (isHoldingMouse && Input.GetMouseButton(0))
         {
             holdTimer += Time.deltaTime; // Increase Timer
-            Debug.Log("ACTIVATING UI");
             if (holdTimer >= holdThreshold)
             {
                 CompleteHoldAction();   // Completed -> Show UI

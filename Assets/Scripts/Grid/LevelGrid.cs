@@ -1,29 +1,71 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
+using NaughtyAttributes;
+using NUnit.Framework.Internal;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.Windows;
+using Input = UnityEngine.Input;
 
 public class LevelGrid : Singleton<LevelGrid>
 {
 
+	[Header("Properties")]
 	[SerializeField] private int width;
 	[SerializeField] private int height;
 	[SerializeField] private float cellSize;
 	[field: SerializeField] public GameObject gridDebugObjectPrefab {get; private set;}
 
+
+	[SerializeField] private LevelSO defaultLevel;
 	private GridManager gridSystem;
 	private GameObject currentGridBuildingUI;
 	GridSlot currentGridSlot;
 
-    private void Awake()
-    {
-	    gridSystem = new GridManager(width, height, cellSize);
-    }
-    void Start()
-    {
-        
-    }
+	[Header("Level Creator")]
+	[SerializeField] private bool LEVEL_CREATOR;
+	[EnableIf(EConditionOperator.And, "LEVEL_CREATOR", "NotLC_buildingObstacle", "NotLC_buildingTemporaryObstacles", "NotLC_buildingBuildings")]
+	[SerializeField] private bool LC_buildingPaths;
+	[EnableIf(EConditionOperator.And, "LEVEL_CREATOR", "NotLC_buildingPaths", "NotLC_buildingTemporaryObstacles", "NotLC_buildingBuildings")]
+	[SerializeField] private bool LC_buildingObstacle;
+	[EnableIf(EConditionOperator.And, "LEVEL_CREATOR", "NotLC_buildingObstacle", "NotLC_buildingPaths", "NotLC_buildingBuildings")]
+	[SerializeField] private bool LC_buildingTemporaryObstacles;
+	[EnableIf(EConditionOperator.And, "LEVEL_CREATOR", "NotLC_buildingObstacle", "NotLC_buildingPaths", "NotLC_buildingTemporaryObstacles")]
+	[SerializeField] private bool LC_buildingBuildings;
+	[EnableIf("LEVEL_CREATOR")]
+	[SerializeField] private string FileName;
 
-    void Update()
+	private List<GridPosition> pathsSlots;
+	private List<GridPosition> obstacleSlots;
+	List<GridPosition> temporaryObstacleSlots;
+	List<GridPosition> civilianBuildingsSlots;
+	[Button]
+	private void SaveLevel()
+	{
+		LevelSO levelToModify = Resources.Load<LevelSO>("Levels/" + FileName);
+
+		if (levelToModify != null)
+		{
+			Debug.Log("LEVEL SAVED");
+			levelToModify.pathList.Clear();
+			levelToModify.pathList = pathsSlots;
+		}
+		else
+		{
+			Debug.Log("LEVEL NOT SAVED");
+
+		}
+
+	}
+
+	private void Start()
+	{
+		LevelSO defaultLevelSO = Resources.Load<LevelSO>("Levels/Level2");
+		gridSystem = new GridManager(width, height, cellSize, defaultLevel);
+	}
+
+	void Update()
     {
 	    if (CameraScroll.Instance.isMovingCamera)
 	    {
@@ -35,13 +77,59 @@ public class LevelGrid : Singleton<LevelGrid>
 		    GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();
 		    if (gridSlot != null && currentGridSlot != gridSlot)
 		    {
-			    ActivateGridSlotBuildingUI(gridSlot); 
+			    ActivateGridSlotBuildingUI(gridSlot);
+			    CheckIfLevelCreatorIsEnabled(gridSlot);
 		    }
 		 
 	    }
     }
 
-    private void ActivateGridSlotBuildingUI(GridSlot gridSlot)
+	private void CheckIfLevelCreatorIsEnabled(GridSlot gridSlot)
+	{
+
+		if (!LEVEL_CREATOR)
+		{
+			return;
+		}
+		if (pathsSlots == null) 
+			pathsSlots = new List<GridPosition>();
+		if (obstacleSlots == null) 
+			obstacleSlots = new List<GridPosition>();
+		if (temporaryObstacleSlots == null) 
+			temporaryObstacleSlots = new List<GridPosition>();
+		if (civilianBuildingsSlots == null) 
+			civilianBuildingsSlots = new List<GridPosition>();
+		
+		
+		if (LC_buildingPaths)
+		{
+			pathsSlots.Add(gridSlot._gridPosition);
+			gridSlot._gridPositionType = GridPositionType.Path;
+		}
+		
+		if (LC_buildingObstacle)
+		{
+			obstacleSlots.Add(gridSlot._gridPosition);
+			gridSlot._gridPositionType = GridPositionType.Obstacle;
+
+		}
+		
+		if (LC_buildingTemporaryObstacles)
+		{
+			temporaryObstacleSlots.Add(gridSlot._gridPosition);
+			gridSlot._gridPositionType = GridPositionType.TemporaryObstacle;
+
+		}
+		
+		if (LC_buildingBuildings)
+		{
+			civilianBuildingsSlots.Add(gridSlot._gridPosition);
+			gridSlot._gridPositionType = GridPositionType.CivilianBuilding;
+
+		}
+	}
+
+	private void ActivateGridSlotBuildingUI(GridSlot gridSlot)
     {
 	    if (currentGridBuildingUI != null)
 	    {
@@ -58,7 +146,57 @@ public class LevelGrid : Singleton<LevelGrid>
 	  // Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
     }
 
+    
+
     private void OnDrawGizmos()
+    {
+	    if (LEVEL_CREATOR)
+	    {
+		    DrawLevelCreatorGizmos();
+	    }
+	    else
+	    {
+		    DrawNormalGizmos();
+	    }
+    }
+
+    private void DrawLevelCreatorGizmos()
+    {
+	    for(int x = 0; x < width; x++)
+	    {
+		    for(int y = 0; y < height; y++)
+		    {
+			    GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(new GridPosition(x, y));
+			    switch (gridSlot._gridPositionType)
+			    {
+				    case GridPositionType.Path:
+					    Gizmos.color = new Color(1, 1, 0, 0.5f);
+					    break;
+				    case GridPositionType.Free:
+					    Gizmos.color = new Color(0, 1, 0, 0.5f);
+					    break;
+				    case GridPositionType.Obstacle:
+					    Gizmos.color = new Color(0.7f, 0.8f, 0.1f, 0.5f);
+					    break;
+				    case GridPositionType.CivilianBuilding:
+					    Gizmos.color = new Color(0.7f, 0.1f, 0.7f, 0.5f);
+					    break;
+				    case GridPositionType.MilitaryBuilding:
+					    Gizmos.color = new Color(0.2f, 0.1f, 0.7f, 0.5f);
+					    break;
+				    case GridPositionType.TemporaryObstacle:
+					    Gizmos.color = new Color(0.2f, 0.1f, 0.2f, 0.5f);
+					    break;
+				    default:
+					    Gizmos.color = new Color(1, 1, 1, 0.5f);
+					    break;
+			    }
+			    Gizmos.DrawCube(GetWorldPosition(new GridPosition(x, y)), new Vector2(cellSize, cellSize));
+		    }
+	    }
+    }
+
+    private void DrawNormalGizmos()
     {
 	    for(int x = 0; x < width; x++)
 	    {

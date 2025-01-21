@@ -42515,9 +42515,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   width: 7
-  height: 50
+  height: 45
   cellSize: 0.65
   <gridDebugObjectPrefab>k__BackingField: {fileID: 5029062140957245550, guid: 2f16be4ba692b5941ad86ebff23c81f9, type: 3}
+  defaultLevel: {fileID: 11400000, guid: db09f3c60d9df6c4da2affc3dbf2832c, type: 2}
+  LEVEL_CREATOR: 0
+  LC_buildingPaths: 0
+  LC_buildingObstacle: 0
+  LC_buildingTemporaryObstacles: 0
+  LC_buildingBuildings: 0
+  FileName: 
 --- !u!1 &1426828740
 GameObject:
   m_ObjectHideFlags: 0
