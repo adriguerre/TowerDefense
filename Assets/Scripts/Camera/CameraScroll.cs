@@ -1,7 +1,11 @@
+using System;
 using UnityEngine;
 
-public class CameraScroll : Singleton<CameraScroll>
+public class CameraScroll : MonoBehaviour
 {
+    
+    public static CameraScroll Instance;
+    
     [SerializeField] private Camera cam;
 
     Vector3 touchStart;
@@ -18,7 +22,18 @@ public class CameraScroll : Singleton<CameraScroll>
     [SerializeField] float clickDurationThreshold = 0.2f; // Time to detect is a click
     private float clickTimer = 0.0f;
     private bool isClick = false;
-    
+
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(this);
+            Debug.LogError("There is already a camera scroll attached to this GameObject");
+        }
+        Instance = this;
+    }
+
     void Update()
     {
         PanCamera();

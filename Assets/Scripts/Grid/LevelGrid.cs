@@ -67,11 +67,13 @@ public class LevelGrid : Singleton<LevelGrid>
 
 	void Update()
     {
-	    if (CameraScroll.Instance.isMovingCamera)
+	    if (CameraScroll.Instance != null)
 	    {
-		    return;
+		    if (CameraScroll.Instance.isMovingCamera)
+		    {
+			    return;
+		    } 
 	    }
-	    
 	    if (Input.GetMouseButtonDown(0))
 	    {
 		    GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();

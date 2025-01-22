@@ -20,13 +20,7 @@ namespace LoadingMainGame
         [SerializeField] private Animator loadingAnimator;
 
         #endregion 	
-
-        #region Properties
-        #endregion 	
         
-        #region Events
-        
-        #endregion 	
 
         #region Unity Methods
         
@@ -44,17 +38,9 @@ namespace LoadingMainGame
         {
             //TODO KW: Check if habia partida o no, por ahora del tiron a campaña
             //Hay que hacer un sistema para poner una pestaña de guardado, cuando llamamos al test level, se llama a este start de nuevo, y se crea otra campaign scene
-            SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
-            //Si queremos cargar game
-            //SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
-        }
-
-        public void OpenTestLevel()
-        {
             SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
         }
-        
-        
         #endregion
         
         #region Events Methods 

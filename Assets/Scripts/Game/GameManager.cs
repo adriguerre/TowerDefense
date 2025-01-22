@@ -49,25 +49,17 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     /// Load all game data needed, when finished, destroy loading main game panel
     /// </summary>
-    private void LoadGameData()
+    private async void LoadGameData()
     {
-        //Load game data
-        //Remove loading screen
-        if (LoadingMainGameScene.Instance != null)
-            LoadingMainGameScene.Instance.OnGameLoaded();
-        else //KW Testing purposes
+        
+        if (LoadSceneManager.Instance != null)
+        {
+            LoadSceneManager.Instance.OnGameLoaded();
             ActivateComponentsAfterLoading();
-        //Activate audio listener to main camera
-        //SaveManager.Instance.onPlayerDataLoaded += OnPlayerDataLoaded;
-        //SaveManager.Instance.LoadPlayerData();
-    }
+        }
+            
 
-    // private void OnPlayerDataLoaded(object sender, PlayerData.PlayerData e)
-    // {
-    //     _playerData = e;
-    //     Debug.Log("PLAYER DATA LOADED: KW " + _playerData.choppersUnlocked);
-    //     //Spawn choppers
-    // }
+    }
     
     public void ActivateComponentsAfterLoading()
     {

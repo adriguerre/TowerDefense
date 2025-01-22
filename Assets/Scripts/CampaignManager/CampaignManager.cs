@@ -24,9 +24,11 @@ public class CampaignManager : MonoBehaviour
 
     private void OpenTestLevel()
     {
-	    SceneManager.LoadSceneAsync(0, LoadSceneMode.Additive);
-		LoadingMainGameScene.Instance.OpenTestLevel();
+	    //SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+		LoadSceneManager.Instance.OpenLevel();
     }
+    
+    
 
     private void LoadGameData()
     {
