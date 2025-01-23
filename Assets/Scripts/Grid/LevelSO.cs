@@ -6,6 +6,12 @@ using UnityEngine;
 [Serializable]
 public class LevelSO : ScriptableObject
 {
+
+    public string levelName;
+    public Sprite levelVillageIcon;
+    public Sprite levelGridVisualizer;
+    [TextArea(10,100)]
+    public string levelDescription;
     public List<GridPosition> pathList;
     public List<GridPosition> blockedSlotList;
     public List<GridPosition> temporaryBlockedSlotsList;

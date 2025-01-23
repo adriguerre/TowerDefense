@@ -625,7 +625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bIsCustomLoadingWait: 1
-  loadingWaitOffset: 3
+  loadingWaitOffset: 1.5
   loadingAnimator: {fileID: 1154872142}
 --- !u!4 &707186906
 Transform:

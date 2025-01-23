@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d667ec85fcdac44a85b7fcb07b61fbb, type: 3}
+  m_Name: Level_2
+  m_EditorClassIdentifier: 
+  levelName: Tilu
+  levelVillageIcon: {fileID: 21300000, guid: 60a8af12d6131f847b1971574e36744f, type: 3}
+  levelGridVisualizer: {fileID: 2960402581040015946, guid: 8dc9983236a912546ba3db27426cc7e4, type: 3}
+  levelDescription: "En lo alto de una imponente monta\xF1a nevada, donde el viento
+    helado silba entre los picos, yace un campamento solitario. Los exploradores
+    que lo habitan enfrentan no solo el fr\xEDo implacable, sino tambi\xE9n una presencia
+    oculta que ronda en la tormenta. Entre los glaciares y las cavernas heladas,
+    algo despierta, y el eco de sus pasos amenaza con romper la fr\xE1gil paz del
+    hielo eterno."
+  pathList: []
+  blockedSlotList: []
+  temporaryBlockedSlotsList: []
+  CivilianBuildingGridPosisitions: []

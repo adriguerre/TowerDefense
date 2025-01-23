@@ -24,6 +24,10 @@ public class CameraCampaignScroll : MonoBehaviour
 
     void Update()
     {
+        if (!CameraMovements.Instance.canMoveCamera)
+        {
+            return;
+        }
         PanCamera();
 
         if (_underInertia && _time <= SmoothTime)
