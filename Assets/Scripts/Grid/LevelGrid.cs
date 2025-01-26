@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using NaughtyAttributes;
@@ -27,6 +28,7 @@ public class LevelGrid : Singleton<LevelGrid>
 	private GridManager gridSystem;
 	private GameObject currentGridBuildingUI;
 	GridSlot currentGridSlot;
+	private LevelSO currentLevelSO;
 
 	[Header("Level Creator")]
 	[SerializeField] private bool LEVEL_CREATOR;
@@ -73,14 +75,37 @@ public class LevelGrid : Singleton<LevelGrid>
 	{
 		if (levelSO != null)
 		{
+			currentLevelSO = levelSO;
 			Debug.Log("SE esta creando un level con la info de: " + levelSO.levelName + " con un camino count de: " + levelSO.pathList.Count);
 			gridSystem = new GridManager(width, height, cellSize, levelSO);
 		}
 		else
 		{
 			LevelSO defaultLevel = Resources.Load<LevelSO>("Levels/LeveL_1");
+			currentLevelSO = defaultLevel;
 			gridSystem = new GridManager(width, height, cellSize, defaultLevel);
 		}
+	}
+
+	public Vector2 GetCenterPositionFromCivilianBuilding(int buildingID, int size)
+	{
+		foreach (var CivilianBuilding in currentLevelSO.CivilianBuildingGridPosisitions)
+		{
+			if (CivilianBuilding.buildingId == buildingID)
+			{
+				if (size == 4)
+				{
+					GridPosition gridPosition = CivilianBuilding.gridPositionList.First();
+					return gridSystem.GetTopRightCorner(gridPosition);
+				}else if (size == 6)
+				{
+					GridPosition gridPosition = CivilianBuilding.gridPositionList[1];
+					return gridSystem.GetTopPosition(gridPosition);
+				}
+			}
+		}
+
+		return Vector2.zero;
 	}
 
 	void Update()
@@ -166,9 +191,9 @@ public class LevelGrid : Singleton<LevelGrid>
 		    if (gridSlot.buildingSize != 0)
 		    {
 			    if (gridSlot.buildingSize == 4)
-				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize4ObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity); 
+				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize4ObjectPrefab, GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4), Quaternion.identity); 
 			    else
-				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize6ObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity); 
+				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize6ObjectPrefab, GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6), Quaternion.identity); 
 		    } 
 	    }
 	    else

@@ -128,7 +128,20 @@ public class GridManager
                && gridPosition.y < height;
     }
 
+    public Vector2 GetTopRightCorner(GridPosition gridPosition)
+    {
+        float worldX = gridPosition.x * cellSize + (cellSize / 2);
+        float worldY = gridPosition.y * cellSize + (cellSize / 2);
 
+        return new Vector2(worldX, worldY);
+    }
+    public Vector2 GetTopPosition(GridPosition gridPosition)
+    {
+        float worldX = gridPosition.x * cellSize;
+        float worldY = gridPosition.y * cellSize + (cellSize / 2);
+
+        return new Vector2(worldX, worldY);
+    }
 
 
 }
