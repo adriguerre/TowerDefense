@@ -35,16 +35,18 @@ public class GridManager
             for(int y = 0; y < height; y++)
             {
                 int buildingID = 0;
+                int size = 0;
                 GridPosition gridPosition = new GridPosition(x, y);
-                GridPositionType gridPositionType = GetSlotType(levelSO, gridPosition, out buildingID);
-                grid[x, y] = CreateGridObject(this, gridPosition, gridPositionType, buildingID);
+                GridPositionType gridPositionType = GetSlotType(levelSO, gridPosition, out buildingID, out size);
+                grid[x, y] = CreateGridObject(this, gridPosition, gridPositionType, buildingID, size);
             }
         }
     }
 
-    private GridPositionType GetSlotType(LevelSO levelMap, GridPosition gridPosition, out int buildingID)
+    private GridPositionType GetSlotType(LevelSO levelMap, GridPosition gridPosition, out int buildingID, out int size)
     {
         buildingID = 0;
+        size = 0;
         if (levelMap.pathList.Contains(gridPosition))
         {
             return GridPositionType.Path;
@@ -54,7 +56,7 @@ public class GridManager
         }else if (levelMap.temporaryBlockedSlotsList.Contains(gridPosition))
         {
             return GridPositionType.TemporaryObstacle;
-        }else if (IsACivilianBuildingPosition(levelMap, gridPosition,out buildingID))
+        }else if (IsACivilianBuildingPosition(levelMap, gridPosition,out buildingID, out size))
         {
             return GridPositionType.CivilianBuilding;
         }
@@ -66,15 +68,17 @@ public class GridManager
         return GridPositionType.Free;
     }
 
-    private bool IsACivilianBuildingPosition(LevelSO levelMap, GridPosition gridPosition, out int buildingID)
+    private bool IsACivilianBuildingPosition(LevelSO levelMap, GridPosition gridPosition, out int buildingID, out int size)
     {
         buildingID = 0;
+        size = 0;
         //We will check if it is civilian building
         foreach (var CivilianBuilding in levelMap.CivilianBuildingGridPosisitions)
         {
             if (CivilianBuilding.gridPositionList.Contains(gridPosition))
             {
                 buildingID = CivilianBuilding.buildingId;
+                size = CivilianBuilding.size;
                 return true;
             }
         }
@@ -91,9 +95,9 @@ public class GridManager
     /// <param name="slotType"></param>
     /// Puede que buildingID sea 0, en ese caso no hay edificio en esa posicion
     /// <returns></returns>
-    private GridSlot CreateGridObject(GridManager gridManager, GridPosition gridPosition, GridPositionType slotType, int buildingID)
+    private GridSlot CreateGridObject(GridManager gridManager, GridPosition gridPosition, GridPositionType slotType, int buildingID, int buildingSize)
     {
-        GridSlot newGridSlot = new GridSlot(gridPosition, null, slotType, true, null, buildingID);
+        GridSlot newGridSlot = new GridSlot(gridPosition, null, slotType, true, null, buildingID, buildingSize);
         LevelGrid.Instance.InstantiateGridSlotPrefab(gridPosition);
         return newGridSlot;
     }

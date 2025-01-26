@@ -17,6 +17,10 @@ public class LevelGrid : Singleton<LevelGrid>
 	[SerializeField] private int height;
 	[SerializeField] private float cellSize;
 	[field: SerializeField] public GameObject gridDebugObjectPrefab {get; private set;}
+	[field: SerializeField] public GameObject gridDebugCivilianBuildingSize4ObjectPrefab {get; private set;}
+
+	[field: SerializeField] public GameObject gridDebugCivilianBuildingSize6ObjectPrefab {get; private set;}
+
 
 
 	[SerializeField] private LevelSO defaultLevel;
@@ -93,11 +97,13 @@ public class LevelGrid : Singleton<LevelGrid>
 		    GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();
 		    if (gridSlot != null && currentGridSlot != gridSlot)
 		    {
+			    bool isBuilding = false;
 			    if (gridSlot._gridPositionType == GridPositionType.CivilianBuilding)
 			    {
 				    Debug.Log("WE ARE CLICKING CIVILIAN BUILDING WITH ID: " + gridSlot.buildingID);
+				    isBuilding = true;
 			    }
-			    ActivateGridSlotBuildingUI(gridSlot);
+			    ActivateGridSlotBuildingUI(gridSlot, isBuilding);
 			    CheckIfLevelCreatorIsEnabled(gridSlot);
 		    }
 		 
@@ -149,13 +155,25 @@ public class LevelGrid : Singleton<LevelGrid>
 		}
 	}
 
-	private void ActivateGridSlotBuildingUI(GridSlot gridSlot)
+	private void ActivateGridSlotBuildingUI(GridSlot gridSlot, bool isBuilding)
     {
 	    if (currentGridBuildingUI != null)
-	    {
 		    Destroy(currentGridBuildingUI);
+
+	    //If it is a building, we spawn 4 grid size object or 6 grid size
+	    if (isBuilding)
+	    {
+		    if (gridSlot.buildingSize != 0)
+		    {
+			    if (gridSlot.buildingSize == 4)
+				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize4ObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity); 
+			    else
+				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize6ObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity); 
+		    } 
 	    }
-	    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity);
+	    else
+		    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity); 
+	    
 	    currentGridBuildingUI.GetComponent<GridSlotHolder>().SetProperties(gridSlot);
     }
 
