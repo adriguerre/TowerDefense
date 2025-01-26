@@ -21,5 +21,10 @@ public class LevelSO : ScriptableObject
 [Serializable]
 public class CivilianBuildingGridPosisition
 {
+    public int buildingId;
+    public int size;
+    /// <summary>
+    /// La primera posición de esta lista, deberá de ser siempre la esquina de abajo izquierda
+    /// </summary>
     public List<GridPosition> gridPositionList;
 }

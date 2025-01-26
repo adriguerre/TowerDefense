@@ -58,7 +58,6 @@ namespace Sounds
             audioMixer.SetFloat("MusicVolume", Mathf.Log10(level) * 20f);
             PlayerPrefs.SetFloat("MusicVolume", level);
             
-            Debug.Log("KW: " + level);
             if (level <= 0.0001f)
             {
                 SettingsUIManager.Instance.MusicVolumeButtonDesactivated();

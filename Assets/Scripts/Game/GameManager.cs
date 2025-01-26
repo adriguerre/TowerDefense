@@ -15,6 +15,7 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private GameObject mainNavBarUI;
     [SerializeField] private GameObject topBarUI;
+    public LevelSO levelInfo { get; private set; }
     //private PlayerData.PlayerData _playerData;
     #endregion 	
 
@@ -54,11 +55,16 @@ public class GameManager : Singleton<GameManager>
         
         if (LoadSceneManager.Instance != null)
         {
+            levelInfo = LoadSceneManager.Instance.levelInfoToLoad;
+            await LevelGrid.Instance.CreateLevel(levelInfo);
             LoadSceneManager.Instance.OnGameLoaded();
             ActivateComponentsAfterLoading();
         }
-            
-
+        else
+        {
+            LevelGrid.Instance.CreateLevel(levelInfo); 
+            ActivateComponentsAfterLoading();
+        }
     }
     
     public void ActivateComponentsAfterLoading()

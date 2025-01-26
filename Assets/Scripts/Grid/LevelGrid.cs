@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using NaughtyAttributes;
 using NUnit.Framework.Internal;
 using UnityEngine;
@@ -36,6 +37,7 @@ public class LevelGrid : Singleton<LevelGrid>
 	[EnableIf("LEVEL_CREATOR")]
 	[SerializeField] private string FileName;
 
+	public bool levelIsCreated { get; private set; }
 	private List<GridPosition> pathsSlots;
 	private List<GridPosition> obstacleSlots;
 	List<GridPosition> temporaryObstacleSlots;
@@ -61,8 +63,20 @@ public class LevelGrid : Singleton<LevelGrid>
 
 	private void Start()
 	{
-		LevelSO defaultLevelSO = Resources.Load<LevelSO>("Levels/Level2");
-		gridSystem = new GridManager(width, height, cellSize, defaultLevel);
+	}
+
+	public async Task CreateLevel(LevelSO levelSO)
+	{
+		if (levelSO != null)
+		{
+			Debug.Log("SE esta creando un level con la info de: " + levelSO.levelName + " con un camino count de: " + levelSO.pathList.Count);
+			gridSystem = new GridManager(width, height, cellSize, levelSO);
+		}
+		else
+		{
+			LevelSO defaultLevel = Resources.Load<LevelSO>("Levels/LeveL_1");
+			gridSystem = new GridManager(width, height, cellSize, defaultLevel);
+		}
 	}
 
 	void Update()
@@ -79,6 +93,10 @@ public class LevelGrid : Singleton<LevelGrid>
 		    GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();
 		    if (gridSlot != null && currentGridSlot != gridSlot)
 		    {
+			    if (gridSlot._gridPositionType == GridPositionType.CivilianBuilding)
+			    {
+				    Debug.Log("WE ARE CLICKING CIVILIAN BUILDING WITH ID: " + gridSlot.buildingID);
+			    }
 			    ActivateGridSlotBuildingUI(gridSlot);
 			    CheckIfLevelCreatorIsEnabled(gridSlot);
 		    }

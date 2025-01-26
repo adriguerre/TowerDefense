@@ -11,16 +11,18 @@ public class GridSlot
 	bool _isInteractable; 
 	public GridPositionType _gridPositionType { get; set; }
 	private GridManager _gridManager;
+	public int buildingID {get; private set;}
     #endregion
 
     public GridSlot(GridPosition gridPosition, IBuilding buildingInPosition, GridPositionType gridPositionType,
-	    bool isInteractable, List<GridPosition> positionLinkedWithThisBuilding)
+	    bool isInteractable, List<GridPosition> positionLinkedWithThisBuilding, int buildingID)
     {
 	    this._gridPosition = gridPosition;
 	    this._buildingInPosition = buildingInPosition;
 	    this._gridPositionType = gridPositionType;
 	    this._isInteractable = isInteractable;
 	    this._positionLinkedWithThisBuilding = positionLinkedWithThisBuilding;
+	    this.buildingID = buildingID;
     }
 
     public void AddBuildingToSlot(IBuilding building)

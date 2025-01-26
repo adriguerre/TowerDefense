@@ -624,7 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d5c63c4ae7e5b54385b18b581f520f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bIsCustomLoadingWait: 1
+  bIsCustomLoadingWait: 0
   loadingWaitOffset: 1.5
   loadingAnimator: {fileID: 1154872142}
 --- !u!4 &707186906
@@ -884,7 +884,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd798350d27bfc24896894ced2f38a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isPersistentAcrossScenes: 0
 --- !u!4 &1272618980
 Transform:
   m_ObjectHideFlags: 0

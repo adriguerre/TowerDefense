@@ -21,7 +21,19 @@ MonoBehaviour:
     oculta que ronda en la tormenta. Entre los glaciares y las cavernas heladas,
     algo despierta, y el eco de sus pasos amenaza con romper la fr\xE1gil paz del
     hielo eterno."
-  pathList: []
+  pathList:
+  - x: 2
+    y: 5
+  - x: 3
+    y: 5
+  - x: 2
+    y: 2
+  - x: 2
+    y: 15
+  - x: 3
+    y: 4
+  - x: 4
+    y: 4
   blockedSlotList: []
   temporaryBlockedSlotsList: []
   CivilianBuildingGridPosisitions: []

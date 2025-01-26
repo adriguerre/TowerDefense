@@ -639,7 +639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 873837dbeebbf6f4cae2e09a205073c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bIsCustomLoadingWait: 1
+  bIsCustomLoadingWait: 0
   loadingWaitOffset: 1.5
   loadingAnimator: {fileID: 1154872142}
   canvasGameObject: {fileID: 44427896}

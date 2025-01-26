@@ -14,6 +14,7 @@ public class LoadSceneManager : MonoBehaviour
     [SerializeField] private Animator loadingAnimator;
     [SerializeField] private GameObject canvasGameObject;
     [SerializeField] private GameObject cameraGameObject;
+    public LevelSO levelInfoToLoad {get; private set;}
     private void Awake()
     {
         if (Instance != null)
@@ -35,8 +36,9 @@ public class LoadSceneManager : MonoBehaviour
         cameraGameObject.SetActive(false);
         canvasGameObject.SetActive(false);
     }
-    public void OpenLevel()
-    {      
+    public void OpenLevel(LevelSO levelInfo)
+    {
+        levelInfoToLoad = levelInfo;
         SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(0));
         StartLoadAnimation();
         SceneManager.LoadSceneAsync(3, LoadSceneMode.Additive);

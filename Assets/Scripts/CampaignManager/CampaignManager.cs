@@ -67,14 +67,15 @@ public class CampaignManager : ISingleton<CampaignManager>
     }
     private void OpenTestLevel()
     {
+	    LevelSO defaultLevelSO = Resources.Load<LevelSO>("Levels/Level_1");
 	    //SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
-		LoadSceneManager.Instance.OpenLevel();
+		LoadSceneManager.Instance.OpenLevel(defaultLevelSO);
     }
 
     public void OpenLevel(LevelSO levelInfo)
     {
 	    //TODO KW: Make level load with the grid it is
-	    LoadSceneManager.Instance.OpenLevel();
+	    LoadSceneManager.Instance.OpenLevel(levelInfo);
     }
     
     
