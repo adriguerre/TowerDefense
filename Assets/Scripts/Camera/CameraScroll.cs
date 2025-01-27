@@ -22,7 +22,7 @@ public class CameraScroll : MonoBehaviour
     [SerializeField] float clickDurationThreshold = 0.2f; // Time to detect is a click
     private float clickTimer = 0.0f;
     private bool isClick = false;
-
+    public bool canMoveCamera { get; set; }
 
     private void Awake()
     {
@@ -32,10 +32,15 @@ public class CameraScroll : MonoBehaviour
             Debug.LogError("There is already a camera scroll attached to this GameObject");
         }
         Instance = this;
+        canMoveCamera = true;
     }
 
     void Update()
     {
+        if (!canMoveCamera)
+        {
+            return;
+        }
         PanCamera();
 
         if (_underInertia && _time <= SmoothTime)
@@ -79,7 +84,7 @@ public class CameraScroll : MonoBehaviour
             // Si se sobrepasa el umbral, considera que no es un clic
             if (clickTimer > clickDurationThreshold)
             {
-                LevelGrid.Instance.DesactivatePrefabOnCameraMove();
+                LevelGrid.Instance.DesactivateGridSlotPrefab();
                 isClick = false;
                 isMovingCamera = true;
                 //Debug.Log("Scrolling...");
