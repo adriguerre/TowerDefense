@@ -79,6 +79,7 @@ public class CameraScroll : MonoBehaviour
             // Si se sobrepasa el umbral, considera que no es un clic
             if (clickTimer > clickDurationThreshold)
             {
+                LevelGrid.Instance.DesactivatePrefabOnCameraMove();
                 isClick = false;
                 isMovingCamera = true;
                 //Debug.Log("Scrolling...");
@@ -97,9 +98,11 @@ public class CameraScroll : MonoBehaviour
             if (isClick)
             {
                 Debug.Log("Click detected");
-                
+                if (LevelGrid.Instance != null)
+                {
+                    LevelGrid.Instance.ClickOnLevelGrid();
+                }
             }
-
             isMovingCamera = false;
         }
     }

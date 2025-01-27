@@ -117,23 +117,30 @@ public class LevelGrid : Singleton<LevelGrid>
 			    return;
 		    } 
 	    }
-	    if (Input.GetMouseButtonDown(0))
-	    {
-		    GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();
-		    if (gridSlot != null && currentGridSlot != gridSlot)
-		    {
-			    bool isBuilding = false;
-			    if (gridSlot._gridPositionType == GridPositionType.CivilianBuilding)
-			    {
-				    Debug.Log("WE ARE CLICKING CIVILIAN BUILDING WITH ID: " + gridSlot.buildingID);
-				    isBuilding = true;
-			    }
-			    ActivateGridSlotBuildingUI(gridSlot, isBuilding);
-			    CheckIfLevelCreatorIsEnabled(gridSlot);
-		    }
-		 
-	    }
+	   
     }
+
+	public void ClickOnLevelGrid()
+	{
+		GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();
+		if (gridSlot != null && currentGridSlot != gridSlot)
+		{
+			bool isBuilding = false;
+			if (gridSlot._gridPositionType == GridPositionType.CivilianBuilding)
+			{
+				Debug.Log("WE ARE CLICKING CIVILIAN BUILDING WITH ID: " + gridSlot.buildingID);
+				isBuilding = true;
+			}
+			ActivateGridSlotBuildingUI(gridSlot, isBuilding);
+			CheckIfLevelCreatorIsEnabled(gridSlot);
+		}
+	}
+
+	public void DesactivatePrefabOnCameraMove()
+	{
+		if (currentGridBuildingUI != null)
+			Destroy(currentGridBuildingUI);
+	}
 
 	private void CheckIfLevelCreatorIsEnabled(GridSlot gridSlot)
 	{
