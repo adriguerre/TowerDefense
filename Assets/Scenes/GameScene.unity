@@ -4937,7 +4937,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 150664718}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -12582,10 +12582,10 @@ RectTransform:
   - {fileID: 1259794776}
   m_Father: {fileID: 1527328541}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.042000003, y: 0.075}
+  m_AnchorMin: {x: 0.042000003, y: 0.13121627}
   m_AnchorMax: {x: 0.95500004, y: 0.8442119}
-  m_AnchoredPosition: {x: 1.1156006, y: 95.08377}
-  m_SizeDelta: {x: 0.8572, y: -27.8999}
+  m_AnchoredPosition: {x: 1.1156006, y: 37.682587}
+  m_SizeDelta: {x: 0.8572006, y: 86.9023}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &395941044
 MonoBehaviour:
@@ -21108,7 +21108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isPersistentAcrossScenes: 0
-  _animator: {fileID: 0}
+  buildButton: {fileID: 826442092}
+  upgradeButton: {fileID: 1394227637}
+  destroyButton: {fileID: 428809005}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0

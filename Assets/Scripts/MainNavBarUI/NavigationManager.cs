@@ -55,7 +55,7 @@ namespace MainNavBarUI
 		void Start()
 		{
 			button1.onClick.AddListener(() => OpenScreenCanvas(TabTypes.Button1));
-			button2.onClick.AddListener(() => OpenScreenCanvas(TabTypes.Button2));
+			button2.onClick.AddListener(() => OpenScreenCanvas(TabTypes.CivilianBuildings));
 			gameplayButton.onClick.AddListener(() => OpenScreenCanvas(TabTypes.Gameplay));
 			button4.onClick.AddListener( () => OpenScreenCanvas(TabTypes.Button4));
 			button5.onClick.AddListener(    () => OpenScreenCanvas(TabTypes.Button5));
@@ -91,8 +91,8 @@ namespace MainNavBarUI
 				case TabTypes.Button1:
 					ResearchUIManager.Instance.CloseResearchUI();
 					break;		
-				case TabTypes.Button2:
-					AbilitiesUIManager.Instance.CloseAbilitiesUI();
+				case TabTypes.CivilianBuildings:
+					CivilianBuildingUIPanel.Instance.CloseCivilianBuildingUI();
 					break;		
 				case TabTypes.Gameplay:
 					break;		
@@ -110,6 +110,7 @@ namespace MainNavBarUI
 					break;
 			}
 			
+			CameraScroll.Instance.canMoveCamera = true;
 			if(currentTabOpened != TabTypes.Settings)
 				currentButtonClicked.GetComponent<Image>().sprite = defaultButtonSprite;
 			currentTabOpened = TabTypes.None;
@@ -118,14 +119,15 @@ namespace MainNavBarUI
 
 		#region Private Methods
 		
-		private void OpenScreenCanvas(TabTypes type)
+		public void OpenScreenCanvas(TabTypes type)
 		{
 			if (type != TabTypes.Settings && type == currentTabOpened)
 				return;
 			
 			if(currentTabOpened != TabTypes.None)
 				CloseCurrentTab();
-			
+
+			CameraScroll.Instance.canMoveCamera = false;
 			currentTabOpened = type;
 			
 			switch (type)
@@ -134,7 +136,7 @@ namespace MainNavBarUI
 					OpenWarbondScreen();
 					currentButtonClicked = button1;
 					break;		
-				case TabTypes.Button2:
+				case TabTypes.CivilianBuildings:
 					OpenMilitaryScreen();
 					currentButtonClicked = button2;
 					break;		
@@ -168,11 +170,12 @@ namespace MainNavBarUI
 		private void OpenMilitaryScreen()
 		{
 			ChangeButtonSprite(button2);
-			AbilitiesUIManager.Instance.OpenAbilitiesUI();
+			CivilianBuildingUIPanel.Instance.OpenCivilianBuildingUI();
 		}
 
 		private void OpenGameplayScreen()
 		{
+			CameraScroll.Instance.canMoveCamera = true;
 			ChangeButtonSprite(gameplayButton);
 		}
 
