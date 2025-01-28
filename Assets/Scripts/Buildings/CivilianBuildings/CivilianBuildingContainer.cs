@@ -20,6 +20,8 @@ public class CivilianBuildingContainer : MonoBehaviour
     private GameObject _resource2CostGameObject;
     private TextMeshProUGUI _buildingCost2Text;
     private Image _buildingCost2Image;
+    private Button containerButton;
+    private GameObject selectorObject;
     
 
     private void Awake()
@@ -42,6 +44,26 @@ public class CivilianBuildingContainer : MonoBehaviour
         _buildingCost2Text = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2/Resource2Cost").GetComponent<TextMeshProUGUI>();
         _buildingCost2Image = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2/Resource2Icon").GetComponent<Image>();
 
+        selectorObject = transform.Find("Selector").gameObject;
+        
+        containerButton = transform.Find("Button").GetComponent<Button>();
+        containerButton.onClick.AddListener(() => SelectBuilding());
+    }
+
+    private void SelectBuilding()
+    {
+        ShowSelectorUI();
+        CivilianBuildingsUIManager.Instance.SelectBuildingInMenu(this, _civilianBuildingInfo);
+    }
+
+    public void HideSelectorUI()
+    {
+        selectorObject.SetActive(false);
+    }
+
+    public void ShowSelectorUI()
+    {
+        selectorObject.SetActive(true);
     }
 
     public void SetProperties(CivilianBuildingsSO civilianBuilding)

@@ -13,20 +13,20 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   buildingID: 3
-  buildingIcon: {fileID: 974746929242695597, guid: 1d8d24c87bdfc9141b24ac3c3278954a, type: 3}
-  buildingName: Logging Camp
+  buildingIcon: {fileID: 7427445707187218192, guid: 6d830edbf7f94e949bc6c8bb13f9ff97, type: 3}
+  buildingName: Gold Mine
   buildingDescription: "Una zona de tala en medio del bosque, donde los le\xF1adores
     trabajan sin descanso con hachas y sierras para derribar imponentes \xE1rboles.
     Troncos ca\xEDdos y tocones dispersos cubren el suelo, mientras carros cargados
     de madera son llevados hacia el aserradero cercano. El sonido constante del trabajo
     llena el aire, mezcl\xE1ndose con el canto de los p\xE1jaros en los \xE1rboles
     a\xFAn en pie."
-  timeToBuild: 30
-  timeToUpgrade: 40
+  timeToBuild: 60
+  timeToUpgrade: 125
   buildSize: 6
   buildingCost1:
-    resourceType: 1
+    resourceType: 3
     cost: 120
   buildingCost2:
-    resourceType: 3
-    cost: 15
+    resourceType: 4
+    cost: 50

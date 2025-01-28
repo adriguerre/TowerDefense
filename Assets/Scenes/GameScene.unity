@@ -61721,6 +61721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isPersistentAcrossScenes: 0
   civilianBuildingContainerPrefab: {fileID: 5743838154658077368, guid: 10653b35004c9ba428991e343b285b13, type: 3}
+  buildButton: {fileID: 251129280}
   gridContainer: {fileID: 1221503840}
   foodSprite: {fileID: -9148827553534085586, guid: 5443b61280b23f9489ddd061dba8b7e1, type: 3}
   woodSprite: {fileID: 2973656343708243771, guid: 5443b61280b23f9489ddd061dba8b7e1, type: 3}

@@ -93,6 +93,7 @@ namespace MainNavBarUI
 					break;		
 				case TabTypes.CivilianBuildings:
 					CivilianBuildingUIPanel.Instance.CloseCivilianBuildingUI();
+					CivilianBuildingsUIManager.Instance.UnSelectBuildingInMenu();
 					break;		
 				case TabTypes.Gameplay:
 					break;		
