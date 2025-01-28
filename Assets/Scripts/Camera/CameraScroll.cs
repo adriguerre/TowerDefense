@@ -9,20 +9,29 @@ public class CameraScroll : MonoBehaviour
     [SerializeField] private Camera cam;
 
     Vector3 touchStart;
-    private float topLimit = 25f;
-    private float bottomLimit = 4.67f;
+    [field: SerializeField] private float topLimit = 25f;
+    [field: SerializeField] private float bottomLimit = 4.67f;
 
     private Vector3 _curPosition;
     private Vector3 _velocity;
     private bool _underInertia;
     private float _time = 0.0f;
-    public float SmoothTime = 2;
-    public bool isMovingCamera = false;
-    public Vector3 direction;
+    [HideInInspector] public float SmoothTime = 2;
+    [HideInInspector] public bool isMovingCamera = false;
+    [HideInInspector] public Vector3 direction;
     [SerializeField] float clickDurationThreshold = 0.2f; // Time to detect is a click
     private float clickTimer = 0.0f;
     private bool isClick = false;
+    //If canMoveCamera is false, players won't be able to scroll
     public bool canMoveCamera { get; set; }
+    
+    //Variable used when we need to center camera in any buildings
+    private bool IsBeignCentered { get; set; }
+    [field: SerializeField] float TimeToGetCentered { get; set; }
+    private Vector3 moveToPosition;
+    public Action onCameraCenterCompleted;
+
+
 
     private void Awake()
     {
@@ -37,6 +46,19 @@ public class CameraScroll : MonoBehaviour
 
     void Update()
     {
+        if (IsBeignCentered)
+        {
+            Vector3 cameraPosition = new Vector3(cam.transform.position.x, cam.transform.position.y, -10);
+            cam.transform.position = Vector3.Lerp(cameraPosition, moveToPosition, TimeToGetCentered * Time.deltaTime);
+            if (Vector2.Distance(cam.transform.position, moveToPosition) <= 0.02f)
+            {
+                cam.transform.position =
+                    new Vector3(cam.transform.position.x, moveToPosition.y, cam.transform.position.z);
+                IsBeignCentered = false;
+                onCameraCenterCompleted?.Invoke();
+                onCameraCenterCompleted = null;
+            }
+        }
         if (!canMoveCamera)
         {
             return;
@@ -65,6 +87,7 @@ public class CameraScroll : MonoBehaviour
             isClick = false;
         }
     }
+
 
     private void PanCamera()
     {
@@ -111,4 +134,13 @@ public class CameraScroll : MonoBehaviour
             isMovingCamera = false;
         }
     }
+
+    public void CenterCameraOnBuilding(float positionY, Action onComplete)
+    {
+        moveToPosition = new Vector3(cam.transform.position.x, positionY, cam.transform.position.z);
+        IsBeignCentered = true;
+        onCameraCenterCompleted = onComplete;
+    }
+
+
 }
