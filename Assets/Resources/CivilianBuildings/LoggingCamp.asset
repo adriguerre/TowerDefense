@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e2126c3183115e45bd59749737892b4, type: 3}
+  m_Name: LoggingCamp
+  m_EditorClassIdentifier: 
+  buildingID: 2
+  buildingIcon: {fileID: 1355195777722144874, guid: 146f28d834e629c4e8d57fd190e014d7, type: 3}
+  buildingName: Logging Camp
+  buildingDescription: "Una zona de tala en medio del bosque, donde los le\xF1adores
+    trabajan sin descanso con hachas y sierras para derribar imponentes \xE1rboles.
+    Troncos ca\xEDdos y tocones dispersos cubren el suelo, mientras carros cargados
+    de madera son llevados hacia el aserradero cercano. El sonido constante del trabajo
+    llena el aire, mezcl\xE1ndose con el canto de los p\xE1jaros en los \xE1rboles
+    a\xFAn en pie."
+  timeToBuild: 30
+  timeToUpgrade: 40
+  buildSize: 6
+  buildingCost1:
+    resourceType: 1
+    cost: 120
+  buildingCost2:
+    resourceType: 0
+    cost: 0

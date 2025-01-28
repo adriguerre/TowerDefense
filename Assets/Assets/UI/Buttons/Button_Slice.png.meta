@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b8d16bf8cb94ef741969a1a0c9907a2f
+guid: f0d34aedc839d1f43a821479a324ed5b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9173437598748476237
-    second: Button_Hover_3Slides_0
+      213: -5071898027277727972
+    second: Button_Disable_9Slides_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
-  spriteBorder: {x: 50, y: 33, z: 35, w: 16}
+  spriteBorder: {x: 32, y: 32, z: 32, w: 32}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Button_Hover_3Slides_0
+      name: Button_Disable_9Slides_0
       rect:
         serializedVersion: 2
         x: 6
         y: 7
         width: 180
-        height: 57
+        height: 182
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 36, y: 36, z: 36, w: 36}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3bc726d5b1761b080800000000000000
-      internalID: -9173437598748476237
+      spriteID: c174b13cd9ffc99b0800000000000000
+      internalID: -5071898027277727972
       vertices: []
       indices: 
       edges: []
@@ -138,8 +138,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: f226db2a00707a640a9a056930785efa
+    internalID: 1068281336
     vertices: []
     indices: 
     edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Button_Hover_3Slides_0: -9173437598748476237
+      Button_Disable_9Slides_0: -5071898027277727972
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
