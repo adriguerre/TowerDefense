@@ -129,6 +129,7 @@ public class LevelGrid : Singleton<LevelGrid>
 			if (gridSlot._gridPositionType == GridPositionType.CivilianBuilding)
 			{
 				Debug.Log("WE ARE CLICKING CIVILIAN BUILDING WITH ID: " + currentGridSlot.buildingID);
+				Debug.Log("WE ARE CLICKING CIVILIAN BUILDING WITH SIZE: " + currentGridSlot.buildingSize);
 				isBuilding = true;
 			}
 			ActivateGridSlotBuildingUI(currentGridSlot, isBuilding);
@@ -148,7 +149,7 @@ public class LevelGrid : Singleton<LevelGrid>
 		{
 			if (currentGridSlot._gridPositionType == GridPositionType.CivilianBuilding)
 			{
-				CivilianBuildingsUI.Instance.CloseBuildUI();
+				CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
 			}
 		}
 		currentGridSlot = null;
@@ -213,21 +214,21 @@ public class LevelGrid : Singleton<LevelGrid>
 			    {
 				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
 				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize4ObjectPrefab, position, Quaternion.identity); 
-				    CivilianBuildingsUI.Instance.OpenBuildUI(position);
+				    CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot.buildingSize);
 				    positionToBuild = position;
 			    }
 			    else
 			    {
 				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
 				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize6ObjectPrefab, position, Quaternion.identity); 
-				    CivilianBuildingsUI.Instance.OpenBuildUI(position);
+				    CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot.buildingSize);
 				    positionToBuild = position;
 			    }
 		    } 
 	    }
 	    else
 	    {
-		    CivilianBuildingsUI.Instance.CloseBuildUI();
+		    CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
 		    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity);
 		    //TODO KW
 		    positionToBuild = GetWorldPosition(gridSlot._gridPosition);

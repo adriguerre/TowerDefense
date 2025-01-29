@@ -8,12 +8,16 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+/// <summary>
+/// This script is responsible of all the UI from the panel CivilianBuildings
+/// </summary>
 public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
 {
     [SerializeField] private GameObject civilianBuildingContainerPrefab;
     [SerializeField] private Button buildButton;
     private TextMeshProUGUI buildingButtonText;
     [SerializeField] private GameObject gridContainerInCanvas;
+    private List<CivilianBuildingContainer> civilianBuildingContainersList;
     private List<CivilianBuildingsSO> _civilianBuildings;
     private CivilianBuildingsSO _currentSelectedCivilianBuilding;
     private CivilianBuildingContainer _currentContainerSelected;
@@ -31,13 +35,20 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         base.Awake();
         _civilianBuildings = new List<CivilianBuildingsSO>();
         _civilianBuildings = Resources.LoadAll<CivilianBuildingsSO>("CivilianBuildings").ToList();
+        civilianBuildingContainersList = new List<CivilianBuildingContainer>();
         buildingButtonText = buildButton.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Start()
     {
+        CivilianBuildingUIPanel.onCivilianBuildingOpened += onUIOpened;
         SpawnBuildingContainers();
         buildButton.onClick.AddListener(() => BuildCivilianBuilding());
+    }
+
+    private void onUIOpened()
+    {
+        UnblockAllBuildings();
     }
 
     private void BuildCivilianBuilding()
@@ -51,10 +62,10 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         //if(ResourcesManager.Instance.TryToSpendResources())
         
         //TODO KW: Comprobar que no hay nada construido encima
+        //TODO KW: Comprobar que cabe dentro de los huecos, es decir si es hueco 4, que no se pueda construir hueco 6
         OnBuildingStarted?.Invoke(_currentSelectedCivilianBuilding);
         NavigationManager.Instance.CloseCurrentTab();
-        CivilianBuildingsUI.Instance.CloseBuildUI();
-        
+        CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
     }
 
     private void SpawnBuildingContainers()
@@ -63,8 +74,29 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         {
             GameObject newBuilding = Instantiate(civilianBuildingContainerPrefab, Vector3.zero, Quaternion.identity,
                 gridContainerInCanvas.transform);
-            
-            newBuilding.GetComponent<CivilianBuildingContainer>().SetProperties(building);
+            CivilianBuildingContainer container = newBuilding.GetComponent<CivilianBuildingContainer>();
+            container.SetProperties(building);
+            civilianBuildingContainersList.Add(container);
+        }
+    }
+
+    public void BlockBuildingsWithLargerSize(int size)
+    {
+        foreach (var containers in civilianBuildingContainersList)
+        {
+            Debug.Log("KW COMPARING: " + containers._civilianBuildingInfo.buildSize + " | " +  size);
+            if (containers._civilianBuildingInfo.buildSize > size)
+            {
+                containers.BlockContainer();
+            }
+        }
+    }
+    
+    public void UnblockAllBuildings()
+    {
+        foreach (var containers in civilianBuildingContainersList)
+        {
+            containers.UnblockContainer();
         }
     }
 

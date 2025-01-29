@@ -138,7 +138,7 @@ namespace MainNavBarUI
 					currentButtonClicked = button1;
 					break;		
 				case TabTypes.CivilianBuildings:
-					OpenMilitaryScreen();
+					OpenCivilianBuildings();
 					currentButtonClicked = button2;
 					break;		
 				case TabTypes.Gameplay:
@@ -168,7 +168,7 @@ namespace MainNavBarUI
 			ChangeButtonSprite(button1);
 			ResearchUIManager.Instance.openResearchUI();
 		}
-		private void OpenMilitaryScreen()
+		private void OpenCivilianBuildings()
 		{
 			ChangeButtonSprite(button2);
 			CivilianBuildingUIPanel.Instance.OpenCivilianBuildingUI();

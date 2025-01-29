@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class CivilianBuildingContainer : MonoBehaviour
 {
 
-    private CivilianBuildingsSO _civilianBuildingInfo;
+    public CivilianBuildingsSO _civilianBuildingInfo { get; private set; }
     
     private Image _buildingIcon;
     private TextMeshProUGUI _buildingName;
@@ -68,6 +68,15 @@ public class CivilianBuildingContainer : MonoBehaviour
         selectorObject.SetActive(true);
     }
 
+    public void BlockContainer()
+    {
+        _gridSizeText.color = Color.red;
+    }  
+    public void UnblockContainer()
+    {
+        _gridSizeText.color = Color.white;
+    }
+
     public void SetProperties(CivilianBuildingsSO civilianBuilding)
     {
         _civilianBuildingInfo = civilianBuilding;
@@ -85,7 +94,6 @@ public class CivilianBuildingContainer : MonoBehaviour
             _buildingCost2Text.text = _civilianBuildingInfo.buildingCost1.cost.ToString();
             _buildingCost2Image.sprite =
                 CivilianBuildingsUIManager.Instance.GetSpriteFromResource(_civilianBuildingInfo.buildingCost2.resourceType);
-
         }
         else
         {

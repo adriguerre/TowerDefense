@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-public class CivilianBuildingsUI : ISingleton<CivilianBuildingsUI>
+public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopButtons>
 {
     private GameObject civilianBuildUI;
     private Animator _animator;
     public Action onCameraCenterCompleted;
     private Vector2 buildingInPosition;
+    private int buildingSize;
 
     [SerializeField] private Button buildButton;
     [SerializeField] private Button upgradeButton;
@@ -27,11 +28,16 @@ public class CivilianBuildingsUI : ISingleton<CivilianBuildingsUI>
         CloseBuildUI();
     }
 
-    public void OpenBuildUI(Vector2 position)
+    public void OpenBuildUI(Vector2 position, int buildSize)
     {
+        Debug.Log("KW: SE HA PUESTO BUILDING SIZE EN " + buildSize);
+        buildingSize = buildSize;
         buildingInPosition = position;
         CameraScroll.Instance.CenterCameraOnBuilding(position.y, onCameraCenterCompleted);
         CameraScroll.Instance.canMoveCamera = false;
+        buildButton.onClick.RemoveAllListeners();
+        upgradeButton.onClick.RemoveAllListeners();
+        destroyButton.onClick.RemoveAllListeners();
         buildButton.onClick.AddListener(() => OpenCivilianBuildingsUI(buildingInPosition));
         upgradeButton.onClick.AddListener(() => UpgradeCivilianBuildingPopUp(buildingInPosition));
         destroyButton.onClick.AddListener(() => DestroyCivilianBuilding(buildingInPosition));
@@ -51,6 +57,8 @@ public class CivilianBuildingsUI : ISingleton<CivilianBuildingsUI>
     private void OpenCivilianBuildingsUI(Vector2 vector2)
     {
        NavigationManager.Instance.OpenScreenCanvas(TabTypes.CivilianBuildings);
+       CivilianBuildingsUIManager.Instance.BlockBuildingsWithLargerSize(buildingSize);
+
     }
 
     private void OnCameraCenterCompleted()
@@ -75,6 +83,7 @@ public class CivilianBuildingsUI : ISingleton<CivilianBuildingsUI>
         //TODO KW: Hay que hacer un sistema para que ahora deje de clickar fuera y se pueda borrar, hemos creado el detectar si está en build ui
         CivilianBuildingUIBlocker.onPanelClick -= OnPanelClick;
         civilianBuildUI.SetActive(false);
+       // buildingSize = 0;
         CameraScroll.Instance.canMoveCamera = true;
 
     }
