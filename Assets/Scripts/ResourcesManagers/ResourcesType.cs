@@ -1,4 +1,8 @@
-public enum ResourceType
+
+namespace GameResources
 {
-    Undefined, Food, Wood, Stone, Iron, Gold
+    public enum ResourceType
+    {
+        Undefined, Food, Wood, Stone, Iron, Gold
+    }
 }

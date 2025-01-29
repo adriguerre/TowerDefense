@@ -5,7 +5,7 @@ public abstract class ISingleton<T> : MonoBehaviour where T : ISingleton<T>
     private static T instance;
     [Space(10)]
     [Header("Singleton")]
-    [SerializeField] protected bool _isPersistentAcrossScenes = false;
+    [HideInInspector] [SerializeField] protected bool _isPersistentAcrossScenes = false;
 
     public static T Instance
     {

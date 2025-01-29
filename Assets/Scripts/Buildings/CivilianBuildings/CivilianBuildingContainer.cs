@@ -1,4 +1,5 @@
 using System;
+using GameResources;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -22,7 +23,8 @@ public class CivilianBuildingContainer : MonoBehaviour
     private Image _buildingCost2Image;
     private Button containerButton;
     private GameObject selectorObject;
-    
+
+    public ResourceType resourceType1;
 
     private void Awake()
     {

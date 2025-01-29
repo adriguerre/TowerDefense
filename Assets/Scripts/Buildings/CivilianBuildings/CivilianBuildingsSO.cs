@@ -1,5 +1,6 @@
 using System;
 using NaughtyAttributes;
+using GameResources;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CivilianBuildingsSO", menuName = "ScriptableObjects/CivilianBuildings/CivilianBuildingsSO")]
@@ -12,6 +13,7 @@ public class CivilianBuildingsSO : ScriptableObject
     public string buildingName;
     [TextArea(10,30)]
     public string buildingDescription;
+    public GameObject buildingPrefab;
     public int timeToBuild;
     public int timeToUpgrade;
     [Dropdown("sizeValues")]

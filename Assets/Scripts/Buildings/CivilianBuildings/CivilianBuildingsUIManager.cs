@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameResources;
+using MainNavBarUI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,10 +13,12 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     [SerializeField] private GameObject civilianBuildingContainerPrefab;
     [SerializeField] private Button buildButton;
     private TextMeshProUGUI buildingButtonText;
-    [SerializeField] private GameObject gridContainer;
+    [SerializeField] private GameObject gridContainerInCanvas;
     private List<CivilianBuildingsSO> _civilianBuildings;
-    private CivilianBuildingsSO _selectedCivilianBuilding;
+    private CivilianBuildingsSO _currentSelectedCivilianBuilding;
     private CivilianBuildingContainer _currentContainerSelected;
+
+    public Action<CivilianBuildingsSO> OnBuildingStarted;
     
     [Header("Resources Sprites")] 
     [SerializeField] private Sprite foodSprite;
@@ -38,11 +42,18 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
 
     private void BuildCivilianBuilding()
     {
-        if (_currentContainerSelected == null || _selectedCivilianBuilding == null)
+        if (_currentContainerSelected == null || _currentSelectedCivilianBuilding == null)
             return;
         
         //TODO KW: Check resources
         Debug.Log("KW: BUYING CIVILIAN BUILDING");
+        //TODO KW: Cambiar el modo de pasar argumentos a ese método para no tener que buscar todo el rato ( si es madera pasa x, si es lo otro pasa y)
+        //if(ResourcesManager.Instance.TryToSpendResources())
+        
+        //TODO KW: Comprobar que no hay nada construido encima
+        OnBuildingStarted?.Invoke(_currentSelectedCivilianBuilding);
+        NavigationManager.Instance.CloseCurrentTab();
+        CivilianBuildingsUI.Instance.CloseBuildUI();
         
     }
 
@@ -51,7 +62,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         foreach (var building in _civilianBuildings)
         {
             GameObject newBuilding = Instantiate(civilianBuildingContainerPrefab, Vector3.zero, Quaternion.identity,
-                gridContainer.transform);
+                gridContainerInCanvas.transform);
             
             newBuilding.GetComponent<CivilianBuildingContainer>().SetProperties(building);
         }
@@ -59,22 +70,22 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
 
     public void SelectBuildingInMenu(CivilianBuildingContainer ContainerSelected, CivilianBuildingsSO civilianBuilding)
     {
-        if (civilianBuilding == _selectedCivilianBuilding)
+        if (civilianBuilding == _currentSelectedCivilianBuilding)
             return;
         
-        _selectedCivilianBuilding = civilianBuilding;
+        _currentSelectedCivilianBuilding = civilianBuilding;
         if (_currentContainerSelected != null)
         {
             _currentContainerSelected.HideSelectorUI();
         }
         _currentContainerSelected = ContainerSelected;
-        buildingButtonText.text = "Build " + _selectedCivilianBuilding.buildingName;
+        buildingButtonText.text = "Build " + _currentSelectedCivilianBuilding.buildingName;
 
     }
 
     public void UnSelectBuildingInMenu()
     {
-        _selectedCivilianBuilding = null;
+        _currentSelectedCivilianBuilding = null;
         if (_currentContainerSelected != null)
         {
             _currentContainerSelected.HideSelectorUI();

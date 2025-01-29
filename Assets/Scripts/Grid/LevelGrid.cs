@@ -26,6 +26,7 @@ public class LevelGrid : Singleton<LevelGrid>
 	private GridManager gridSystem;
 	private GameObject currentGridBuildingUI;
 	GridSlot currentGridSlot;
+	public Vector2 positionToBuild;
 	private LevelSO currentLevelSO;
 
 	[Header("Level Creator")]
@@ -213,12 +214,14 @@ public class LevelGrid : Singleton<LevelGrid>
 				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
 				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize4ObjectPrefab, position, Quaternion.identity); 
 				    CivilianBuildingsUI.Instance.OpenBuildUI(position);
+				    positionToBuild = position;
 			    }
 			    else
 			    {
 				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
 				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize6ObjectPrefab, position, Quaternion.identity); 
 				    CivilianBuildingsUI.Instance.OpenBuildUI(position);
+				    positionToBuild = position;
 			    }
 		    } 
 	    }
@@ -226,6 +229,8 @@ public class LevelGrid : Singleton<LevelGrid>
 	    {
 		    CivilianBuildingsUI.Instance.CloseBuildUI();
 		    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity);
+		    //TODO KW
+		    positionToBuild = GetWorldPosition(gridSlot._gridPosition);
 	    }
  
 	    
