@@ -28,19 +28,32 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
         CloseBuildUI();
     }
 
-    public void OpenBuildUI(Vector2 position, int buildSize)
+    public void OpenBuildUI(Vector2 position, GridSlot gridSlot)
     {
-        Debug.Log("KW: SE HA PUESTO BUILDING SIZE EN " + buildSize);
-        buildingSize = buildSize;
+        Debug.Log("KW: SE HA PUESTO BUILDING SIZE EN " + gridSlot.buildingSize);
+        buildingSize = gridSlot.buildingSize;
         buildingInPosition = position;
         CameraScroll.Instance.CenterCameraOnBuilding(position.y, onCameraCenterCompleted);
         CameraScroll.Instance.canMoveCamera = false;
         buildButton.onClick.RemoveAllListeners();
         upgradeButton.onClick.RemoveAllListeners();
         destroyButton.onClick.RemoveAllListeners();
-        buildButton.onClick.AddListener(() => OpenCivilianBuildingsUI(buildingInPosition));
-        upgradeButton.onClick.AddListener(() => UpgradeCivilianBuildingPopUp(buildingInPosition));
-        destroyButton.onClick.AddListener(() => DestroyCivilianBuilding(buildingInPosition));
+        if (gridSlot.GetBuildingInGridSlot() == null)
+        {
+            //Solo se puede construir, no upgradear ni destruir
+            buildButton.onClick.AddListener(() => OpenCivilianBuildingsUI(buildingInPosition));
+            buildButton.interactable = true;
+            upgradeButton.interactable = false;
+            destroyButton.interactable = false;
+        }
+        else
+        {
+            destroyButton.onClick.AddListener(() => DestroyCivilianBuilding(buildingInPosition));
+            upgradeButton.onClick.AddListener(() => UpgradeCivilianBuildingPopUp(buildingInPosition));
+            buildButton.interactable = false; 
+            upgradeButton.interactable = true;
+            destroyButton.interactable = true;
+        }
         
     }
 

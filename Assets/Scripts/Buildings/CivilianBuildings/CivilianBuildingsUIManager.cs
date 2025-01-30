@@ -64,6 +64,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         //TODO KW: Comprobar que no hay nada construido encima
         //TODO KW: Comprobar que cabe dentro de los huecos, es decir si es hueco 4, que no se pueda construir hueco 6
         OnBuildingStarted?.Invoke(_currentSelectedCivilianBuilding);
+        LevelGrid.Instance.currentGridSlot.AddCivilianBuildingToAllSlot(_currentSelectedCivilianBuilding);
         NavigationManager.Instance.CloseCurrentTab();
         CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
     }

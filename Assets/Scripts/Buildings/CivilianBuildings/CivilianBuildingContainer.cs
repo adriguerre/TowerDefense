@@ -21,8 +21,9 @@ public class CivilianBuildingContainer : MonoBehaviour
     private GameObject _resource2CostGameObject;
     private TextMeshProUGUI _buildingCost2Text;
     private Image _buildingCost2Image;
-    private Button containerButton;
-    private GameObject selectorObject;
+    private Button _containerButton;
+    private GameObject _selectorObject;
+    private GameObject _noSizeAdvisorGameObject;
 
     public ResourceType resourceType1;
 
@@ -46,10 +47,10 @@ public class CivilianBuildingContainer : MonoBehaviour
         _buildingCost2Text = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2/Resource2Cost").GetComponent<TextMeshProUGUI>();
         _buildingCost2Image = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2/Resource2Icon").GetComponent<Image>();
 
-        selectorObject = transform.Find("Selector").gameObject;
-        
-        containerButton = transform.Find("Button").GetComponent<Button>();
-        containerButton.onClick.AddListener(() => SelectBuilding());
+        _selectorObject = transform.Find("Selector").gameObject;
+        _noSizeAdvisorGameObject = transform.Find("NoSizeForBuilding").gameObject;
+        _containerButton = transform.Find("Button").GetComponent<Button>();
+        _containerButton.onClick.AddListener(() => SelectBuilding());
     }
 
     private void SelectBuilding()
@@ -60,21 +61,24 @@ public class CivilianBuildingContainer : MonoBehaviour
 
     public void HideSelectorUI()
     {
-        selectorObject.SetActive(false);
+        _selectorObject.SetActive(false);
     }
 
     public void ShowSelectorUI()
     {
-        selectorObject.SetActive(true);
+        _selectorObject.SetActive(true);
     }
 
     public void BlockContainer()
     {
         _gridSizeText.color = Color.red;
+        _noSizeAdvisorGameObject.SetActive(true);
     }  
     public void UnblockContainer()
     {
         _gridSizeText.color = Color.white;
+        _noSizeAdvisorGameObject.SetActive(false);
+
     }
 
     public void SetProperties(CivilianBuildingsSO civilianBuilding)

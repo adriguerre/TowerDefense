@@ -4,37 +4,43 @@ using UnityEngine;
 public class GridSlot
 {
     #region Private Fields
-
     public GridPosition _gridPosition { get; private set; }
-	IBuilding _buildingInPosition;
-	List<GridPosition> _positionLinkedWithThisBuilding;
-	bool _isInteractable; 
 	public GridPositionType _gridPositionType { get; set; }
 	private GridManager _gridManager;
 	//This can be 0 if no building is there
 	public int buildingID {get; private set;}
 	//This can be 0 if no building is there
 	public int buildingSize {get; private set;}
+	
+	public CivilianBuildingsSO civilianBuildingSO {get; private set;}
+	
     #endregion
 
-    public GridSlot(GridPosition gridPosition, IBuilding buildingInPosition, GridPositionType gridPositionType,
-	    bool isInteractable, List<GridPosition> positionLinkedWithThisBuilding, int buildingID, int buildingSize)
+    public GridSlot(GridPosition gridPosition, CivilianBuildingsSO civilianBuildingInPosition, GridPositionType gridPositionType, int buildingID, int buildingSize)
     {
 	    this._gridPosition = gridPosition;
-	    this._buildingInPosition = buildingInPosition;
 	    this._gridPositionType = gridPositionType;
-	    this._isInteractable = isInteractable;
-	    this._positionLinkedWithThisBuilding = positionLinkedWithThisBuilding;
+	    this.civilianBuildingSO = civilianBuildingInPosition;
 	    this.buildingID = buildingID;
 	    this.buildingSize = buildingSize;
     }
 
-    public void AddBuildingToSlot(IBuilding building)
+    public void AddCivilianBuildingToAllSlot(CivilianBuildingsSO building)
     {
-	    _buildingInPosition = building;
-	    this._gridPositionType = GridPositionType.MilitaryBuilding;
-	    _isInteractable = true;
+	    //This should be linked to all the linked positions
+	    LevelGrid.Instance.LinkGridSlotsToBuilding(building, this);
+	    civilianBuildingSO = building;
+    }
+    
+    public void AddCivilianBuildingToOneSlot(CivilianBuildingsSO building)
+    {
+	    //This should be linked to all the linked positions
+	    civilianBuildingSO = building;
+    }
 
+    public CivilianBuildingsSO GetBuildingInGridSlot()
+    {
+	    return civilianBuildingSO;
     }
 
 

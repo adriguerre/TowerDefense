@@ -25,7 +25,7 @@ public class LevelGrid : Singleton<LevelGrid>
 	[SerializeField] private LevelSO defaultLevel;
 	private GridManager gridSystem;
 	private GameObject currentGridBuildingUI;
-	GridSlot currentGridSlot;
+	public GridSlot currentGridSlot { get; private set; }
 	public Vector2 positionToBuild;
 	private LevelSO currentLevelSO;
 
@@ -129,7 +129,8 @@ public class LevelGrid : Singleton<LevelGrid>
 			if (gridSlot._gridPositionType == GridPositionType.CivilianBuilding)
 			{
 				Debug.Log("WE ARE CLICKING CIVILIAN BUILDING WITH ID: " + currentGridSlot.buildingID);
-				Debug.Log("WE ARE CLICKING CIVILIAN BUILDING WITH SIZE: " + currentGridSlot.buildingSize);
+				if(currentGridSlot.GetBuildingInGridSlot() != null)
+					Debug.Log("THERE IS ALREADY A BUILDING IN THIS LOCATION:" + currentGridSlot.GetBuildingInGridSlot().buildingName.ToString());
 				isBuilding = true;
 			}
 			ActivateGridSlotBuildingUI(currentGridSlot, isBuilding);
@@ -153,7 +154,26 @@ public class LevelGrid : Singleton<LevelGrid>
 			}
 		}
 		currentGridSlot = null;
+	}
 
+	public void LinkGridSlotsToBuilding(CivilianBuildingsSO building, GridSlot gridSlotParent)
+	{
+		foreach (var civilianBuildingsPosition in currentLevelSO.CivilianBuildingGridPosisitions)
+		{
+			if (civilianBuildingsPosition.gridPositionList.Contains(gridSlotParent._gridPosition))
+			{
+				foreach (var gridPosition in civilianBuildingsPosition.gridPositionList)
+				{
+					if (gridSlotParent._gridPosition != gridPosition)
+					{
+						GridSlot slot = gridSystem.GetGridSlotFromGridPosition(gridPosition);
+						slot.AddCivilianBuildingToOneSlot(building);
+					}
+				}
+				return;
+			}
+		}
+		
 	}
 
 	private void CheckIfLevelCreatorIsEnabled(GridSlot gridSlot)
@@ -214,14 +234,14 @@ public class LevelGrid : Singleton<LevelGrid>
 			    {
 				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
 				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize4ObjectPrefab, position, Quaternion.identity); 
-				    CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot.buildingSize);
+				    CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
 				    positionToBuild = position;
 			    }
 			    else
 			    {
 				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
 				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize6ObjectPrefab, position, Quaternion.identity); 
-				    CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot.buildingSize);
+				    CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
 				    positionToBuild = position;
 			    }
 		    } 
@@ -249,13 +269,16 @@ public class LevelGrid : Singleton<LevelGrid>
 
     private void OnDrawGizmos()
     {
-	    if (LEVEL_CREATOR)
+	    if(Application.isPlaying)
 	    {
-		    DrawLevelCreatorGizmos();
-	    }
-	    else
-	    {
-		    DrawNormalGizmos();
+		    if (LEVEL_CREATOR)
+		    {
+			    DrawLevelCreatorGizmos();
+		    }
+		    else
+		    {
+			    DrawNormalGizmos();
+		    }
 	    }
     }
 

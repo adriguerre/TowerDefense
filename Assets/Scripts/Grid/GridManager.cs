@@ -97,7 +97,7 @@ public class GridManager
     /// <returns></returns>
     private GridSlot CreateGridObject(GridManager gridManager, GridPosition gridPosition, GridPositionType slotType, int buildingID, int buildingSize)
     {
-        GridSlot newGridSlot = new GridSlot(gridPosition, null, slotType, true, null, buildingID, buildingSize);
+        GridSlot newGridSlot = new GridSlot(gridPosition, null, slotType, buildingID, buildingSize);
         LevelGrid.Instance.InstantiateGridSlotPrefab(gridPosition);
         return newGridSlot;
     }
