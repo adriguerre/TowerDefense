@@ -48,6 +48,7 @@ public class CameraScroll : MonoBehaviour
     {
         if (IsBeingCentered)
         {
+            canMoveCamera = false;
             Vector3 cameraPosition = new Vector3(cam.transform.position.x, cam.transform.position.y, -10);
             cam.transform.position = Vector3.Lerp(cameraPosition, moveToPosition, TimeToGetCentered * Time.deltaTime);
             if (Vector2.Distance(cam.transform.position, moveToPosition) <= 0.02f)
@@ -55,6 +56,7 @@ public class CameraScroll : MonoBehaviour
                 cam.transform.position =
                     new Vector3(cam.transform.position.x, moveToPosition.y, cam.transform.position.z);
                 IsBeingCentered = false;
+                canMoveCamera = true;
                 onCameraCenterCompleted?.Invoke();
                 onCameraCenterCompleted = null;
             }
@@ -107,7 +109,7 @@ public class CameraScroll : MonoBehaviour
             // Si se sobrepasa el umbral, considera que no es un clic
             if (clickTimer > clickDurationThreshold)
             {
-                LevelGrid.Instance.DesactivateGridSlotPrefab();
+                LevelGrid.Instance.DesactivateGridSlotPrefabAndHideBuildUIPop();
                 isClick = false;
                 isMovingCamera = true;
                 //Debug.Log("Scrolling...");
@@ -125,22 +127,29 @@ public class CameraScroll : MonoBehaviour
             // Si al soltar el botón sigue siendo un clic, ejecuta la acción de clic
             if (isClick)
             {
-                Debug.Log("Click detected");
-                if (LevelGrid.Instance != null)
+                if(!CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToBuild)
                 {
-                    LevelGrid.Instance.ClickOnLevelGrid();
+                    if (LevelGrid.Instance != null)
+                    {
+                        LevelGrid.Instance.ClickOnLevelGrid();
+                    }
                 }
             }
             isMovingCamera = false;
         }
     }
 
-    public void CenterCameraOnBuilding(float positionY, Action onComplete)
+    public void CenterCameraOnBuildingWithCallback(float positionY, Action onComplete)
     {
         moveToPosition = new Vector3(cam.transform.position.x, positionY, cam.transform.position.z);
         IsBeingCentered = true;
         onCameraCenterCompleted = onComplete;
     }
-
+    public void CenterCameraOnBuilding(float positionY)
+    {
+        moveToPosition = new Vector3(cam.transform.position.x, positionY, cam.transform.position.z);
+        onCameraCenterCompleted = null;
+        IsBeingCentered = true;
+    }
 
 }

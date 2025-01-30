@@ -23,6 +23,9 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     private CivilianBuildingContainer _currentContainerSelected;
     public bool isPanelOpenedFromPopup { get; private set; }
     public Action<CivilianBuildingsSO> OnBuildingStarted;
+    public Action<CivilianBuildingsSO> OnChoosingBuildingPlace;
+    
+    public bool playerIsChoosingPlaceToBuild { get; set; }
     
     [Header("Resources Sprites")] 
     [SerializeField] private Sprite foodSprite;
@@ -56,12 +59,14 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// </summary>
     private void BuildCivilianBuilding()
     {
+        
+        if (_currentContainerSelected == null || _currentSelectedCivilianBuilding == null)
+            return;
+            
+            
         //If we are building from popup, we want to insta build it where we select in the map
         if (isPanelOpenedFromPopup)
         {
-            if (_currentContainerSelected == null || _currentSelectedCivilianBuilding == null)
-                return;
-        
             //TODO KW: Check resources
             Debug.Log("KW: BUYING CIVILIAN BUILDING");
             //TODO KW: Cambiar el modo de pasar argumentos a ese método para no tener que buscar todo el rato ( si es madera pasa x, si es lo otro pasa y)
@@ -70,11 +75,27 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
             LevelGrid.Instance.currentGridSlot.AddCivilianBuildingToAllSlot(_currentSelectedCivilianBuilding);
             NavigationManager.Instance.CloseCurrentTab();
             CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
+            isPanelOpenedFromPopup = false;
         }
         //Otherwise, we will want to select where we want to build this, we will make visible all posible locations and make player select one
         else
         {
-            
+
+            CivilianBuildingGridPosition closestBuilding = LevelGrid.Instance.GetClosestCivilianBuildingToMousePosition(_currentSelectedCivilianBuilding.buildSize);
+           
+            if (closestBuilding == null)
+            {
+                Debug.Log("NO AVAILABLE CIVILIAN BUILDING");
+            }
+            else
+            {
+                var positionToBuild = LevelGrid.Instance.GetCenterPositionFromCivilianBuilding(closestBuilding.buildingId, 6);
+                CameraScroll.Instance.CenterCameraOnBuilding(positionToBuild.y);
+                playerIsChoosingPlaceToBuild = true;
+                Debug.Log("CLOSEST CIVILIAN BUILDING AVAILABLE: " + closestBuilding.buildingId);
+                OnChoosingBuildingPlace?.Invoke(_currentSelectedCivilianBuilding);
+            }
+            //Find civilian building closest to camera position
             NavigationManager.Instance.CloseCurrentTab();
             CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
         }
@@ -120,6 +141,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// </summary>
     public void UnblockAllBuildings()
     {
+        isPanelOpenedFromPopup = false;
         foreach (var containers in civilianBuildingContainersList)
         {
             containers.UnblockContainer();

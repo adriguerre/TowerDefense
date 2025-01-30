@@ -36,7 +36,7 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
         Debug.Log("KW: SE HA PUESTO BUILDING SIZE EN " + gridSlot.buildingSize);
         buildingSize = gridSlot.buildingSize;
         buildingInPosition = position;
-        CameraScroll.Instance.CenterCameraOnBuilding(position.y, onCameraCenterCompleted);
+        CameraScroll.Instance.CenterCameraOnBuildingWithCallback(position.y, onCameraCenterCompleted);
         CameraScroll.Instance.canMoveCamera = false;
         buildButton.onClick.RemoveAllListeners();
         upgradeButton.onClick.RemoveAllListeners();
@@ -83,6 +83,7 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
 
     private void OnCameraCenterCompleted()
     {
+        Debug.Log("KW: OPENING POP CIV UI");
         civilianBuildUI.SetActive(true);
         CivilianBuildingUIBlocker.onPanelClick += OnPanelClick;
         _animator.SetTrigger("onEnable");
@@ -102,7 +103,7 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
     {
         CivilianBuildingUIBlocker.onPanelClick -= OnPanelClick;
         civilianBuildUI.SetActive(false);
-        LevelGrid.Instance.CancelPopupBuildUI();
+        LevelGrid.Instance.DestroyGridBuildPrefab();
         // buildingSize = 0;
         CameraScroll.Instance.canMoveCamera = true;
 

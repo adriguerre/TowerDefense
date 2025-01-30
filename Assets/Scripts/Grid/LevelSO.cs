@@ -15,11 +15,11 @@ public class LevelSO : ScriptableObject
     public List<GridPosition> pathList;
     public List<GridPosition> blockedSlotList;
     public List<GridPosition> temporaryBlockedSlotsList;
-    public List<CivilianBuildingGridPosisition> CivilianBuildingGridPosisitions;
+    public List<CivilianBuildingGridPosition> CivilianBuildingGridPosisitions;
 }
 
 [Serializable]
-public class CivilianBuildingGridPosisition
+public class CivilianBuildingGridPosition
 {
     public int buildingId;
     public int size;

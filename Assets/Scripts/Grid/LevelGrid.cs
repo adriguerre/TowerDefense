@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Buildings.CivilianBuildings;
 using NaughtyAttributes;
 using NUnit.Framework.Internal;
 using UnityEngine;
@@ -133,15 +134,15 @@ public class LevelGrid : Singleton<LevelGrid>
 					Debug.Log("THERE IS ALREADY A BUILDING IN THIS LOCATION:" + currentGridSlot.GetBuildingInGridSlot().buildingName.ToString());
 				isBuilding = true;
 			}
-			ActivateGridSlotBuildingUI(currentGridSlot, isBuilding);
+			ActivateGridSlotBuildingUI(currentGridSlot, isBuilding, true);
 			CheckIfLevelCreatorIsEnabled(currentGridSlot);
 		}else if (currentGridSlot == gridSlot)
 		{
-			DesactivateGridSlotPrefab();
+			DesactivateGridSlotPrefabAndHideBuildUIPop();
 		}
 	}
 
-	public void DesactivateGridSlotPrefab()
+	public void DesactivateGridSlotPrefabAndHideBuildUIPop()
 	{
 		if (currentGridBuildingUI != null)
 			Destroy(currentGridBuildingUI);
@@ -156,7 +157,7 @@ public class LevelGrid : Singleton<LevelGrid>
 		currentGridSlot = null;
 	}
 
-	public void CancelPopupBuildUI()
+	public void DestroyGridBuildPrefab()
 	{
 		if (currentGridBuildingUI != null)
 			Destroy(currentGridBuildingUI);
@@ -179,9 +180,48 @@ public class LevelGrid : Singleton<LevelGrid>
 				return;
 			}
 		}
-		
 	}
 
+	public CivilianBuildingGridPosition GetClosestCivilianBuildingToMousePosition(int size)
+	{
+		CivilianBuildingGridPosition closestBuildingObject = null;
+		GridPosition closestPosition = gridSystem.GetGridSlotFromMousePosition()._gridPosition;
+		double minDistance = 100;
+		foreach (var civilianBuilding in currentLevelSO.CivilianBuildingGridPosisitions)
+		{
+			Debug.Log("CIV: " + civilianBuilding.size);
+			Debug.Log("CIV: " + size);
+			if (civilianBuilding.size >= size)
+			{
+				foreach (var gridPosition in civilianBuilding.gridPositionList)
+				{
+					if (!CivilianBuildingsManager.Instance.CivilianBuildingsDictionary.ContainsKey(civilianBuilding
+						    .buildingId)) //Make sure this spot is not take by other building
+					{
+						if (gridPosition.DistanceTo(closestPosition) < minDistance)
+						{
+							minDistance = gridPosition.DistanceTo(closestPosition);
+							closestBuildingObject = civilianBuilding;
+							closestPosition = gridPosition;
+						}
+					}
+				}
+			}
+		}
+
+		if (closestBuildingObject != null)
+		{
+			GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(closestBuildingObject.gridPositionList.First());
+			ActivateGridSlotBuildingUI(gridSlot, true, false);
+			if (size == 6)
+				positionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
+			else
+				positionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
+
+		}
+		return closestBuildingObject;
+	}
+	
 	private void CheckIfLevelCreatorIsEnabled(GridSlot gridSlot)
 	{
 
@@ -227,7 +267,7 @@ public class LevelGrid : Singleton<LevelGrid>
 		}
 	}
 
-	private void ActivateGridSlotBuildingUI(GridSlot gridSlot, bool isBuilding)
+	public void ActivateGridSlotBuildingUI(GridSlot gridSlot, bool isBuilding, bool showBuildUIPopup)
     {
 	    if (currentGridBuildingUI != null)
 		    Destroy(currentGridBuildingUI);
@@ -240,14 +280,16 @@ public class LevelGrid : Singleton<LevelGrid>
 			    {
 				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
 				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize4ObjectPrefab, position, Quaternion.identity); 
-				    CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
+				    if(showBuildUIPopup)
+						CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
 				    positionToBuild = position;
 			    }
 			    else
 			    {
 				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
 				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize6ObjectPrefab, position, Quaternion.identity); 
-				    CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
+				    if(showBuildUIPopup)
+						CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
 				    positionToBuild = position;
 			    }
 		    } 
