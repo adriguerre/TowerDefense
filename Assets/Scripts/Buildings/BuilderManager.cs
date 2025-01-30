@@ -1,4 +1,5 @@
 using System;
+using Buildings.CivilianBuildings;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -18,6 +19,11 @@ public class BuilderManager : ISingleton<BuilderManager>
 		CivilianBuildingsUIManager.Instance.OnBuildingStarted -= BuildCivilianBuildings;
 	}
 
+	/// <summary>
+	/// Method use to build civilian build
+	/// We will instantiate object (start animation, etc..), save info in buildingsDicctionary
+	/// </summary>
+	/// <param name="civilianBuildingInfo"></param>
 	public void BuildCivilianBuildings(CivilianBuildingsSO civilianBuildingInfo)
 	{
 		//Spawn building in position
@@ -25,6 +31,8 @@ public class BuilderManager : ISingleton<BuilderManager>
 		{
 			GameObject civilianBuilding = Instantiate(civilianBuildingInfo.buildingPrefab,
 				LevelGrid.Instance.positionToBuild, Quaternion.identity, civilianBuildingParentTransform.transform);
+			
+			CivilianBuildingsManager.Instance.AddCivilianBuilding(LevelGrid.Instance.currentGridSlot.buildingID, civilianBuilding);
 		}
 		catch (Exception e)
 		{

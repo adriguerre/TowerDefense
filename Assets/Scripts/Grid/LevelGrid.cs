@@ -156,6 +156,12 @@ public class LevelGrid : Singleton<LevelGrid>
 		currentGridSlot = null;
 	}
 
+	public void CancelPopupBuildUI()
+	{
+		if (currentGridBuildingUI != null)
+			Destroy(currentGridBuildingUI);
+		currentGridSlot = null;
+	}
 	public void LinkGridSlotsToBuilding(CivilianBuildingsSO building, GridSlot gridSlotParent)
 	{
 		foreach (var civilianBuildingsPosition in currentLevelSO.CivilianBuildingGridPosisitions)

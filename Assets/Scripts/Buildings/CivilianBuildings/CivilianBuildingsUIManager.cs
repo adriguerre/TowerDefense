@@ -21,7 +21,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     private List<CivilianBuildingsSO> _civilianBuildings;
     private CivilianBuildingsSO _currentSelectedCivilianBuilding;
     private CivilianBuildingContainer _currentContainerSelected;
-
+    public bool isPanelOpenedFromPopup { get; private set; }
     public Action<CivilianBuildingsSO> OnBuildingStarted;
     
     [Header("Resources Sprites")] 
@@ -41,34 +41,48 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
 
     private void Start()
     {
-        CivilianBuildingUIPanel.onCivilianBuildingOpened += onUIOpened;
+        CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += onUIOpenedWithoutPopup;
         SpawnBuildingContainers();
         buildButton.onClick.AddListener(() => BuildCivilianBuilding());
     }
 
-    private void onUIOpened()
+    private void onUIOpenedWithoutPopup()
     {
         UnblockAllBuildings();
     }
 
+    /// <summary>
+    /// Method used to start building a civilian house
+    /// </summary>
     private void BuildCivilianBuilding()
     {
-        if (_currentContainerSelected == null || _currentSelectedCivilianBuilding == null)
-            return;
+        //If we are building from popup, we want to insta build it where we select in the map
+        if (isPanelOpenedFromPopup)
+        {
+            if (_currentContainerSelected == null || _currentSelectedCivilianBuilding == null)
+                return;
         
-        //TODO KW: Check resources
-        Debug.Log("KW: BUYING CIVILIAN BUILDING");
-        //TODO KW: Cambiar el modo de pasar argumentos a ese método para no tener que buscar todo el rato ( si es madera pasa x, si es lo otro pasa y)
-        //if(ResourcesManager.Instance.TryToSpendResources())
-        
-        //TODO KW: Comprobar que no hay nada construido encima
-        //TODO KW: Comprobar que cabe dentro de los huecos, es decir si es hueco 4, que no se pueda construir hueco 6
-        OnBuildingStarted?.Invoke(_currentSelectedCivilianBuilding);
-        LevelGrid.Instance.currentGridSlot.AddCivilianBuildingToAllSlot(_currentSelectedCivilianBuilding);
-        NavigationManager.Instance.CloseCurrentTab();
-        CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
+            //TODO KW: Check resources
+            Debug.Log("KW: BUYING CIVILIAN BUILDING");
+            //TODO KW: Cambiar el modo de pasar argumentos a ese método para no tener que buscar todo el rato ( si es madera pasa x, si es lo otro pasa y)
+            //if(ResourcesManager.Instance.TryToSpendResources())
+            OnBuildingStarted?.Invoke(_currentSelectedCivilianBuilding);
+            LevelGrid.Instance.currentGridSlot.AddCivilianBuildingToAllSlot(_currentSelectedCivilianBuilding);
+            NavigationManager.Instance.CloseCurrentTab();
+            CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
+        }
+        //Otherwise, we will want to select where we want to build this, we will make visible all posible locations and make player select one
+        else
+        {
+            
+            NavigationManager.Instance.CloseCurrentTab();
+            CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
+        }
     }
 
+    /// <summary>
+    /// Spawn containers in civilianbuilding UI panel
+    /// </summary>
     private void SpawnBuildingContainers()
     {
         foreach (var building in _civilianBuildings)
@@ -80,19 +94,30 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
             civilianBuildingContainersList.Add(container);
         }
     }
-
+    
+    /// <summary>
+    /// When we select a possible location and open panel coming from popup, we will block buildings that are not eligible for build because of size
+    /// </summary>
+    /// <param name="size"></param>
     public void BlockBuildingsWithLargerSize(int size)
     {
+        isPanelOpenedFromPopup = true;
         foreach (var containers in civilianBuildingContainersList)
         {
-            Debug.Log("KW COMPARING: " + containers._civilianBuildingInfo.buildSize + " | " +  size);
             if (containers._civilianBuildingInfo.buildSize > size)
             {
                 containers.BlockContainer();
             }
+            else
+            {
+                containers.UnblockContainer();
+            }
         }
     }
     
+    /// <summary>
+    /// If we open normal civilianUIPanel, we will unblock all possible buildings
+    /// </summary>
     public void UnblockAllBuildings()
     {
         foreach (var containers in civilianBuildingContainersList)
@@ -101,6 +126,11 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         }
     }
 
+    /// <summary>
+    /// Select specific building, showing info in button and activating selector game object
+    /// </summary>
+    /// <param name="ContainerSelected"></param>
+    /// <param name="civilianBuilding"></param>
     public void SelectBuildingInMenu(CivilianBuildingContainer ContainerSelected, CivilianBuildingsSO civilianBuilding)
     {
         if (civilianBuilding == _currentSelectedCivilianBuilding)
@@ -116,6 +146,9 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
 
     }
 
+    /// <summary>
+    /// Unselect container, used when we close the panel, to reset all posible values/problems
+    /// </summary>
     public void UnSelectBuildingInMenu()
     {
         _currentSelectedCivilianBuilding = null;
@@ -127,6 +160,11 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         buildingButtonText.text = "Build";
     }
 
+    /// <summary>
+    /// This is a helper method, used to get sprites from resources
+    /// </summary>
+    /// <param name="resourceType"></param>
+    /// <returns></returns>
     public Sprite GetSpriteFromResource(ResourceType resourceType)
     {
         switch (resourceType)

@@ -871,7 +871,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.4508972, y: -4.5}
+  m_AnchoredPosition: {x: -1.4509277, y: -4.5}
   m_SizeDelta: {x: 11.0984, y: 13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &24244505
@@ -17260,6 +17260,7 @@ MonoBehaviour:
   isMovingCamera: 0
   direction: {x: 0, y: 0, z: 0}
   clickDurationThreshold: 0.15
+  <canMoveCamera>k__BackingField: 0
   <TimeToGetCentered>k__BackingField: 15
 --- !u!1001 &522875980
 PrefabInstance:
@@ -44965,6 +44966,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1466556574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1466556575}
+  - component: {fileID: 1466556576}
+  m_Layer: 0
+  m_Name: CivilianBuildingsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1466556575
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466556574}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1597818125}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1466556576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466556574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33b13762b0b44a4aa8d06e52c93d98f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isPersistentAcrossScenes: 0
 --- !u!1 &1467597148
 GameObject:
   m_ObjectHideFlags: 0
@@ -45167,6 +45213,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5913349670982645174, guid: e8b6f7d7a06966e4ea937cb076b4870d, type: 3}
   m_PrefabInstance: {fileID: 1476588382}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1478631717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1478631718}
+  - component: {fileID: 1478631720}
+  - component: {fileID: 1478631719}
+  m_Layer: 5
+  m_Name: BackgroundPanelBlocke
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1478631718
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478631717}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1527328541}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -24.736189, y: -71.3768}
+  m_SizeDelta: {x: 902.6016, y: 1546.7205}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1478631719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478631717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.6132076, g: 0.34420612, b: 0.34420612, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 9.47
+--- !u!222 &1478631720
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478631717}
+  m_CullTransparentMesh: 1
 --- !u!1 &1484728903
 GameObject:
   m_ObjectHideFlags: 0
@@ -46496,7 +46617,7 @@ GameObject:
   - component: {fileID: 1527328541}
   - component: {fileID: 1527328542}
   m_Layer: 5
-  m_Name: CivilianBuildings UI Button
+  m_Name: CivilianBuildingsUIPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46514,6 +46635,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1478631718}
   - {fileID: 24244504}
   - {fileID: 1649836764}
   - {fileID: 1719651343}
@@ -48572,6 +48694,7 @@ Transform:
   - {fileID: 740617514}
   - {fileID: 1104566558}
   - {fileID: 1094189871}
+  - {fileID: 1466556575}
   m_Father: {fileID: 1425677211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1599661809

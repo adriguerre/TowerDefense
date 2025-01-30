@@ -32,26 +32,6 @@ public class CivilianBuildingContainer : MonoBehaviour
         SetReferences();
     }
 
-    private void SetReferences()
-    {
-        _buildingIcon = transform.Find("BuildingIconInfo/BuildingIcon").GetComponent<Image>();
-        _buildingName = transform.Find("BuildingInfo/BuildingName").GetComponent<TextMeshProUGUI>();
-        
-        _buildTimeText = transform.Find("BuildingInfo/Timers/BuildTime/BuildTimeText").GetComponent<TextMeshProUGUI>();
-        _upgradeTimeText = transform.Find("BuildingInfo/Timers/UpgradeTime/UpgradeTimeText").GetComponent<TextMeshProUGUI>();
-        _gridSizeText = transform.Find("BuildingInfo/Timers/BuildSize/BuildSizeText").GetComponent<TextMeshProUGUI>();
-        
-        _buildingCost1Text = transform.Find("ResourcesCost/Button/ResourcesCost/Cost1/Resource1Cost").GetComponent<TextMeshProUGUI>();
-        _buildingCost1Image = transform.Find("ResourcesCost/Button/ResourcesCost/Cost1/Resource1Icon").GetComponent<Image>();
-        _resource2CostGameObject = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2").GameObject();
-        _buildingCost2Text = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2/Resource2Cost").GetComponent<TextMeshProUGUI>();
-        _buildingCost2Image = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2/Resource2Icon").GetComponent<Image>();
-
-        _selectorObject = transform.Find("Selector").gameObject;
-        _noSizeAdvisorGameObject = transform.Find("NoSizeForBuilding").gameObject;
-        _containerButton = transform.Find("Button").GetComponent<Button>();
-        _containerButton.onClick.AddListener(() => SelectBuilding());
-    }
 
     private void SelectBuilding()
     {
@@ -78,9 +58,12 @@ public class CivilianBuildingContainer : MonoBehaviour
     {
         _gridSizeText.color = Color.white;
         _noSizeAdvisorGameObject.SetActive(false);
-
     }
 
+    /// <summary>
+    /// Set properties of a single container
+    /// </summary>
+    /// <param name="civilianBuilding"></param>
     public void SetProperties(CivilianBuildingsSO civilianBuilding)
     {
         _civilianBuildingInfo = civilianBuilding;
@@ -103,6 +86,26 @@ public class CivilianBuildingContainer : MonoBehaviour
         {
             _resource2CostGameObject.SetActive(false);
         }
-        
     }
+    private void SetReferences()
+    {
+        _buildingIcon = transform.Find("BuildingIconInfo/BuildingIcon").GetComponent<Image>();
+        _buildingName = transform.Find("BuildingInfo/BuildingName").GetComponent<TextMeshProUGUI>();
+        
+        _buildTimeText = transform.Find("BuildingInfo/Timers/BuildTime/BuildTimeText").GetComponent<TextMeshProUGUI>();
+        _upgradeTimeText = transform.Find("BuildingInfo/Timers/UpgradeTime/UpgradeTimeText").GetComponent<TextMeshProUGUI>();
+        _gridSizeText = transform.Find("BuildingInfo/Timers/BuildSize/BuildSizeText").GetComponent<TextMeshProUGUI>();
+        
+        _buildingCost1Text = transform.Find("ResourcesCost/Button/ResourcesCost/Cost1/Resource1Cost").GetComponent<TextMeshProUGUI>();
+        _buildingCost1Image = transform.Find("ResourcesCost/Button/ResourcesCost/Cost1/Resource1Icon").GetComponent<Image>();
+        _resource2CostGameObject = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2").GameObject();
+        _buildingCost2Text = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2/Resource2Cost").GetComponent<TextMeshProUGUI>();
+        _buildingCost2Image = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2/Resource2Icon").GetComponent<Image>();
+
+        _selectorObject = transform.Find("Selector").gameObject;
+        _noSizeAdvisorGameObject = transform.Find("NoSizeForBuilding").gameObject;
+        _containerButton = transform.Find("Button").GetComponent<Button>();
+        _containerButton.onClick.AddListener(() => SelectBuilding());
+    }
+
 }

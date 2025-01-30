@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+/// <summary>
+/// This script is used to zoom In or out when selecting a level in the campaign
+/// </summary>
 public class CameraMovements : ISingleton<CameraMovements>
 {
 	//public static CameraMovements Instance;
@@ -30,7 +33,7 @@ public class CameraMovements : ISingleton<CameraMovements>
 		_mainCamera = GetComponent<Camera>();
 		pastPosition = Vector2.zero;
 	}
-
+	
 	private void Update()
 	{
 		if (needToFocusIn)

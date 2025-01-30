@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
+/// <summary>
+/// Pop up that shows when players click on a specific civilian building, allowing them to upgrade/build/Destroy, depending on the build status
+/// </summary>
 public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopButtons>
 {
     private GameObject civilianBuildUI;
@@ -38,10 +41,16 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
         buildButton.onClick.RemoveAllListeners();
         upgradeButton.onClick.RemoveAllListeners();
         destroyButton.onClick.RemoveAllListeners();
+        HandleButtonsVisibility(gridSlot);
+        
+    }
+
+    private void HandleButtonsVisibility(GridSlot gridSlot)
+    {
         if (gridSlot.GetBuildingInGridSlot() == null)
         {
             //Solo se puede construir, no upgradear ni destruir
-            buildButton.onClick.AddListener(() => OpenCivilianBuildingsUI(buildingInPosition));
+            buildButton.onClick.AddListener(() => OpenCivilianBuildingsUIWithPopup(buildingInPosition));
             buildButton.interactable = true;
             upgradeButton.interactable = false;
             destroyButton.interactable = false;
@@ -54,7 +63,6 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
             upgradeButton.interactable = true;
             destroyButton.interactable = true;
         }
-        
     }
 
     private void DestroyCivilianBuilding(Vector2 vector2)
@@ -67,11 +75,10 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
         
     } 
 
-    private void OpenCivilianBuildingsUI(Vector2 vector2)
+    private void OpenCivilianBuildingsUIWithPopup(Vector2 vector2)
     {
-       NavigationManager.Instance.OpenScreenCanvas(TabTypes.CivilianBuildings);
+       NavigationManager.Instance.OpenScreenCanvas(TabTypes.CivilianBuildings, true);
        CivilianBuildingsUIManager.Instance.BlockBuildingsWithLargerSize(buildingSize);
-
     }
 
     private void OnCameraCenterCompleted()
@@ -93,10 +100,10 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
 
     public void DisableCivilianBuildUI()
     {
-        //TODO KW: Hay que hacer un sistema para que ahora deje de clickar fuera y se pueda borrar, hemos creado el detectar si está en build ui
         CivilianBuildingUIBlocker.onPanelClick -= OnPanelClick;
         civilianBuildUI.SetActive(false);
-       // buildingSize = 0;
+        LevelGrid.Instance.CancelPopupBuildUI();
+        // buildingSize = 0;
         CameraScroll.Instance.canMoveCamera = true;
 
     }

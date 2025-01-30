@@ -120,7 +120,7 @@ namespace MainNavBarUI
 
 		#region Private Methods
 		
-		public void OpenScreenCanvas(TabTypes type)
+		public void OpenScreenCanvas(TabTypes type, bool comingFromPopUp=false)
 		{
 			if (type != TabTypes.Settings && type == currentTabOpened)
 				return;
@@ -138,7 +138,7 @@ namespace MainNavBarUI
 					currentButtonClicked = button1;
 					break;		
 				case TabTypes.CivilianBuildings:
-					OpenCivilianBuildings();
+					OpenCivilianBuildings(comingFromPopUp);
 					currentButtonClicked = button2;
 					break;		
 				case TabTypes.Gameplay:
@@ -168,10 +168,10 @@ namespace MainNavBarUI
 			ChangeButtonSprite(button1);
 			ResearchUIManager.Instance.openResearchUI();
 		}
-		private void OpenCivilianBuildings()
+		private void OpenCivilianBuildings(bool comingFromPopUp)
 		{
 			ChangeButtonSprite(button2);
-			CivilianBuildingUIPanel.Instance.OpenCivilianBuildingUI();
+			CivilianBuildingUIPanel.Instance.OpenCivilianBuildingUI(comingFromPopUp);
 		}
 
 		private void OpenGameplayScreen()

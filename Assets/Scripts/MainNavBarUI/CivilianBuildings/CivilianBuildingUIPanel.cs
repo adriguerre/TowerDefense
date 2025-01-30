@@ -6,18 +6,19 @@ public class CivilianBuildingUIPanel : Singleton<CivilianBuildingUIPanel>
     
     private Canvas civilianBuilding;
 
-    public static Action onCivilianBuildingOpened;
+    public static Action onCivilianBuildingOpenedWithoutPopup;
 
     private void Awake()
     {
         civilianBuilding = GetComponentInParent<Canvas>();
     }
     
-    public void OpenCivilianBuildingUI()
+    public void OpenCivilianBuildingUI(bool isComingFromPopUp)
     {
         civilianBuilding.enabled = true;
         this.gameObject.SetActive(true);
-        onCivilianBuildingOpened?.Invoke();
+        if(!isComingFromPopUp)
+            onCivilianBuildingOpenedWithoutPopup?.Invoke();
         
     }
     

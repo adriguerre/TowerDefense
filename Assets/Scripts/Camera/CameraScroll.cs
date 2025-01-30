@@ -23,10 +23,10 @@ public class CameraScroll : MonoBehaviour
     private float clickTimer = 0.0f;
     private bool isClick = false;
     //If canMoveCamera is false, players won't be able to scroll
-    public bool canMoveCamera { get; set; }
+    [field: SerializeField] public bool canMoveCamera { get; set; }
     
     //Variable used when we need to center camera in any buildings
-    private bool IsBeignCentered { get; set; }
+    private bool IsBeingCentered { get; set; }
     [field: SerializeField] float TimeToGetCentered { get; set; }
     private Vector3 moveToPosition;
     public Action onCameraCenterCompleted;
@@ -46,7 +46,7 @@ public class CameraScroll : MonoBehaviour
 
     void Update()
     {
-        if (IsBeignCentered)
+        if (IsBeingCentered)
         {
             Vector3 cameraPosition = new Vector3(cam.transform.position.x, cam.transform.position.y, -10);
             cam.transform.position = Vector3.Lerp(cameraPosition, moveToPosition, TimeToGetCentered * Time.deltaTime);
@@ -54,7 +54,7 @@ public class CameraScroll : MonoBehaviour
             {
                 cam.transform.position =
                     new Vector3(cam.transform.position.x, moveToPosition.y, cam.transform.position.z);
-                IsBeignCentered = false;
+                IsBeingCentered = false;
                 onCameraCenterCompleted?.Invoke();
                 onCameraCenterCompleted = null;
             }
@@ -138,7 +138,7 @@ public class CameraScroll : MonoBehaviour
     public void CenterCameraOnBuilding(float positionY, Action onComplete)
     {
         moveToPosition = new Vector3(cam.transform.position.x, positionY, cam.transform.position.z);
-        IsBeignCentered = true;
+        IsBeingCentered = true;
         onCameraCenterCompleted = onComplete;
     }
 

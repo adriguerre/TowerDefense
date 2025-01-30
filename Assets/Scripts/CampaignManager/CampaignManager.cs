@@ -32,7 +32,11 @@ public class CampaignManager : ISingleton<CampaignManager>
     }
 
  
-
+	/// <summary>
+	/// Method used to select a level in the campaign, showing the play button allowing players to show info from level
+	/// </summary>
+	/// <param name="level"></param>
+	/// <param name="levelInfo"></param>
     public void OpenUILevel(Level level, LevelSO levelInfo)
     {
 	    if (currentLevelSelected == level.level)
@@ -58,8 +62,11 @@ public class CampaignManager : ISingleton<CampaignManager>
 			levelNameText.text = levelInfo.levelName;
 	    else
 		    levelNameText.text = "Catalyst";
-	    
     }
+	
+	/// <summary>
+	/// Listener for button
+	/// </summary>
     private void OpenLevelInfo()
     {
 	    levelInfoPanel.GetComponent<LevelInfoDetails>().SetProperties(currentInfoLevelSelected);

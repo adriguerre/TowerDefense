@@ -18,6 +18,7 @@ MonoBehaviour:
   buildingDescription: "Una antigua granja medieval, rodeada de empalizadas de madera
     y campos verdes, donde campesinos trabajan la tierra con herramientas r\xFAsticas.
     Provee alimentos sustentando aldeas cercanas en tiempos de paz y guerra."
+  buildingPrefab: {fileID: 4471187103977078024, guid: 9a211e5d4f6d0734c937743e23462bfa, type: 3}
   timeToBuild: 20
   timeToUpgrade: 25
   buildSize: 4
