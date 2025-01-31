@@ -76,3 +76,14 @@ MonoBehaviour:
       y: 10
     - x: 6
       y: 11
+  - buildingId: 4
+    size: 4
+    gridPositionList:
+    - x: 5
+      y: 4
+    - x: 6
+      y: 4
+    - x: 6
+      y: 5
+    - x: 5
+      y: 5

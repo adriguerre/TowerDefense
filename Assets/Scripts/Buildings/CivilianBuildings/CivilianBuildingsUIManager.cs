@@ -86,11 +86,12 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         }
         else
         {
-            var positionToBuild = LevelGrid.Instance.GetCenterPositionFromCivilianBuilding(closestBuilding.buildingId, 6);
+            var positionToBuild = LevelGrid.Instance.GetCenterPositionFromCivilianBuilding(closestBuilding.buildingId, _currentSelectedCivilianBuilding.buildSize);
+            LevelGrid.Instance.SetCurrentGridSlotFromWorldPosition(positionToBuild);
+
             CameraScroll.Instance.CenterCameraOnBuilding(positionToBuild.y);
             playerIsChoosingPlaceToCivilianBuild = true;
             Debug.Log("KWB: " + positionToBuild);
-            LevelGrid.Instance.SetCurrentGridSlotFromWorldPosition(positionToBuild);
             OnChoosingBuildingPlace?.Invoke(_currentSelectedCivilianBuilding);
         }
         //Find civilian building closest to camera position

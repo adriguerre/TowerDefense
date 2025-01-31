@@ -34,11 +34,12 @@ namespace Buildings
 
         public void ActivateBuildingConfirmOption(CivilianBuildingsSO civilianBuildingInfo)
         {
-            cancelButton.onClick.AddListener(() => CancelBuildingConstruction());
-            confirmButton.onClick.AddListener(() => ConfirmBuildingConstruction());
             _civilianBuildingsSO = civilianBuildingInfo;
             _spriteRenderer.color = Color.green;
             ConfirmBackButtons.SetActive(true);
+            cancelButton.onClick.AddListener(() => CancelBuildingConstruction());
+            confirmButton.onClick.AddListener(() => ConfirmBuildingConstruction());
+
         }
 
         public void ConfirmBuildingConstruction()

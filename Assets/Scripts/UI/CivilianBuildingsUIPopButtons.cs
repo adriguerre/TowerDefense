@@ -33,7 +33,6 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
 
     public void OpenBuildUI(Vector2 position, GridSlot gridSlot)
     {
-        Debug.Log("KW: SE HA PUESTO BUILDING SIZE EN " + gridSlot.buildingSize);
         buildingSize = gridSlot.buildingSize;
         buildingInPosition = position;
         CameraScroll.Instance.CenterCameraOnBuildingWithCallback(position.y, onCameraCenterCompleted);
@@ -83,7 +82,6 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
 
     private void OnCameraCenterCompleted()
     {
-        Debug.Log("KW: OPENING POP CIV UI");
         civilianBuildUI.SetActive(true);
         CivilianBuildingUIBlocker.onPanelClick += OnPanelClick;
         _animator.SetTrigger("onEnable");

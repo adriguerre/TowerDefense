@@ -23,6 +23,8 @@ public class BuilderManager : ISingleton<BuilderManager>
 	private void OnDisable()
 	{
 		CivilianBuildingsUIManager.Instance.OnBuildingStarted -= BuildCivilianBuildings;
+		CivilianBuildingsUIManager.Instance.OnChoosingBuildingPlace -= SpawnMoveableObjectSelector;
+
 	}
 
 	public void SpawnMoveableObjectSelector(CivilianBuildingsSO civilianBuildingInfo)
