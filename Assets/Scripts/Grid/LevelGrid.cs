@@ -26,6 +26,7 @@ public class LevelGrid : Singleton<LevelGrid>
 	[SerializeField] private LevelSO defaultLevel;
 	private GridManager gridSystem;
 	private GameObject currentGridBuildingUI;
+	private List<GameObject> selectorGridBuildingsObjects;
 	public GridSlot currentGridSlot { get; private set; }
 	public Vector2 positionToBuild;
 	private LevelSO currentLevelSO;
@@ -62,14 +63,16 @@ public class LevelGrid : Singleton<LevelGrid>
 		else
 		{
 			Debug.Log("LEVEL NOT SAVED");
-
 		}
 
 	}
 
 	private void Start()
 	{
+		selectorGridBuildingsObjects = new List<GameObject>();
 	}
+
+
 
 	public async Task CreateLevel(LevelSO levelSO)
 	{
@@ -108,6 +111,13 @@ public class LevelGrid : Singleton<LevelGrid>
 		return Vector2.zero;
 	}
 
+	public void SetCurrentGridSlotFromWorldPosition(Vector2 position)
+	{
+		GridPosition gridPosition = GetGridPosition(position);
+			
+		currentGridSlot = gridSystem.GetGridSlotFromGridPosition(gridPosition);
+	}
+	
 	void Update()
     {
 	    if (CameraScroll.Instance != null)
@@ -130,15 +140,43 @@ public class LevelGrid : Singleton<LevelGrid>
 			if (gridSlot._gridPositionType == GridPositionType.CivilianBuilding)
 			{
 				Debug.Log("WE ARE CLICKING CIVILIAN BUILDING WITH ID: " + currentGridSlot.buildingID);
-				if(currentGridSlot.GetBuildingInGridSlot() != null)
+				if (currentGridSlot.GetBuildingInGridSlot() != null)
+				{
 					Debug.Log("THERE IS ALREADY A BUILDING IN THIS LOCATION:" + currentGridSlot.GetBuildingInGridSlot().buildingName.ToString());
+				}
 				isBuilding = true;
+
 			}
 			ActivateGridSlotBuildingUI(currentGridSlot, isBuilding, true);
 			CheckIfLevelCreatorIsEnabled(currentGridSlot);
 		}else if (currentGridSlot == gridSlot)
 		{
 			DesactivateGridSlotPrefabAndHideBuildUIPop();
+		}
+	}
+
+	public void SelectSlotAsPossibleLocation()
+	{
+		GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();
+		Debug.Log(gridSlot._gridPosition);
+		if (gridSlot != null && currentGridSlot != gridSlot)
+		{
+			if (gridSlot._gridPositionType == GridPositionType.CivilianBuilding)
+			{
+				if (gridSlot.buildingSize < BuilderManager.Instance.BuildInfo.buildSize)
+				{
+					return;
+				}
+
+				currentGridSlot = gridSlot;
+				if (currentGridSlot.GetBuildingInGridSlot() == null)
+				{
+					positionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID,  BuilderManager.Instance.BuildInfo.buildSize);
+					currentGridSlot = gridSlot;
+					ActivateGridSlotBuildingUI(currentGridSlot, true, false);
+					BuilderManager.Instance.MoveBuildingPlace(positionToBuild);
+				}
+			}
 		}
 	}
 
@@ -182,15 +220,13 @@ public class LevelGrid : Singleton<LevelGrid>
 		}
 	}
 
-	public CivilianBuildingGridPosition GetClosestCivilianBuildingToMousePosition(int size)
+	public CivilianBuildingGridPosition GetClosestCivilianBuildingToMousePositionAndActivateGrid(int size)
 	{
 		CivilianBuildingGridPosition closestBuildingObject = null;
 		GridPosition closestPosition = gridSystem.GetGridSlotFromMousePosition()._gridPosition;
 		double minDistance = 100;
 		foreach (var civilianBuilding in currentLevelSO.CivilianBuildingGridPosisitions)
 		{
-			Debug.Log("CIV: " + civilianBuilding.size);
-			Debug.Log("CIV: " + size);
 			if (civilianBuilding.size >= size)
 			{
 				foreach (var gridPosition in civilianBuilding.gridPositionList)

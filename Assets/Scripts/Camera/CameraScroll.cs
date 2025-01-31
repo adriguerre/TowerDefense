@@ -109,7 +109,11 @@ public class CameraScroll : MonoBehaviour
             // Si se sobrepasa el umbral, considera que no es un clic
             if (clickTimer > clickDurationThreshold)
             {
-                LevelGrid.Instance.DesactivateGridSlotPrefabAndHideBuildUIPop();
+                if (!CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild)
+                {
+                    LevelGrid.Instance.DesactivateGridSlotPrefabAndHideBuildUIPop();
+                }
+
                 isClick = false;
                 isMovingCamera = true;
                 //Debug.Log("Scrolling...");
@@ -127,11 +131,18 @@ public class CameraScroll : MonoBehaviour
             // Si al soltar el botón sigue siendo un clic, ejecuta la acción de clic
             if (isClick)
             {
-                if(!CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToBuild)
+                if(!CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild) //Selecting all posible grids slots
                 {
                     if (LevelGrid.Instance != null)
                     {
                         LevelGrid.Instance.ClickOnLevelGrid();
+                    }
+                }
+                else if(CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild)//Selecting civilian building position
+                {
+                    if (LevelGrid.Instance != null)
+                    {
+                        LevelGrid.Instance.SelectSlotAsPossibleLocation();
                     }
                 }
             }

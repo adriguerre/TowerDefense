@@ -27,7 +27,7 @@ namespace Buildings
         private void CancelBuildingConstruction()
         {
             
-            CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToBuild = false;
+            CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild = false;
             LevelGrid.Instance.DestroyGridBuildPrefab();
             Destroy(this.gameObject);
         }
