@@ -77,7 +77,7 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
     private void OpenCivilianBuildingsUIWithPopup(Vector2 vector2)
     {
        NavigationManager.Instance.OpenScreenCanvas(TabTypes.CivilianBuildings, true);
-       CivilianBuildingsUIManager.Instance.BlockBuildingsWithLargerSize(buildingSize);
+       CivilianBuildingsUIManager.Instance.BlockBuildingsWithLargerSizeInUIPanel(buildingSize);
     }
 
     private void OnCameraCenterCompleted()

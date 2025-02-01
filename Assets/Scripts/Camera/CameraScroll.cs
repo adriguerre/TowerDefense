@@ -48,47 +48,33 @@ public class CameraScroll : MonoBehaviour
     {
         if (IsBeingCentered)
         {
-            canMoveCamera = false;
-            Vector3 cameraPosition = new Vector3(cam.transform.position.x, cam.transform.position.y, -10);
-            cam.transform.position = Vector3.Lerp(cameraPosition, moveToPosition, TimeToGetCentered * Time.deltaTime);
-            if (Vector2.Distance(cam.transform.position, moveToPosition) <= 0.02f)
-            {
-                cam.transform.position =
-                    new Vector3(cam.transform.position.x, moveToPosition.y, cam.transform.position.z);
-                IsBeingCentered = false;
-                canMoveCamera = true;
-                onCameraCenterCompleted?.Invoke();
-                onCameraCenterCompleted = null;
-            }
+            CenterCameraOnTarget();
         }
         if (!canMoveCamera)
         {
             return;
         }
+        
         PanCamera();
+        CameraMovementInScroll();
+    }
 
-        if (_underInertia && _time <= SmoothTime)
+    private void CenterCameraOnTarget()
+    {
+        canMoveCamera = false;
+        Vector3 cameraPosition = new Vector3(cam.transform.position.x, cam.transform.position.y, -10);
+        cam.transform.position = Vector3.Lerp(cameraPosition, moveToPosition, TimeToGetCentered * Time.deltaTime);
+        if (Vector2.Distance(cam.transform.position, moveToPosition) <= 0.02f)
         {
-            cam.transform.position += _velocity;
-            float newY = Mathf.Clamp(cam.transform.position.y, bottomLimit, topLimit);
-            cam.transform.position = new Vector3(cam.transform.position.x, newY, cam.transform.position.z);
-
-            _velocity = Vector3.Lerp(_velocity, Vector3.zero, _time);
-            _time += Time.smoothDeltaTime;
-        }
-        else
-        {
-            _underInertia = false;
-            _time = 0.0f;
-        }
-
-        // Resetea la lógica de clic si no se mantiene el botón
-        if (!Input.GetMouseButton(0))
-        {
-            clickTimer = 0.0f;
-            isClick = false;
+            cam.transform.position =
+                new Vector3(cam.transform.position.x, moveToPosition.y, cam.transform.position.z);
+            IsBeingCentered = false;
+            canMoveCamera = true;
+            onCameraCenterCompleted?.Invoke();
+            onCameraCenterCompleted = null;
         }
     }
+
 
 
     private void PanCamera()
@@ -161,6 +147,31 @@ public class CameraScroll : MonoBehaviour
         moveToPosition = new Vector3(cam.transform.position.x, positionY, cam.transform.position.z);
         onCameraCenterCompleted = null;
         IsBeingCentered = true;
+    }
+
+    private void CameraMovementInScroll()
+    {
+        if (_underInertia && _time <= SmoothTime)
+        {
+            cam.transform.position += _velocity;
+            float newY = Mathf.Clamp(cam.transform.position.y, bottomLimit, topLimit);
+            cam.transform.position = new Vector3(cam.transform.position.x, newY, cam.transform.position.z);
+
+            _velocity = Vector3.Lerp(_velocity, Vector3.zero, _time);
+            _time += Time.smoothDeltaTime;
+        }
+        else
+        {
+            _underInertia = false;
+            _time = 0.0f;
+        }
+
+        // Resetea la lógica de clic si no se mantiene el botón
+        if (!Input.GetMouseButton(0))
+        {
+            clickTimer = 0.0f;
+            isClick = false;
+        }
     }
 
 }

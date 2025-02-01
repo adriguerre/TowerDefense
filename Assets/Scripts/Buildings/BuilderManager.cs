@@ -1,10 +1,12 @@
 using System;
 using Buildings;
 using Buildings.CivilianBuildings;
+using MainNavBarUI;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class BuilderManager : ISingleton<BuilderManager>
 {
@@ -52,7 +54,7 @@ public class BuilderManager : ISingleton<BuilderManager>
 	}
 
 
-/// <summary>
+	/// <summary>
 	/// Method use to build civilian build
 	/// We will instantiate object (start animation, etc..), save info in buildingsDicctionary
 	/// </summary>
@@ -62,12 +64,12 @@ public class BuilderManager : ISingleton<BuilderManager>
 		//Spawn building in position
 		try
 		{
-			GameObject civilianBuilding = Instantiate(civilianBuildingInfo.buildingPrefab,
+			GameObject civilianBuilding = Instantiate(civilianBuildingInfo.buildingPrefab, 
 				LevelGrid.Instance.positionToBuild, Quaternion.identity, civilianBuildingParentTransform.transform);
-			Debug.Log("CURRENT GRID SLOT: " + LevelGrid.Instance.currentGridSlot._gridPosition);
 			LevelGrid.Instance.currentGridSlot.AddCivilianBuildingToAllSlot(civilianBuildingInfo);
 			CivilianBuildingsManager.Instance.AddCivilianBuilding(LevelGrid.Instance.currentGridSlot.buildingID, civilianBuilding);
 			CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild = false;
+			NavigationManager.Instance.OpenScreenCanvas(TabTypes.Gameplay, false);
 		}
 		catch (Exception e)
 		{

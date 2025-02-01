@@ -38,29 +38,39 @@ public class CameraMovements : ISingleton<CameraMovements>
 	{
 		if (needToFocusIn)
 		{
-			float currentValue = this.GetComponent<Camera>().orthographicSize;
-			_mainCamera.orthographicSize = Mathf.Lerp(currentValue, FocusZoomValue, AnimationTimeMultiplier * Time.deltaTime);
-			Vector3 cameraPosition = new Vector3(_mainCamera.transform.position.x, _mainCamera.transform.position.y, -10);
-			_mainCamera.transform.position = Vector3.Lerp(cameraPosition, levelPosition, AnimationTimeMultiplier * Time.deltaTime);
-			if (Vector2.Distance(_mainCamera.transform.position, levelPosition) <= 0.02f)
-			{
-				_mainCamera.orthographicSize = FocusZoomValue;
-				_mainCamera.transform.position = new Vector3(levelPosition.x, levelPosition.y, -10);
-				needToFocusIn = false;
-			}
+			CameraFocusIn();
 		}else if (needToFocusOut)
 		{
-			float currentValue = this.GetComponent<Camera>().orthographicSize;
-			_mainCamera.orthographicSize = Mathf.Lerp(currentValue, UnfocusZoomValue, AnimationTimeMultiplier * Time.deltaTime);
-			Vector3 cameraPosition = new Vector3(_mainCamera.transform.position.x, _mainCamera.transform.position.y, -10);
-			_mainCamera.transform.position = Vector3.Lerp(cameraPosition, pastPosition, AnimationTimeMultiplier * Time.deltaTime);
-			if (Vector2.Distance(_mainCamera.transform.position, pastPosition) <= 0.02f)
-			{
-				_mainCamera.orthographicSize = UnfocusZoomValue;
-				_mainCamera.transform.position =  new Vector3(pastPosition.x, pastPosition.y, -10);;
-				needToFocusOut = false;
-				canMoveCamera = true;
-			}
+			CameraFocusOut();
+		}
+	}
+
+	private void CameraFocusOut()
+	{
+		float currentValue = this.GetComponent<Camera>().orthographicSize;
+		_mainCamera.orthographicSize = Mathf.Lerp(currentValue, UnfocusZoomValue, AnimationTimeMultiplier * Time.deltaTime);
+		Vector3 cameraPosition = new Vector3(_mainCamera.transform.position.x, _mainCamera.transform.position.y, -10);
+		_mainCamera.transform.position = Vector3.Lerp(cameraPosition, pastPosition, AnimationTimeMultiplier * Time.deltaTime);
+		if (Vector2.Distance(_mainCamera.transform.position, pastPosition) <= 0.02f)
+		{
+			_mainCamera.orthographicSize = UnfocusZoomValue;
+			_mainCamera.transform.position =  new Vector3(pastPosition.x, pastPosition.y, -10);;
+			needToFocusOut = false;
+			canMoveCamera = true;
+		}
+	}
+
+	private void CameraFocusIn()
+	{
+		float currentValue = this.GetComponent<Camera>().orthographicSize;
+		_mainCamera.orthographicSize = Mathf.Lerp(currentValue, FocusZoomValue, AnimationTimeMultiplier * Time.deltaTime);
+		Vector3 cameraPosition = new Vector3(_mainCamera.transform.position.x, _mainCamera.transform.position.y, -10);
+		_mainCamera.transform.position = Vector3.Lerp(cameraPosition, levelPosition, AnimationTimeMultiplier * Time.deltaTime);
+		if (Vector2.Distance(_mainCamera.transform.position, levelPosition) <= 0.02f)
+		{
+			_mainCamera.orthographicSize = FocusZoomValue;
+			_mainCamera.transform.position = new Vector3(levelPosition.x, levelPosition.y, -10);
+			needToFocusIn = false;
 		}
 	}
 

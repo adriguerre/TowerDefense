@@ -44,14 +44,14 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
 
     private void Start()
     {
-        CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += onUIOpenedWithoutPopup;
-        SpawnBuildingContainers();
+        CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += OnUIOpenedWithoutPopup;
+        SpawnBuildingContainersInPanel();
         buildButton.onClick.AddListener(() => BuildCivilianBuilding());
     }
 
-    private void onUIOpenedWithoutPopup()
+    private void OnUIOpenedWithoutPopup()
     {
-        UnblockAllBuildings();
+        UnblockAllBuildingsInUIPanel();
     }
 
     /// <summary>
@@ -59,7 +59,6 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// </summary>
     private void BuildCivilianBuilding()
     {
-        
         if (_currentContainerSelected == null || _currentSelectedCivilianBuilding == null)
             return;
         
@@ -104,9 +103,8 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         //TODO KW: Check resources
         Debug.Log("KW: BUYING CIVILIAN BUILDING");
         //TODO KW: Cambiar el modo de pasar argumentos a ese método para no tener que buscar todo el rato ( si es madera pasa x, si es lo otro pasa y)
-        //if(ResourcesManager.Instance.TryToSpendResources())
+        //TODO if(ResourcesManager.Instance.TryToSpendResources())
         OnBuildingStarted?.Invoke(_currentSelectedCivilianBuilding);
-        // LevelGrid.Instance.currentGridSlot.AddCivilianBuildingToAllSlot(_currentSelectedCivilianBuilding);
         NavigationManager.Instance.CloseCurrentTab();
         CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
         isPanelOpenedFromPopup = false;
@@ -115,7 +113,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// <summary>
     /// Spawn containers in civilianbuilding UI panel
     /// </summary>
-    private void SpawnBuildingContainers()
+    private void SpawnBuildingContainersInPanel()
     {
         foreach (var building in _civilianBuildings)
         {
@@ -131,7 +129,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// When we select a possible location and open panel coming from popup, we will block buildings that are not eligible for build because of size
     /// </summary>
     /// <param name="size"></param>
-    public void BlockBuildingsWithLargerSize(int size)
+    public void BlockBuildingsWithLargerSizeInUIPanel(int size)
     {
         isPanelOpenedFromPopup = true;
         foreach (var containers in civilianBuildingContainersList)
@@ -150,7 +148,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// <summary>
     /// If we open normal civilianUIPanel, we will unblock all possible buildings
     /// </summary>
-    public void UnblockAllBuildings()
+    public void UnblockAllBuildingsInUIPanel()
     {
         isPanelOpenedFromPopup = false;
         foreach (var containers in civilianBuildingContainersList)

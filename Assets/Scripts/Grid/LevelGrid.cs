@@ -31,6 +31,9 @@ public class LevelGrid : Singleton<LevelGrid>
 	public Vector2 positionToBuild;
 	private LevelSO currentLevelSO;
 
+
+	#region Level Creator
+
 	[Header("Level Creator")]
 	[SerializeField] private bool LEVEL_CREATOR;
 	[EnableIf(EConditionOperator.And, "LEVEL_CREATOR", "NotLC_buildingObstacle", "NotLC_buildingTemporaryObstacles", "NotLC_buildingBuildings")]
@@ -43,7 +46,6 @@ public class LevelGrid : Singleton<LevelGrid>
 	[SerializeField] private bool LC_buildingBuildings;
 	[EnableIf("LEVEL_CREATOR")]
 	[SerializeField] private string FileName;
-
 	public bool levelIsCreated { get; private set; }
 	private List<GridPosition> pathsSlots;
 	private List<GridPosition> obstacleSlots;
@@ -64,16 +66,15 @@ public class LevelGrid : Singleton<LevelGrid>
 		{
 			Debug.Log("LEVEL NOT SAVED");
 		}
-
 	}
+	#endregion
+	
 
 	private void Start()
 	{
 		selectorGridBuildingsObjects = new List<GameObject>();
 	}
-
-
-
+	
 	public async Task CreateLevel(LevelSO levelSO)
 	{
 		if (levelSO != null)
@@ -90,6 +91,12 @@ public class LevelGrid : Singleton<LevelGrid>
 		}
 	}
 
+	/// <summary>
+	/// Get position where is supposed to be the center (for 4 and 6 grid size)
+	/// </summary>
+	/// <param name="buildingID"></param>
+	/// <param name="size"></param>
+	/// <returns></returns>
 	public Vector2 GetCenterPositionFromCivilianBuilding(int buildingID, int size)
 	{
 		foreach (var CivilianBuilding in currentLevelSO.CivilianBuildingGridPosisitions)
@@ -111,6 +118,10 @@ public class LevelGrid : Singleton<LevelGrid>
 		return Vector2.zero;
 	}
 
+	/// <summary>
+	/// Set grid slot from a given position
+	/// </summary>
+	/// <param name="position"></param>
 	public void SetCurrentGridSlotFromWorldPosition(Vector2 position)
 	{
 		GridPosition gridPosition = GetGridPosition(position);
@@ -118,17 +129,7 @@ public class LevelGrid : Singleton<LevelGrid>
 		currentGridSlot = gridSystem.GetGridSlotFromGridPosition(gridPosition);
 	}
 	
-	void Update()
-    {
-	    if (CameraScroll.Instance != null)
-	    {
-		    if (CameraScroll.Instance.isMovingCamera)
-		    {
-			    return;
-		    } 
-	    }
-	   
-    }
+	
 
 	public void ClickOnLevelGrid()
 	{
@@ -201,6 +202,12 @@ public class LevelGrid : Singleton<LevelGrid>
 			Destroy(currentGridBuildingUI);
 		currentGridSlot = null;
 	}
+	
+	/// <summary>
+	/// Given a gridslot, we link the rest of the civilian building the same civilian build id
+	/// </summary>
+	/// <param name="building"></param>
+	/// <param name="gridSlotParent"></param>
 	public void LinkGridSlotsToBuilding(CivilianBuildingsSO building, GridSlot gridSlotParent)
 	{
 		foreach (var civilianBuildingsPosition in currentLevelSO.CivilianBuildingGridPosisitions)
@@ -219,7 +226,7 @@ public class LevelGrid : Singleton<LevelGrid>
 			}
 		}
 	}
-
+	
 	public CivilianBuildingGridPosition GetClosestCivilianBuildingToMousePositionAndActivateGrid(int size)
 	{
 		CivilianBuildingGridPosition closestBuildingObject = null;
@@ -244,7 +251,6 @@ public class LevelGrid : Singleton<LevelGrid>
 				}
 			}
 		}
-
 		if (closestBuildingObject != null)
 		{
 			GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(closestBuildingObject.gridPositionList.First());
@@ -303,6 +309,12 @@ public class LevelGrid : Singleton<LevelGrid>
 		}
 	}
 
+	/// <summary>
+	/// Activate grid slot selector placeholder for a given grid slot
+	/// </summary>
+	/// <param name="gridSlot"></param>
+	/// <param name="isBuilding"></param>
+	/// <param name="showBuildUIPopup"></param>
 	public void ActivateGridSlotBuildingUI(GridSlot gridSlot, bool isBuilding, bool showBuildUIPopup)
     {
 	    if (currentGridBuildingUI != null)
@@ -348,9 +360,7 @@ public class LevelGrid : Singleton<LevelGrid>
     {
 	  // Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
     }
-
     
-
     private void OnDrawGizmos()
     {
 	    if(Application.isPlaying)
