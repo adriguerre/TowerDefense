@@ -74,6 +74,7 @@ public class BuilderManager : ISingleton<BuilderManager>
 		catch (Exception e)
 		{
 			Debug.LogError("There was an error building this place: " + civilianBuildingInfo.buildingName);
+			Debug.LogError("There was an error building this place [CURRENT GRID SLOT]: " + LevelGrid.Instance.currentGridSlot);
 			Debug.LogError(e.Message);
 		}
 

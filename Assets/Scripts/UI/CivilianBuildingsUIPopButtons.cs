@@ -36,7 +36,8 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
         buildingSize = gridSlot.buildingSize;
         buildingInPosition = position;
         CameraScroll.Instance.CenterCameraOnBuildingWithCallback(position.y, onCameraCenterCompleted);
-        CameraScroll.Instance.canMoveCamera = false;
+        CameraScroll.Instance.SetIfPlayerCanMoveCamera(false);
+
         buildButton.onClick.RemoveAllListeners();
         upgradeButton.onClick.RemoveAllListeners();
         destroyButton.onClick.RemoveAllListeners();
@@ -103,7 +104,8 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
         civilianBuildUI.SetActive(false);
         LevelGrid.Instance.DestroyGridBuildPrefab();
         // buildingSize = 0;
-        CameraScroll.Instance.canMoveCamera = true;
+        CameraScroll.Instance.SetIfPlayerCanMoveCamera(true);
+
 
     }
 

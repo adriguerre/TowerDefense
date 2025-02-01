@@ -16,6 +16,7 @@ public class CivilianBuildingUIPanel : Singleton<CivilianBuildingUIPanel>
     public void OpenCivilianBuildingUI(bool isComingFromPopUp)
     {
         civilianBuilding.enabled = true;
+        CameraScroll.Instance.SetIfPlayerCanMoveCamera(false);
         this.gameObject.SetActive(true);
         if(!isComingFromPopUp)
             onCivilianBuildingOpenedWithoutPopup?.Invoke();

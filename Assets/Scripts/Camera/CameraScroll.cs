@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraScroll : MonoBehaviour
@@ -17,13 +19,12 @@ public class CameraScroll : MonoBehaviour
     private bool _underInertia;
     private float _time = 0.0f;
     [HideInInspector] public float SmoothTime = 2;
-    [HideInInspector] public bool isMovingCamera = false;
     [HideInInspector] public Vector3 direction;
     [SerializeField] float clickDurationThreshold = 0.2f; // Time to detect is a click
     private float clickTimer = 0.0f;
     private bool isClick = false;
     //If canMoveCamera is false, players won't be able to scroll
-    [field: SerializeField] public bool canMoveCamera { get; set; }
+    [field: SerializeField] private bool canMoveCamera { get; set; }
     
     //Variable used when we need to center camera in any buildings
     private bool IsBeingCentered { get; set; }
@@ -41,7 +42,8 @@ public class CameraScroll : MonoBehaviour
             Debug.LogError("There is already a camera scroll attached to this GameObject");
         }
         Instance = this;
-        canMoveCamera = true;
+        SetIfPlayerCanMoveCamera(true);
+
     }
 
     void Update()
@@ -61,7 +63,8 @@ public class CameraScroll : MonoBehaviour
 
     private void CenterCameraOnTarget()
     {
-        canMoveCamera = false;
+        SetIfPlayerCanMoveCamera(false);
+
         Vector3 cameraPosition = new Vector3(cam.transform.position.x, cam.transform.position.y, -10);
         cam.transform.position = Vector3.Lerp(cameraPosition, moveToPosition, TimeToGetCentered * Time.deltaTime);
         if (Vector2.Distance(cam.transform.position, moveToPosition) <= 0.02f)
@@ -69,7 +72,8 @@ public class CameraScroll : MonoBehaviour
             cam.transform.position =
                 new Vector3(cam.transform.position.x, moveToPosition.y, cam.transform.position.z);
             IsBeingCentered = false;
-            canMoveCamera = true;
+            SetIfPlayerCanMoveCamera(true);
+
             onCameraCenterCompleted?.Invoke();
             onCameraCenterCompleted = null;
         }
@@ -101,7 +105,7 @@ public class CameraScroll : MonoBehaviour
                 }
 
                 isClick = false;
-                isMovingCamera = true;
+                //isMovingCamera = true;
                 //Debug.Log("Scrolling...");
 
                 direction = touchStart - cam.ScreenToWorldPoint(Input.mousePosition);
@@ -132,7 +136,7 @@ public class CameraScroll : MonoBehaviour
                     }
                 }
             }
-            isMovingCamera = false;
+            //isMovingCamera = false;
         }
     }
 
@@ -174,4 +178,18 @@ public class CameraScroll : MonoBehaviour
         }
     }
 
+    public void SetIfPlayerCanMoveCamera(bool value)
+    {
+        if (value)
+            canMoveCamera = true;
+           // StartCoroutine(SetCameraMoveValueToTrue());
+        else
+            canMoveCamera = false;
+    }
+
+    private IEnumerator SetCameraMoveValueToTrue()
+    {
+       yield return new WaitForNextFrameUnit();
+       canMoveCamera = true;
+    }
 }

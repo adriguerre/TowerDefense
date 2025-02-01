@@ -111,7 +111,7 @@ namespace MainNavBarUI
 					break;
 			}
 			
-			CameraScroll.Instance.canMoveCamera = true;
+			CameraScroll.Instance.SetIfPlayerCanMoveCamera(true);
 			if(currentTabOpened != TabTypes.Settings)
 				currentButtonClicked.GetComponent<Image>().sprite = defaultButtonSprite;
 			currentTabOpened = TabTypes.None;
@@ -127,8 +127,8 @@ namespace MainNavBarUI
 			
 			if(currentTabOpened != TabTypes.None)
 				CloseCurrentTab();
-
-			CameraScroll.Instance.canMoveCamera = false;
+			
+			CameraScroll.Instance.SetIfPlayerCanMoveCamera(false);
 			currentTabOpened = type;
 			
 			switch (type)
@@ -176,7 +176,8 @@ namespace MainNavBarUI
 
 		private void OpenGameplayScreen()
 		{
-			CameraScroll.Instance.canMoveCamera = true;
+			CameraScroll.Instance.SetIfPlayerCanMoveCamera(true);
+
 			ChangeButtonSprite(gameplayButton);
 		}
 
