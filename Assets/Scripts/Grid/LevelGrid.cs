@@ -74,7 +74,15 @@ public class LevelGrid : Singleton<LevelGrid>
 	{
 		selectorGridBuildingsObjects = new List<GameObject>();
 	}
-	
+
+	private void Update()
+	{
+		// if(currentGridSlot != null)
+		// 	Debug.Log("KW: GRID SLOT: " + currentGridSlot._gridPosition);
+		// else
+		// 	Debug.Log("KW: NO GRID SLOT");
+	}
+
 	public async Task CreateLevel(LevelSO levelSO)
 	{
 		if (levelSO != null)

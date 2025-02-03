@@ -35,8 +35,9 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
     {
         buildingSize = gridSlot.buildingSize;
         buildingInPosition = position;
-        CameraScroll.Instance.CenterCameraOnBuildingWithCallback(position.y, onCameraCenterCompleted);
         CameraScroll.Instance.SetIfPlayerCanMoveCamera(false);
+
+        CameraScroll.Instance.CenterCameraOnBuildingWithCallback(position.y, onCameraCenterCompleted);
 
         buildButton.onClick.RemoveAllListeners();
         upgradeButton.onClick.RemoveAllListeners();

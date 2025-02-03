@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 6066702746847170994}
   - component: {fileID: 5978399701854810709}
   - component: {fileID: 2026871988669708330}
+  - component: {fileID: 8814760588253654181}
   m_Layer: 0
   m_Name: Farm
   m_TagString: Untagged
@@ -303,8 +304,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConfirmBackButtons: {fileID: 6161007483988565842}
-  cancelButton: {fileID: 3338154387851773998}
   confirmButton: {fileID: 7978231908882727925}
+  cancelButton: {fileID: 3338154387851773998}
+--- !u!114 &8814760588253654181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4471187103977078024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4953734cef8d4475b8053b6aeb584ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingStatusFromLoad: 0
 --- !u!1 &5267767230137664651
 GameObject:
   m_ObjectHideFlags: 0

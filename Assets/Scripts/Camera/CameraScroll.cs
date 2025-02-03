@@ -30,6 +30,7 @@ public class CameraScroll : MonoBehaviour
     private bool IsBeingCentered { get; set; }
     [field: SerializeField] float TimeToGetCentered { get; set; }
     private Vector3 moveToPosition;
+    private Coroutine enableCameraMovementCoroutine;
     public Action onCameraCenterCompleted;
 
 
@@ -181,15 +182,25 @@ public class CameraScroll : MonoBehaviour
     public void SetIfPlayerCanMoveCamera(bool value)
     {
         if (value)
-            canMoveCamera = true;
-           // StartCoroutine(SetCameraMoveValueToTrue());
+        {
+            //canMoveCamera = true;
+            enableCameraMovementCoroutine = StartCoroutine(SetCameraMoveValueToTrue()); 
+        }
         else
+        {
+            if (enableCameraMovementCoroutine != null)
+            {
+                StopCoroutine(enableCameraMovementCoroutine);
+                enableCameraMovementCoroutine = null;
+            }
             canMoveCamera = false;
+        }
+            
     }
 
     private IEnumerator SetCameraMoveValueToTrue()
     {
-       yield return new WaitForNextFrameUnit();
+       yield return new WaitForSeconds(0.1f);
        canMoveCamera = true;
     }
 }
