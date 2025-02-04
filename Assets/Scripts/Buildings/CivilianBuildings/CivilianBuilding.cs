@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Buildings.CivilianBuildings.CivilianBuildingFSM;
+using Game;
 using UnityEngine;
 using UnityEngine.InputSystem.OSX;
 
@@ -8,6 +10,8 @@ namespace Buildings.CivilianBuildings
     public class CivilianBuilding : MonoBehaviour
     {
         private CivilianBuildingState status;
+        private CivilianBuildingsSO _buildingSOInfo;
+        private List<GameObject> builders;
 
         /// <summary>
         /// 0 - Undefined
@@ -35,7 +39,8 @@ namespace Buildings.CivilianBuildings
                     break;
                 case 1:
                     //Spawn minions close to building
-                    Debug.Log("FSM: SPAWN MINIONS");
+                    
+                    SpawnBuilders();
                     TransitionToState(new ConstructingCivilianBuildingState(this));
                     break;
                 case 2:
@@ -45,6 +50,24 @@ namespace Buildings.CivilianBuildings
                     TransitionToState(new DestroyedState(this));
                     break;
             }
+        }
+
+        private void SpawnBuilders()
+        {
+            Debug.Log("FSM: SPAWN MINIONS");
+            Vector2 positionToSpawn = new Vector2(this.transform.position.x + InjectorManager.Instance.BuildersOffsetToBuilding.x,
+                this.transform.position.y + InjectorManager.Instance.BuildersOffsetToBuilding.y);
+            Debug.Log("POSITION: " + positionToSpawn);
+
+            GameObject builderToSpawn = Instantiate(InjectorManager.Instance.BuilderPrefab, positionToSpawn,
+                Quaternion.identity);
+
+            builderToSpawn.transform.parent = this.transform;
+        }
+
+        public void SetReferences(CivilianBuildingsSO buildingSOInfo)
+        {
+            _buildingSOInfo = buildingSOInfo;
         }
         
         public void TransitionToState(CivilianBuildingState newState)

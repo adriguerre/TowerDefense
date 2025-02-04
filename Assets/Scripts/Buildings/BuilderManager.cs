@@ -70,6 +70,7 @@ public class BuilderManager : ISingleton<BuilderManager>
 			CivilianBuildingsManager.Instance.AddCivilianBuilding(LevelGrid.Instance.currentGridSlot.buildingID, civilianBuilding);
 			CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild = false;
 			NavigationManager.Instance.OpenScreenCanvas(TabTypes.Gameplay, false);
+			civilianBuilding.GetComponent<CivilianBuilding>().SetReferences(civilianBuildingInfo);
 		}
 		catch (Exception e)
 		{

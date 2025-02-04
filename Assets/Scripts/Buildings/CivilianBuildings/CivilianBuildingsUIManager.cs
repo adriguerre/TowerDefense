@@ -103,7 +103,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         //TODO KW: Check resources
         Debug.Log("KW: BUYING CIVILIAN BUILDING");
         //TODO KW: Cambiar el modo de pasar argumentos a ese método para no tener que buscar todo el rato ( si es madera pasa x, si es lo otro pasa y)
-        //TODO if(ResourcesManager.Instance.TryToSpendResources())
+        //TODO if(InjectorManager.Instance.TryToSpendResources())
         OnBuildingStarted?.Invoke(_currentSelectedCivilianBuilding);
         NavigationManager.Instance.CloseCurrentTab();
         CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();

@@ -1,6 +1,7 @@
 ﻿using System;
 using Buildings.CivilianBuildings;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Buildings
@@ -15,7 +16,7 @@ namespace Buildings
         [SerializeField] private Button confirmButton;
         [SerializeField] private Button cancelButton;
         
-        private CivilianBuildingsSO _civilianBuildingsSO;
+        public CivilianBuildingsSO CivilianBuildingsSO { get; private set; }
         
         private void Awake()
         {
@@ -34,7 +35,7 @@ namespace Buildings
 
         public void ActivateBuildingConfirmOption(CivilianBuildingsSO civilianBuildingInfo)
         {
-            _civilianBuildingsSO = civilianBuildingInfo;
+            CivilianBuildingsSO = civilianBuildingInfo;
             _spriteRenderer.color = Color.green;
             ConfirmBackButtons.SetActive(true);
             cancelButton.onClick.AddListener(() => CancelBuildingConstruction());
@@ -45,7 +46,7 @@ namespace Buildings
         public void ConfirmBuildingConstruction()
         {
             //TODO KW: Hay que modificar el positionTOBuild cada vez que movamos el selector a algun lado
-            BuilderManager.Instance.BuildCivilianBuildings(_civilianBuildingsSO);
+            BuilderManager.Instance.BuildCivilianBuildings(CivilianBuildingsSO);
             Destroy(this.gameObject);
         }
     }
