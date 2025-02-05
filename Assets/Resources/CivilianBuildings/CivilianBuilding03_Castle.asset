@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e2126c3183115e45bd59749737892b4, type: 3}
-  m_Name: Test
+  m_Name: CivilianBuilding03_Castle
   m_EditorClassIdentifier: 
   buildingID: 3
-  buildingIcon: {fileID: 7427445707187218192, guid: 6d830edbf7f94e949bc6c8bb13f9ff97, type: 3}
-  buildingName: Gold Mine
+  buildingIcon: {fileID: -3146623167323606182, guid: 81e83eeb9ce49d245bfc30034b5333c4, type: 3}
+  buildingName: Castle
   buildingDescription: "Una zona de tala en medio del bosque, donde los le\xF1adores
     trabajan sin descanso con hachas y sierras para derribar imponentes \xE1rboles.
     Troncos ca\xEDdos y tocones dispersos cubren el suelo, mientras carros cargados
     de madera son llevados hacia el aserradero cercano. El sonido constante del trabajo
     llena el aire, mezcl\xE1ndose con el canto de los p\xE1jaros en los \xE1rboles
     a\xFAn en pie."
-  buildingPrefab: {fileID: 4471187103977078024, guid: bda1e69b711ed0d4589d07eaa6170380, type: 3}
+  buildingPrefab: {fileID: 2179510780641455167, guid: 52146bcc179076f40801192503e24700, type: 3}
   timeToBuild: 60
   timeToUpgrade: 125
   buildSize: 6

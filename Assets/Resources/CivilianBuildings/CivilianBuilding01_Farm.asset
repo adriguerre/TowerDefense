@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e2126c3183115e45bd59749737892b4, type: 3}
-  m_Name: Farm
+  m_Name: CivilianBuilding01_Farm
   m_EditorClassIdentifier: 
   buildingID: 1
   buildingIcon: {fileID: 21300000, guid: 44a9ba87d8ee6704089eb8fa5acd9d96, type: 3}
@@ -18,7 +18,7 @@ MonoBehaviour:
   buildingDescription: "Una antigua granja medieval, rodeada de empalizadas de madera
     y campos verdes, donde campesinos trabajan la tierra con herramientas r\xFAsticas.
     Provee alimentos sustentando aldeas cercanas en tiempos de paz y guerra."
-  buildingPrefab: {fileID: 4471187103977078024, guid: 9a211e5d4f6d0734c937743e23462bfa, type: 3}
+  buildingPrefab: {fileID: 3435504987945099276, guid: 7a9478e3c98116b47af031d604ac2c26, type: 3}
   timeToBuild: 20
   timeToUpgrade: 25
   buildSize: 4

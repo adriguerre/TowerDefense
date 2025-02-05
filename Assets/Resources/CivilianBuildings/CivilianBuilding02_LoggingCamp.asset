@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e2126c3183115e45bd59749737892b4, type: 3}
-  m_Name: LoggingCamp
+  m_Name: CivilianBuilding02_LoggingCamp
   m_EditorClassIdentifier: 
   buildingID: 2
   buildingIcon: {fileID: 4764987341452958515, guid: 697409bffacbbb94cb5fc490ba1f42a2, type: 3}

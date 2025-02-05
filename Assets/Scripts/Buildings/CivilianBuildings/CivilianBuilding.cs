@@ -11,7 +11,10 @@ namespace Buildings.CivilianBuildings
     {
         private CivilianBuildingState status;
         private CivilianBuildingsSO _buildingSOInfo;
-        private List<GameObject> builders;
+        private GameObject builder;
+        private CivilianBuildingFillAmount _buildingFiller;
+
+        [SerializeField] private Sprite buildedSprite;
 
         /// <summary>
         /// 0 - Undefined
@@ -23,12 +26,13 @@ namespace Buildings.CivilianBuildings
 
         private void OnEnable()
         {
-            StartBuildingBehaviour();
+            
         }
 
         private void Update()
         {
-            status.Run();
+            if(status != null)
+                status.Run();
         }
 
         public void StartBuildingBehaviour()
@@ -41,6 +45,7 @@ namespace Buildings.CivilianBuildings
                     //Spawn minions close to building
                     
                     SpawnBuilders();
+                    SpawnConstructionUISlider();
                     TransitionToState(new ConstructingCivilianBuildingState(this));
                     break;
                 case 2:
@@ -52,22 +57,40 @@ namespace Buildings.CivilianBuildings
             }
         }
 
+        private void SpawnConstructionUISlider()
+        {
+            GameObject constructionPercentage = gameObject.transform.Find("ConstructionPercentage").gameObject;
+            _buildingFiller = constructionPercentage.GetComponentInChildren<CivilianBuildingFillAmount>();
+            _buildingFiller.StartFilling(0, _buildingSOInfo.timeToBuild);
+            _buildingFiller.onBuildingFinished += OnBuildingFinished;
+        }
+
+        private void OnBuildingFinished(object sender, EventArgs e)
+        {
+            Debug.Log("SE HA TERMINADO EL EDIFICIO " + sender.ToString());
+            CivilianBuildingFillAmount buildingFiller = sender as CivilianBuildingFillAmount;
+            buildingFiller.onBuildingFinished -= OnBuildingFinished;
+            TransitionToState(new BuildedState(this));
+            GetComponent<SpriteRenderer>().sprite = buildedSprite;
+        }
+
+
         private void SpawnBuilders()
         {
-            Debug.Log("FSM: SPAWN MINIONS");
             Vector2 positionToSpawn = new Vector2(this.transform.position.x + InjectorManager.Instance.BuildersOffsetToBuilding.x,
                 this.transform.position.y + InjectorManager.Instance.BuildersOffsetToBuilding.y);
-            Debug.Log("POSITION: " + positionToSpawn);
 
             GameObject builderToSpawn = Instantiate(InjectorManager.Instance.BuilderPrefab, positionToSpawn,
                 Quaternion.identity);
 
             builderToSpawn.transform.parent = this.transform;
+            builder =builderToSpawn;
         }
 
-        public void SetReferences(CivilianBuildingsSO buildingSOInfo)
+        public void Init(CivilianBuildingsSO buildingSOInfo)
         {
             _buildingSOInfo = buildingSOInfo;
+            StartBuildingBehaviour();
         }
         
         public void TransitionToState(CivilianBuildingState newState)

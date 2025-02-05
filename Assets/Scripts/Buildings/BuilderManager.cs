@@ -62,22 +62,21 @@ public class BuilderManager : ISingleton<BuilderManager>
 	public void BuildCivilianBuildings(CivilianBuildingsSO civilianBuildingInfo)
 	{
 		//Spawn building in position
-		try
-		{
+		// try
+		// {
 			GameObject civilianBuilding = Instantiate(civilianBuildingInfo.buildingPrefab, 
 				LevelGrid.Instance.positionToBuild, Quaternion.identity, civilianBuildingParentTransform.transform);
 			LevelGrid.Instance.currentGridSlot.AddCivilianBuildingToAllSlot(civilianBuildingInfo);
 			CivilianBuildingsManager.Instance.AddCivilianBuilding(LevelGrid.Instance.currentGridSlot.buildingID, civilianBuilding);
 			CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild = false;
 			NavigationManager.Instance.OpenScreenCanvas(TabTypes.Gameplay, false);
-			civilianBuilding.GetComponent<CivilianBuilding>().SetReferences(civilianBuildingInfo);
-		}
-		catch (Exception e)
-		{
-			Debug.LogError("There was an error building this place: " + civilianBuildingInfo.buildingName);
-			Debug.LogError("There was an error building this place [CURRENT GRID SLOT]: " + LevelGrid.Instance.currentGridSlot);
-			Debug.LogError(e.Message);
-		}
+			civilianBuilding.GetComponent<CivilianBuilding>().Init(civilianBuildingInfo);
+		// }
+		// catch (Exception e)
+		// {
+		// 	Debug.LogError("There was an error building this place: " + civilianBuildingInfo.buildingName);
+		// 	Debug.LogError(e.Message);
+		// }
 
 		
 		//Hacer lo siguiente que toque
