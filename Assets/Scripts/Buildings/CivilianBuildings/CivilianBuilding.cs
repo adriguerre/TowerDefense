@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Buildings.CivilianBuildings.CivilianBuildingFSM;
 using Game;
+using Peasants;
+using Peasants.PeasantFSM;
 using UnityEngine;
 using UnityEngine.InputSystem.OSX;
 
@@ -11,7 +13,7 @@ namespace Buildings.CivilianBuildings
     {
         private CivilianBuildingState status;
         private CivilianBuildingsSO _buildingSOInfo;
-        private GameObject builder;
+        private Peasant builder;
         private CivilianBuildingFillAmount _buildingFiller;
 
         [SerializeField] private Sprite buildedSprite;
@@ -24,15 +26,10 @@ namespace Buildings.CivilianBuildings
         /// </summary>
         private int buildingStatusFromLoad = 1;
 
-        private void OnEnable()
-        {
-            
-        }
-
         private void Update()
         {
             if(status != null)
-                status.Run();
+                status.Execute();
         }
 
         public void StartBuildingBehaviour()
@@ -44,7 +41,8 @@ namespace Buildings.CivilianBuildings
                 case 1:
                     //Spawn minions close to building
                     
-                    SpawnBuilders();
+                    //SpawnBuilders();
+                    MoveBuilderToLocation();
                     SpawnConstructionUISlider();
                     TransitionToState(new ConstructingCivilianBuildingState(this));
                     break;
@@ -56,7 +54,7 @@ namespace Buildings.CivilianBuildings
                     break;
             }
         }
-
+        
         private void SpawnConstructionUISlider()
         {
             GameObject constructionPercentage = gameObject.transform.Find("ConstructionPercentage").gameObject;
@@ -68,24 +66,43 @@ namespace Buildings.CivilianBuildings
         private void OnBuildingFinished(object sender, EventArgs e)
         {
             Debug.Log("SE HA TERMINADO EL EDIFICIO " + sender.ToString());
+            //Remove fill amount UI
             CivilianBuildingFillAmount buildingFiller = sender as CivilianBuildingFillAmount;
             buildingFiller.onBuildingFinished -= OnBuildingFinished;
+            
+            //Transition from Builded -> Start production
             TransitionToState(new BuildedState(this));
+            
+            //Peasant [Builder] transition to moving away
+            
+            //Calculate position to move away
+            Vector2 positionToMoveBuilder = new Vector2(builder.transform.position.x - InjectorManager.Instance.BuildersOffsetToMoveAwayFromBuilding.x,
+                builder.transform.position.y - InjectorManager.Instance.BuildersOffsetToMoveAwayFromBuilding.y);
+            builder.TransitionToState(new Peasant_Move(builder, positionToMoveBuilder, true));
+            builder = null;
             GetComponent<SpriteRenderer>().sprite = buildedSprite;
         }
 
-
-        private void SpawnBuilders()
+      private void MoveBuilderToLocation()
         {
             Vector2 positionToSpawn = new Vector2(this.transform.position.x + InjectorManager.Instance.BuildersOffsetToBuilding.x,
                 this.transform.position.y + InjectorManager.Instance.BuildersOffsetToBuilding.y);
-
-            GameObject builderToSpawn = Instantiate(InjectorManager.Instance.BuilderPrefab, positionToSpawn,
-                Quaternion.identity);
-
-            builderToSpawn.transform.parent = this.transform;
-            builder =builderToSpawn;
+            
+            Peasant peasant = PeasantsManager.Instance.GetClosestPeasantToPosition(positionToSpawn);
+            //Aqui hay que crear una FSM para los peasant, que estarán haciendo diferentes cosas, por ahora vamos a poner solo move
+            peasant.TransitionToState(new Peasant_Move(peasant, positionToSpawn, false));
+            builder = peasant;
         }
+        // private void SpawnBuilders()
+        // {
+        //     Vector2 positionToSpawn = new Vector2(this.transform.position.x + InjectorManager.Instance.BuildersOffsetToBuilding.x,
+        //         this.transform.position.y + InjectorManager.Instance.BuildersOffsetToBuilding.y);
+        //
+        //     GameObject builderToSpawn = Instantiate(InjectorManager.Instance.BuilderPrefab, positionToSpawn,
+        //         Quaternion.identity);
+        //     builderToSpawn.transform.parent = this.transform;
+        //     builder =builderToSpawn;
+        // }
 
         public void Init(CivilianBuildingsSO buildingSOInfo)
         {
@@ -98,7 +115,7 @@ namespace Buildings.CivilianBuildings
             if(status != null)
                 Debug.Log("FSM: TRANSITION FROM STATE: " + status.ToString() + " TO " + newState.ToString());
             this.status = newState;
-            this.status.SetStatus(this);
+            this.status.SetReference(this);
         }
     }
 }

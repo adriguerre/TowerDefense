@@ -12,11 +12,11 @@ namespace Buildings.CivilianBuildings.CivilianBuildingFSM
         }
         
 
-        public void SetStatus(CivilianBuilding newStatus)
+        public void SetReference(CivilianBuilding newStatus)
         {
             this.building = newStatus;
         }
 
-        public abstract void Run();
+        public abstract void Execute();
     }
 }

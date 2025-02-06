@@ -8,5 +8,6 @@ namespace Game
         [Header("Builders")]
         public GameObject BuilderPrefab;
         public Vector2 BuildersOffsetToBuilding;
+        public Vector2 BuildersOffsetToMoveAwayFromBuilding;
     }
 }
