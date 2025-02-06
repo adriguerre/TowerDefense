@@ -21796,6 +21796,7 @@ MonoBehaviour:
   _isPersistentAcrossScenes: 0
   BuilderPrefab: {fileID: 3398909886156459661, guid: 5a14866c74bc9f84e88be7c52e9b1db5, type: 3}
   BuildersOffsetToBuilding: {x: -0.5, y: -0.5}
+  BuildersOffsetToMoveAwayFromBuilding: {x: 0, y: 0.6}
 --- !u!1 &628466703
 GameObject:
   m_ObjectHideFlags: 0
@@ -25465,7 +25466,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00012207031}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &820917127
