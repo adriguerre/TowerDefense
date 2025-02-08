@@ -11,6 +11,7 @@ namespace Peasants.PeasantFSM
         
         public Peasant_Move(Peasant building, Vector2 location, bool isRunningFromBuilding) : base(building)
         {
+            _peasant.isBusy = true;
             targetPosition = location;
             //Activate movement animation
             this._peasant.StartMovingAnimation();
@@ -26,11 +27,14 @@ namespace Peasants.PeasantFSM
             if (Vector2.Distance(this._peasant.gameObject.transform.position, targetPosition) <= 0.2f)
             {
                 if (isRunningFromBuilding)
-                    this._peasant.TransitionToState(new Peasant_Idle(this._peasant));
+                {
+                    _peasant.isBusy = false;
+                    _peasant.TransitionToState(new Peasant_Idle(this._peasant));
+                }
                 else
-                    this._peasant.TransitionToState(new Peasant_Building(this._peasant));
+                    _peasant.TransitionToState(new Peasant_Building(this._peasant));
                 
-                this._peasant.StopMovingAnimation();
+                _peasant.StopMovingAnimation();
             }
             else
             {

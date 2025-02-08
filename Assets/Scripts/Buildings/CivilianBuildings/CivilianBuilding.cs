@@ -5,7 +5,6 @@ using Game;
 using Peasants;
 using Peasants.PeasantFSM;
 using UnityEngine;
-using UnityEngine.InputSystem.OSX;
 
 namespace Buildings.CivilianBuildings
 {
@@ -72,26 +71,39 @@ namespace Buildings.CivilianBuildings
             
             //Transition from Builded -> Start production
             TransitionToState(new BuildedState(this));
-            
+            GetComponent<SpriteRenderer>().sprite = buildedSprite;
+
             //Peasant [Builder] transition to moving away
             
             //Calculate position to move away
+            if (builder != null)
+            {
+                ChangePeasantBehaviourOnBuildedFinished();
+            }
+
+        }
+
+        private void ChangePeasantBehaviourOnBuildedFinished()
+        {
             Vector2 positionToMoveBuilder = new Vector2(builder.transform.position.x - InjectorManager.Instance.BuildersOffsetToMoveAwayFromBuilding.x,
                 builder.transform.position.y - InjectorManager.Instance.BuildersOffsetToMoveAwayFromBuilding.y);
             builder.TransitionToState(new Peasant_Move(builder, positionToMoveBuilder, true));
             builder = null;
-            GetComponent<SpriteRenderer>().sprite = buildedSprite;
         }
 
-      private void MoveBuilderToLocation()
+        private void MoveBuilderToLocation()
         {
             Vector2 positionToSpawn = new Vector2(this.transform.position.x + InjectorManager.Instance.BuildersOffsetToBuilding.x,
                 this.transform.position.y + InjectorManager.Instance.BuildersOffsetToBuilding.y);
             
             Peasant peasant = PeasantsManager.Instance.GetClosestPeasantToPosition(positionToSpawn);
-            //Aqui hay que crear una FSM para los peasant, que estarán haciendo diferentes cosas, por ahora vamos a poner solo move
-            peasant.TransitionToState(new Peasant_Move(peasant, positionToSpawn, false));
-            builder = peasant;
+
+            if (peasant != null)
+            {
+                peasant.TransitionToState(new Peasant_Move(peasant, positionToSpawn, false));
+                builder = peasant;
+            }
+ 
         }
         // private void SpawnBuilders()
         // {

@@ -7,6 +7,7 @@ namespace Peasants
     public class Peasant : MonoBehaviour
     {
         private PeasantState _peasantState;
+        [HideInInspector] public bool isBusy = false;
         private Animator _animator;
 
         private void Start()
