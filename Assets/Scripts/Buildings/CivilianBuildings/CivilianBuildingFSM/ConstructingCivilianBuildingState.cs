@@ -6,6 +6,8 @@ namespace Buildings.CivilianBuildings.CivilianBuildingFSM
     {
         public ConstructingCivilianBuildingState(CivilianBuilding building) : base(building)
         {
+            building.BuildedGameObject.SetActive(false);
+            building.ConstructionGameObject.SetActive(true);
         }
 
         public override void Execute()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 
@@ -12,6 +13,12 @@ namespace GameResources
         private int _stoneAvailable;
         private int _ironAvailable;
         private int _goldAvailable;
+        
+        private int _foodProduction;
+        private int _woodProduction;
+        private int _stoneProduction;
+        private int _ironProduction;
+        private int _goldProduction;
         
         private int _siege1Available;
         private int _siege2Available;
@@ -104,11 +111,33 @@ namespace GameResources
             //SaveManager.Instance.onDataLoaded += OnResourcesDataLoaded;
         }
 
+        private void Start()
+        {
+            //SaveManager.Instance.LoadResourcesData();
+            //MilitaryUpgradesManager.Instance.onProductionValueChanged += OnProductionValueChanged;
+            StartCoroutine(StartProduction());
+        }
+
         private void Update()
         {
             
         }
 
+        private IEnumerator StartProduction()
+        {
+            while (true)
+            {
+                FoodAvailable += _foodProduction;
+                WoodAvailable += _woodProduction;
+
+                StoneAvailable += _stoneProduction;
+                IronAvailable += _ironProduction;
+                GoldAvailable += _goldProduction;
+                
+                yield return new WaitForSeconds(1f);
+            }
+        }
+        
         public void IncreaseResources()
         {
             FoodAvailable += 2;
@@ -170,6 +199,30 @@ namespace GameResources
             Material_C_Production = e.material_C_Production;
         }
         */
+
+        public void IncreaseResourceProduction(ResourceType resourceType, int amount)
+        {
+            switch (resourceType)
+            {
+                case ResourceType.Undefined:
+                    break; 
+                case ResourceType.Food:
+                    _foodProduction += amount;
+                    break; 
+                case ResourceType.Wood:
+                    _woodProduction += amount;
+                    break; 
+                case ResourceType.Stone:
+                    _stoneProduction += amount;
+                    break; 
+                case ResourceType.Iron:
+                    _ironProduction += amount;
+                    break; 
+                case ResourceType.Gold:
+                    _goldProduction += amount;
+                    break; 
+            }
+        }
 
     }
 }

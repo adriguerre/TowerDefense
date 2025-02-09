@@ -32,6 +32,7 @@ public class ResourceCost
     public int cost;
 }
 
+[Serializable]
 public class ResourceProduced
 {
     public ResourceType resourceProduced;

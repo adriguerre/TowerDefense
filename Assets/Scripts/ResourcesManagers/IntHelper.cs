@@ -18,7 +18,7 @@ public static class IntHelper
         // Si log1000 es 0, no se agrega prefijo
         if (log1000 == 0 )
         {
-            return scaledNum.ToString("#0.00");
+            return scaledNum.ToString("##");
         }else if (log1000 == 1)
         {
             //string thousandValue = scaledNum.ToString("N6");
@@ -26,13 +26,13 @@ public static class IntHelper
             // var aux = thousandValue[5];
             // thousandValue = thousandValue.Remove(4, 1);
             // thousandValue += "." + aux;
-            string thousandValue = num.ToString("#,###.00", CultureInfo.InvariantCulture);
+            string thousandValue = num.ToString("#,###", CultureInfo.InvariantCulture);
             return thousandValue;
             //return scaledNum.ToString("N6");
         }
         else
         {
-            return scaledNum.ToString("###.00") + prefixeSI[log1000+8]; 
+            return scaledNum.ToString("###") + prefixeSI[log1000+8]; 
         }
     }
     

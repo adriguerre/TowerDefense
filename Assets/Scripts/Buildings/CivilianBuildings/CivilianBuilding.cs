@@ -5,17 +5,20 @@ using Game;
 using Peasants;
 using Peasants.PeasantFSM;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Buildings.CivilianBuildings
 {
     public class CivilianBuilding : MonoBehaviour
     {
-        private CivilianBuildingState status;
-        private CivilianBuildingsSO _buildingSOInfo;
+        private CivilianBuildingState _buildingStatus;
+        public CivilianBuildingsSO BuildingSOInfo { get; private set; }
         private Peasant builder;
         private CivilianBuildingFillAmount _buildingFiller;
+        private Coroutine _productionCoroutine;
 
-        [SerializeField] private Sprite buildedSprite;
+        [field: SerializeField] public GameObject BuildedGameObject { get; private set; }
+        [field: SerializeField] public GameObject ConstructionGameObject { get; private set; }
 
         /// <summary>
         /// 0 - Undefined
@@ -27,8 +30,8 @@ namespace Buildings.CivilianBuildings
 
         private void Update()
         {
-            if(status != null)
-                status.Execute();
+            if(_buildingStatus != null)
+                _buildingStatus.Execute();
         }
 
         public void StartBuildingBehaviour()
@@ -58,7 +61,7 @@ namespace Buildings.CivilianBuildings
         {
             GameObject constructionPercentage = gameObject.transform.Find("ConstructionPercentage").gameObject;
             _buildingFiller = constructionPercentage.GetComponentInChildren<CivilianBuildingFillAmount>();
-            _buildingFiller.StartFilling(0, _buildingSOInfo.timeToBuild);
+            _buildingFiller.StartFilling(0, BuildingSOInfo.timeToBuild);
             _buildingFiller.onBuildingFinished += OnBuildingFinished;
         }
 
@@ -71,7 +74,8 @@ namespace Buildings.CivilianBuildings
             
             //Transition from Builded -> Start production
             TransitionToState(new BuildedState(this));
-            GetComponent<SpriteRenderer>().sprite = buildedSprite;
+           
+            //GetComponent<SpriteRenderer>().sprite = buildedSprite;
 
             //Peasant [Builder] transition to moving away
             
@@ -80,7 +84,6 @@ namespace Buildings.CivilianBuildings
             {
                 ChangePeasantBehaviourOnBuildedFinished();
             }
-
         }
 
         private void ChangePeasantBehaviourOnBuildedFinished()
@@ -118,16 +121,16 @@ namespace Buildings.CivilianBuildings
 
         public void Init(CivilianBuildingsSO buildingSOInfo)
         {
-            _buildingSOInfo = buildingSOInfo;
+            BuildingSOInfo = buildingSOInfo;
             StartBuildingBehaviour();
         }
         
         public void TransitionToState(CivilianBuildingState newState)
         {
-            if(status != null)
-                Debug.Log("FSM: TRANSITION FROM STATE: " + status.ToString() + " TO " + newState.ToString());
-            this.status = newState;
-            this.status.SetReference(this);
+            if(_buildingStatus != null)
+                Debug.Log("FSM: TRANSITION FROM STATE: " + _buildingStatus.ToString() + " TO " + newState.ToString());
+            this._buildingStatus = newState;
+            this._buildingStatus.SetReference(this);
         }
     }
 }

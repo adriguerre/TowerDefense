@@ -22,8 +22,8 @@ MonoBehaviour:
     llena el aire, mezcl\xE1ndose con el canto de los p\xE1jaros en los \xE1rboles
     a\xFAn en pie."
   buildingPrefab: {fileID: 4471187103977078024, guid: 9a211e5d4f6d0734c937743e23462bfa, type: 3}
-  timeToBuild: 30
-  timeToUpgrade: 40
+  timeToBuild: 10
+  timeToUpgrade: 12
   buildSize: 6
   buildingCost1:
     resourceType: 1
@@ -31,3 +31,11 @@ MonoBehaviour:
   buildingCost2:
     resourceType: 0
     cost: 0
+  resourceProduced:
+    resourceProduced: 2
+    resourceProducedBaseLevel1: 5
+    resourceProducedBaseLevel2: 10
+    resourceProducedBaseLevel3: 15
+    timeToProduceResourceBaseLevel1: 1
+    timeToProduceResourceBaseLevel2: 1
+    timeToProduceResourceBaseLevel3: 1
