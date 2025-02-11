@@ -29,7 +29,7 @@ public class LevelGrid : Singleton<LevelGrid>
 	private List<GameObject> selectorGridBuildingsObjects;
 	public GridSlot currentGridSlot { get; private set; }
 	public Vector2 positionToBuild;
-	private LevelSO currentLevelSO;
+	public LevelSO CurrentLevelSO { get; private set; }
 
 
 	#region Level Creator
@@ -87,16 +87,17 @@ public class LevelGrid : Singleton<LevelGrid>
 	{
 		if (levelSO != null)
 		{
-			currentLevelSO = levelSO;
+			CurrentLevelSO = levelSO;
 			Debug.Log("SE esta creando un level con la info de: " + levelSO.levelName + " con un camino count de: " + levelSO.pathList.Count);
 			gridSystem = new GridManager(width, height, cellSize, levelSO);
 		}
 		else
 		{
 			LevelSO defaultLevel = Resources.Load<LevelSO>("Levels/LeveL_1");
-			currentLevelSO = defaultLevel;
+			CurrentLevelSO = defaultLevel;
 			gridSystem = new GridManager(width, height, cellSize, defaultLevel);
 		}
+		CivilianBuildingsManager.Instance.FillCivilianBuildingsDictionary(CurrentLevelSO);
 	}
 
 	/// <summary>
@@ -107,7 +108,7 @@ public class LevelGrid : Singleton<LevelGrid>
 	/// <returns></returns>
 	public Vector2 GetCenterPositionFromCivilianBuilding(int buildingID, int size)
 	{
-		foreach (var CivilianBuilding in currentLevelSO.CivilianBuildingGridPosisitions)
+		foreach (var CivilianBuilding in CurrentLevelSO.CivilianBuildingGridPosisitions)
 		{
 			if (CivilianBuilding.buildingId == buildingID)
 			{
@@ -218,7 +219,7 @@ public class LevelGrid : Singleton<LevelGrid>
 	/// <param name="gridSlotParent"></param>
 	public void LinkGridSlotsToBuilding(CivilianBuildingsSO building, GridSlot gridSlotParent)
 	{
-		foreach (var civilianBuildingsPosition in currentLevelSO.CivilianBuildingGridPosisitions)
+		foreach (var civilianBuildingsPosition in CurrentLevelSO.CivilianBuildingGridPosisitions)
 		{
 			if (civilianBuildingsPosition.gridPositionList.Contains(gridSlotParent._gridPosition))
 			{
@@ -240,13 +241,13 @@ public class LevelGrid : Singleton<LevelGrid>
 		CivilianBuildingGridPosition closestBuildingObject = null;
 		GridPosition closestPosition = gridSystem.GetGridSlotFromMousePosition()._gridPosition;
 		double minDistance = 100;
-		foreach (var civilianBuilding in currentLevelSO.CivilianBuildingGridPosisitions)
+		foreach (var civilianBuilding in CurrentLevelSO.CivilianBuildingGridPosisitions)
 		{
 			if (civilianBuilding.size >= size)
 			{
 				foreach (var gridPosition in civilianBuilding.gridPositionList)
 				{
-					if (!CivilianBuildingsManager.Instance.CivilianBuildingsDictionary.ContainsKey(civilianBuilding
+					if (!CivilianBuildingsManager.Instance.CurrentCivilianBuildingsDictionary.ContainsKey(civilianBuilding
 						    .buildingId)) //Make sure this spot is not take by other building
 					{
 						if (gridPosition.DistanceTo(closestPosition) < minDistance)
@@ -469,12 +470,11 @@ public class LevelGrid : Singleton<LevelGrid>
 		    Mathf.RoundToInt(worldPosition.x / cellSize),
 		    Mathf.RoundToInt(worldPosition.y / cellSize));
     }
-    
-    #region Private Methods 
-    #endregion 
 
-    #region Getter & Setters 
-    #endregion 	
+    public int GetSizeFromBuildingID(int buildingID)
+    {
+	    return CurrentLevelSO.CivilianBuildingGridPosisitions.Find(t => t.buildingId == buildingID).size;
+    }
 	
 
 

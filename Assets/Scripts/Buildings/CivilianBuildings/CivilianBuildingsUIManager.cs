@@ -24,6 +24,11 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     public bool isPanelOpenedFromPopup { get; private set; }
     public Action<CivilianBuildingsSO> OnBuildingStarted;
     public Action<CivilianBuildingsSO> OnChoosingBuildingPlace;
+
+    /// <summary>
+    /// Int -> Building size
+    /// </summary>
+    public Action<CivilianBuildingsSO> OnSpawnBlockers;
     
     public bool playerIsChoosingPlaceToCivilianBuild { get; set; }
     
@@ -76,9 +81,11 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
 
     private void StartSelectionMode()
     {
+        
+        //Block all buildings slots that are not available
+        OnSpawnBlockers?.Invoke(_currentSelectedCivilianBuilding);
         //START SELECTION MODE
         CivilianBuildingGridPosition closestBuilding = LevelGrid.Instance.GetClosestCivilianBuildingToMousePositionAndActivateGrid(_currentSelectedCivilianBuilding.buildSize);
-           
         if (closestBuilding == null)
         {
             Debug.Log("NO AVAILABLE CIVILIAN BUILDING");

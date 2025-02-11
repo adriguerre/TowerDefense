@@ -9,6 +9,7 @@ public class CivilianBuildingsSO : ScriptableObject
     private int[] sizeValues = new int[] { 4, 6 };
     
     public int buildingID;
+    [ShowAssetPreview]
     public Sprite buildingIcon;
     public string buildingName;
     [TextArea(10,30)]

@@ -1,4 +1,5 @@
 using System;
+using Buildings.CivilianBuildings;
 using LoadingMainGame;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -59,6 +60,8 @@ public class GameManager : Singleton<GameManager>
             await LevelGrid.Instance.CreateLevel(levelInfo);
             LoadSceneManager.Instance.OnGameLoaded();
             ActivateComponentsAfterLoading();
+            CivilianBuildingsManager.Instance.FillCivilianBuildingsDictionary(levelInfo);
+
         }
         else
         {

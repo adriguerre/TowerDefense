@@ -21,7 +21,7 @@ MonoBehaviour:
     de madera son llevados hacia el aserradero cercano. El sonido constante del trabajo
     llena el aire, mezcl\xE1ndose con el canto de los p\xE1jaros en los \xE1rboles
     a\xFAn en pie."
-  buildingPrefab: {fileID: 4471187103977078024, guid: 9a211e5d4f6d0734c937743e23462bfa, type: 3}
+  buildingPrefab: {fileID: 2179510780641455167, guid: 52146bcc179076f40801192503e24700, type: 3}
   timeToBuild: 10
   timeToUpgrade: 12
   buildSize: 6

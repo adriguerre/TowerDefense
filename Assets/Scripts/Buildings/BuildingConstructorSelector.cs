@@ -9,6 +9,7 @@ namespace Buildings
     public class BuildingConstructorSelector : MonoBehaviour
     {
 
+        private GameObject constructionPlaceholder;
         private SpriteRenderer _spriteRenderer;
         
         [Header("Confirm Back Buttons")]
@@ -20,9 +21,8 @@ namespace Buildings
         
         private void Awake()
         {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            
-
+            constructionPlaceholder = transform.Find("Construction").gameObject;
+            _spriteRenderer = constructionPlaceholder.transform.Find("BuildingSprite").GetComponent<SpriteRenderer>();
         }
 
         private void CancelBuildingConstruction()
@@ -36,6 +36,7 @@ namespace Buildings
         public void ActivateBuildingConfirmOption(CivilianBuildingsSO civilianBuildingInfo)
         {
             CivilianBuildingsSO = civilianBuildingInfo;
+            constructionPlaceholder.SetActive(true);
             _spriteRenderer.color = Color.green;
             ConfirmBackButtons.SetActive(true);
             cancelButton.onClick.AddListener(() => CancelBuildingConstruction());

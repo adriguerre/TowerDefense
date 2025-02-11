@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using SaveManager;
 using UnityEngine;
 
 
@@ -108,19 +109,21 @@ namespace GameResources
         {
             base.Awake();
                 
-            //SaveManager.Instance.onDataLoaded += OnResourcesDataLoaded;
+            SaveManager.SaveManager.Instance.onDataLoaded += OnResourcesDataLoaded;
         }
+
+        private void OnResourcesDataLoaded(object sender, ResourcesDataDTO e)
+        {
+            LoadResourcesData(e);
+        }
+
+
 
         private void Start()
         {
-            //SaveManager.Instance.LoadResourcesData();
+            SaveManager.SaveManager.Instance.LoadResourcesDataEncrypted();
             //MilitaryUpgradesManager.Instance.onProductionValueChanged += OnProductionValueChanged;
             StartCoroutine(StartProduction());
-        }
-
-        private void Update()
-        {
-            
         }
 
         private IEnumerator StartProduction()
@@ -156,6 +159,20 @@ namespace GameResources
             IronAvailable -= 1;
             GoldAvailable -= 1;
         }
+        
+        private void LoadResourcesData(ResourcesDataDTO resourcesDataDto)
+        {
+            this._foodAvailable = resourcesDataDto.FoodAvailable;
+            this._woodAvailable = resourcesDataDto.WoodAvailable;
+            this._stoneAvailable = resourcesDataDto.StoneAvailable;
+            this._ironAvailable = resourcesDataDto.IronAvailable;
+            this._goldAvailable = resourcesDataDto.GoldAvailable;
+            this._foodProduction = resourcesDataDto.FoodProduction;
+            this._woodProduction = resourcesDataDto.WoodProduction;
+            this._stoneProduction = resourcesDataDto.StoneProduction;
+            this._ironProduction = resourcesDataDto.IronProduction;
+            this._goldProduction = resourcesDataDto.GoldProduction;
+        }
         public bool TryToSpendResources(int food, int wood, int stone, int iron, int gold)
         {
             if (usingResourcesInTestingMode)
@@ -178,27 +195,6 @@ namespace GameResources
 
             return false;
         }
-        /*
-        private void OnResourcesDataLoaded(object sender, ResourcesDataDTO e)
-        {
-            LoadData(e);
-        }
-
-        private void LoadData(ResourcesDataDTO e)
-        {
-            PrestigePointsAvailable = e.prestigePointsAvailable;
-            SoldiersAvailable = e.soldiersAvailable;
-            SoldiersProduction = e.soldiersProduction;
-            MineralsAvailable = e.mineralsAvailable;
-            MineralsProduction = e.mineralsProduction;
-            Material_A_Available = e.material_A_Available;
-            Material_A_Production = e.material_A_Production;
-            Material_B_Available = e.material_B_Available;
-            Material_B_Production = e.material_B_Production;
-            Material_C_Available = e.material_C_Available;
-            Material_C_Production = e.material_C_Production;
-        }
-        */
 
         public void IncreaseResourceProduction(ResourceType resourceType, int amount)
         {
@@ -222,6 +218,12 @@ namespace GameResources
                     _goldProduction += amount;
                     break; 
             }
+        }
+        public ResourcesDataDTO GetResourcesDataDTO()
+        {
+            return new ResourcesDataDTO(_foodAvailable, _woodAvailable, _stoneAvailable,
+                _ironAvailable, _goldAvailable, _foodProduction, _woodProduction, _stoneProduction, _ironProduction,
+                _goldProduction);
         }
 
     }
