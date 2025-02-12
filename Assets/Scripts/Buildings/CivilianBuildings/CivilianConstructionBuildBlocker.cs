@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Buildings.CivilianBuildings
 {
-    public class CivilianConstructionBuildBlocker : MonoBehaviour
+    public class CivilianConstructionBuildBlocker : ISingleton<CivilianConstructionBuildBlocker>
     {
         [SerializeField] private GameObject CivilianBuildingBlockerSize4Prefab;
         [SerializeField] private GameObject CivilianBuildingBlockerSize6Prefab;
@@ -18,6 +18,12 @@ namespace Buildings.CivilianBuildings
             CivilianBuildingsUIManager.Instance.OnSpawnBlockers += SpawnBlockers;
         }
 
+        private void OnDestroy()
+        {
+            CivilianBuildingsUIManager.Instance.OnSpawnBlockers -= SpawnBlockers;
+
+        }
+
         private void Start()
         {
             civilianBuildingBlockers = new List<GameObject>();
@@ -25,7 +31,7 @@ namespace Buildings.CivilianBuildings
 
         private void SpawnBlockers(CivilianBuildingsSO buildingInfo)
         {
-            List<BlockInfo> blockersPositions = CivilianBuildingsManager.Instance.GetCivilianBuildingToBlock();
+            List<BlockInfo> blockersPositions = CivilianBuildingsManager.Instance.GetCivilianBuildingToBlock(buildingInfo);
 
             foreach (var blockPosition in blockersPositions)
             {
@@ -36,6 +42,15 @@ namespace Buildings.CivilianBuildings
                     civilianBuildingBlockers.Add(Instantiate(CivilianBuildingBlockerSize6Prefab, blockPosition.blockPosition, Quaternion.identity));
 
             }
+        }
+
+        public void DestroySpawnBlockers()
+        {
+            foreach (var blocker in civilianBuildingBlockers)
+            {
+                Destroy(blocker.gameObject);
+            }
+            civilianBuildingBlockers.Clear();
         }
     }
 

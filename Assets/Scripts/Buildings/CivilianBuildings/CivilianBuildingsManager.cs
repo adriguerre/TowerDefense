@@ -37,17 +37,30 @@ namespace Buildings.CivilianBuildings
             }
         }
 
-        public List<BlockInfo> GetCivilianBuildingToBlock()
+        public List<BlockInfo> GetCivilianBuildingToBlock(CivilianBuildingsSO constructionBuildingInfo)
         {
             List<BlockInfo> blockerList = new List<BlockInfo>();
-            foreach (var ownedBuilding in CurrentCivilianBuildingsDictionary)
+            foreach (var ownedBuilding in AllCivilianBuildingsPositions)
             {
                 int buildingSize = LevelGrid.Instance.GetSizeFromBuildingID(ownedBuilding.Key);
-                BlockInfo blockInfo = new BlockInfo(ownedBuilding.Key, buildingSize,
-                    AllCivilianBuildingsPositions[ownedBuilding.Key]);
-                blockerList.Add(blockInfo);
+                
+                if (CurrentCivilianBuildingsDictionary.ContainsKey(ownedBuilding.Key))
+                {
+                   BlockInfo blockInfo = new BlockInfo(ownedBuilding.Key, buildingSize,
+                       AllCivilianBuildingsPositions[ownedBuilding.Key]);
+                   blockerList.Add(blockInfo); 
+                }
+                else
+                {
+                    //Check if there is no space even if it is free
+                    if (buildingSize < constructionBuildingInfo.buildSize)
+                    {
+                        BlockInfo blockInfo = new BlockInfo(ownedBuilding.Key, buildingSize,
+                            AllCivilianBuildingsPositions[ownedBuilding.Key]);
+                        blockerList.Add(blockInfo);
+                    }
+                }
             }
-            
             return blockerList;
         }
         

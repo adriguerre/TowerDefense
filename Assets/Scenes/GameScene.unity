@@ -31749,8 +31749,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedc1dad5bbf43bfb79cecd9d4e3513b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CivilianBuildingBlockerSize4Prefab: {fileID: 5029062140957245550, guid: 322785a18b534884e8f7bba9b55b7fcd, type: 3}
-  CivilianBuildingBlockerSize6Prefab: {fileID: 5029062140957245550, guid: d27da31450e3f4d44841776a78ea8eba, type: 3}
+  _isPersistentAcrossScenes: 0
+  CivilianBuildingBlockerSize4Prefab: {fileID: 5029062140957245550, guid: c0c6ec01f96ad6c4d9abd911e231832e, type: 3}
+  CivilianBuildingBlockerSize6Prefab: {fileID: 5029062140957245550, guid: 4ced6fa18573d2e4da81ca940f24648d, type: 3}
 --- !u!1001 &1051841583
 PrefabInstance:
   m_ObjectHideFlags: 0

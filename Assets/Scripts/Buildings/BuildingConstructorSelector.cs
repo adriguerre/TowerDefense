@@ -25,13 +25,6 @@ namespace Buildings
             _spriteRenderer = constructionPlaceholder.transform.Find("BuildingSprite").GetComponent<SpriteRenderer>();
         }
 
-        private void CancelBuildingConstruction()
-        {
-            
-            CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild = false;
-            LevelGrid.Instance.DestroyGridBuildPrefab();
-            Destroy(this.gameObject);
-        }
 
         public void ActivateBuildingConfirmOption(CivilianBuildingsSO civilianBuildingInfo)
         {
@@ -43,10 +36,18 @@ namespace Buildings
             confirmButton.onClick.AddListener(() => ConfirmBuildingConstruction());
 
         }
+        
+        private void CancelBuildingConstruction()
+        {
+            CivilianConstructionBuildBlocker.Instance.DestroySpawnBlockers();
+            CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild = false;
+            LevelGrid.Instance.DestroyGridBuildPrefab();
+            Destroy(this.gameObject);
+        }
 
         public void ConfirmBuildingConstruction()
         {
-            //TODO KW: Hay que modificar el positionTOBuild cada vez que movamos el selector a algun lado
+            CivilianConstructionBuildBlocker.Instance.DestroySpawnBlockers();
             BuilderManager.Instance.BuildCivilianBuildings(CivilianBuildingsSO);
             Destroy(this.gameObject);
         }
