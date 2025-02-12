@@ -219,6 +219,32 @@ namespace GameResources
                     break; 
             }
         }
+
+        public bool GetIfHasResources(ResourceCost resourceCost)
+        {
+            switch (resourceCost.resourceType)
+            {
+                case ResourceType.Undefined:
+                    break; 
+                case ResourceType.Food:
+                    return _foodAvailable >= resourceCost.cost;
+                    break; 
+                case ResourceType.Wood:
+                    return _woodAvailable >= resourceCost.cost;
+                    break; 
+                case ResourceType.Stone:
+                    return _stoneAvailable >= resourceCost.cost;
+                    break; 
+                case ResourceType.Iron:
+                    return _ironAvailable >= resourceCost.cost;
+                    break; 
+                case ResourceType.Gold:
+                    return _goldAvailable >= resourceCost.cost;
+                    break; 
+            }
+
+            return false;
+        }
         public ResourcesDataDTO GetResourcesDataDTO()
         {
             return new ResourcesDataDTO(_foodAvailable, _woodAvailable, _stoneAvailable,

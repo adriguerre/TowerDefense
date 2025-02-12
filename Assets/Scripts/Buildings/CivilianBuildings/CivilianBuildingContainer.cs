@@ -1,4 +1,5 @@
 using System;
+using Game;
 using GameResources;
 using TMPro;
 using Unity.VisualScripting;
@@ -15,6 +16,8 @@ public class CivilianBuildingContainer : MonoBehaviour
     private TextMeshProUGUI _buildTimeText;
     private TextMeshProUGUI _upgradeTimeText;
     private TextMeshProUGUI _gridSizeText;
+    private Image _resourceProductionIcon;
+    private TextMeshProUGUI _resourceProductionText;
 
     private TextMeshProUGUI _buildingCost1Text;
     private Image _buildingCost1Image;
@@ -25,13 +28,91 @@ public class CivilianBuildingContainer : MonoBehaviour
     private GameObject _selectorObject;
     private GameObject _noSizeAdvisorGameObject;
 
-    public ResourceType resourceType1;
-
+    [SerializeField] private bool buttonIsActivated = false;
+    private bool panelIsShowing;
     private void Awake()
     {
         SetReferences();
+        _containerButton.interactable = false;
+        buttonIsActivated = false;
     }
 
+    private void Update()
+    {
+        if (!panelIsShowing)
+        {
+            return;
+        }
+
+        if (TestingManager.Instance != null && TestingManager.Instance.ResourcesNotNeeded)
+        {
+            _containerButton.interactable = true;
+            buttonIsActivated = true;
+            return;
+        }
+        if (_civilianBuildingInfo.buildingCost2.resourceType == ResourceType.Undefined)
+        {
+            //Check only resource 1
+            HandleResourcesText(_civilianBuildingInfo.buildingCost1, _buildingCost1Text, true);
+        }
+        else
+        {
+            //Check both resources
+            CheckBothResources();
+        }
+   
+    }
+
+    private void CheckBothResources()
+    {
+        if (HandleResourcesText(_civilianBuildingInfo.buildingCost1, _buildingCost1Text, false) && 
+            HandleResourcesText(_civilianBuildingInfo.buildingCost2, _buildingCost2Text, false) )
+        {
+            if (!buttonIsActivated)
+            {
+                _containerButton.interactable = true;
+                buttonIsActivated = true;
+            }
+        }
+        else
+        {
+            if (buttonIsActivated)
+            {
+                _containerButton.interactable = false;
+                buttonIsActivated = false;
+            }
+        }
+    }
+
+    private bool HandleResourcesText(ResourceCost cost, TextMeshProUGUI costText, bool blockButton)
+    {
+        //Dont have resources
+        if (!ResourcesManager.Instance.GetIfHasResources(cost))
+        {
+            costText.color = Color.red;
+            if (blockButton)
+            {
+                if (buttonIsActivated)
+                {
+                    _containerButton.interactable = false;
+                    buttonIsActivated = false;
+                }
+            }
+            return false;
+        }
+        //Has resources
+        costText.color = Color.white;
+        if (blockButton)
+        {
+            if (!buttonIsActivated)
+            {
+                _containerButton.interactable = true;
+                buttonIsActivated = true;
+            }
+        }
+
+        return true;
+    }
 
     private void SelectBuilding()
     {
@@ -60,6 +141,14 @@ public class CivilianBuildingContainer : MonoBehaviour
         _noSizeAdvisorGameObject.SetActive(false);
     }
 
+    public void StartRefreshingIfPlayerHasResources()
+    {
+        panelIsShowing = true;
+    }
+    public void StopRefreshingIfPlayerHasResources()
+    {
+        panelIsShowing = false;
+    }
     /// <summary>
     /// Set properties of a single container
     /// </summary>
@@ -73,6 +162,9 @@ public class CivilianBuildingContainer : MonoBehaviour
         _buildTimeText.text = _civilianBuildingInfo.timeToBuild.ToString();
         _upgradeTimeText.text = _civilianBuildingInfo.timeToUpgrade.ToString();
         _gridSizeText.text = _civilianBuildingInfo.buildSize.ToString();
+
+        _resourceProductionText.text = _civilianBuildingInfo.resourceProduced.resourceProducedBaseLevel1.ToString();
+        _resourceProductionIcon.sprite = CivilianBuildingsUIManager.Instance.GetSpriteFromResource(_civilianBuildingInfo.resourceProduced.resourceProduced);
         
         _buildingCost1Text.text = _civilianBuildingInfo.buildingCost1.cost.ToString();
         _buildingCost1Image.sprite = CivilianBuildingsUIManager.Instance.GetSpriteFromResource(_civilianBuildingInfo.buildingCost1.resourceType);
@@ -95,6 +187,9 @@ public class CivilianBuildingContainer : MonoBehaviour
         _buildTimeText = transform.Find("BuildingInfo/Timers/BuildTime/BuildTimeText").GetComponent<TextMeshProUGUI>();
         _upgradeTimeText = transform.Find("BuildingInfo/Timers/UpgradeTime/UpgradeTimeText").GetComponent<TextMeshProUGUI>();
         _gridSizeText = transform.Find("BuildingInfo/Timers/BuildSize/BuildSizeText").GetComponent<TextMeshProUGUI>();
+        
+        _resourceProductionIcon = transform.Find("BuildingInfo/Timers/ResourceProduction/ResourceProductionIcon").GetComponent<Image>();
+        _resourceProductionText = transform.Find("BuildingInfo/Timers/ResourceProduction/ResourceProductionText").GetComponent<TextMeshProUGUI>();
         
         _buildingCost1Text = transform.Find("ResourcesCost/Button/ResourcesCost/Cost1/Resource1Cost").GetComponent<TextMeshProUGUI>();
         _buildingCost1Image = transform.Find("ResourcesCost/Button/ResourcesCost/Cost1/Resource1Icon").GetComponent<Image>();

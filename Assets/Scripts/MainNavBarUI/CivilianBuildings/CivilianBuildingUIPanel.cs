@@ -7,6 +7,8 @@ public class CivilianBuildingUIPanel : Singleton<CivilianBuildingUIPanel>
     private Canvas civilianBuilding;
 
     public static Action onCivilianBuildingOpenedWithoutPopup;
+    public static Action onCivilianBuildingOpened;
+    public static Action onCivilianBuildingClosed;
 
     private void Awake()
     {
@@ -21,11 +23,15 @@ public class CivilianBuildingUIPanel : Singleton<CivilianBuildingUIPanel>
         if(!isComingFromPopUp)
             onCivilianBuildingOpenedWithoutPopup?.Invoke();
         
+        onCivilianBuildingOpened?.Invoke();
+        
     }
     
     public void CloseCivilianBuildingUI()
     {
         civilianBuilding.enabled = false;
         this.gameObject.SetActive(false);
+        onCivilianBuildingClosed?.Invoke();
+
     }
 }

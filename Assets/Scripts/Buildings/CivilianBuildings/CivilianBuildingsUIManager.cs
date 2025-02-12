@@ -17,7 +17,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     [SerializeField] private Button buildButton;
     private TextMeshProUGUI buildingButtonText;
     [SerializeField] private GameObject gridContainerInCanvas;
-    private List<CivilianBuildingContainer> civilianBuildingContainersList;
+    private List<CivilianBuildingContainer> _civilianBuildingContainersList;
     private List<CivilianBuildingsSO> _civilianBuildings;
     private CivilianBuildingsSO _currentSelectedCivilianBuilding;
     private CivilianBuildingContainer _currentContainerSelected;
@@ -44,21 +44,42 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         base.Awake();
         _civilianBuildings = new List<CivilianBuildingsSO>();
         _civilianBuildings = Resources.LoadAll<CivilianBuildingsSO>("CivilianBuildings").ToList();
-        civilianBuildingContainersList = new List<CivilianBuildingContainer>();
+        _civilianBuildingContainersList = new List<CivilianBuildingContainer>();
         buildingButtonText = buildButton.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Start()
     {
         CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += OnUIOpenedWithoutPopup;
+        CivilianBuildingUIPanel.onCivilianBuildingOpened += OnUIOpened;
+        CivilianBuildingUIPanel.onCivilianBuildingClosed += OnUIClosed;
         SpawnBuildingContainersInPanel();
         buildButton.onClick.AddListener(() => BuildCivilianBuilding());
+    }
+
+    private void OnDisable()
+    {
+        CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += OnUIOpenedWithoutPopup;
+        CivilianBuildingUIPanel.onCivilianBuildingOpened -= OnUIOpened;
+        CivilianBuildingUIPanel.onCivilianBuildingClosed -= OnUIClosed;
+        
+    }
+
+    private void OnUIClosed()
+    {
+        StopRefreshingContainerStatus();
+    }
+
+    private void OnUIOpened()
+    {
+        StartRefreshingContainerStatus();
     }
 
     private void OnUIOpenedWithoutPopup()
     {
         UnblockAllBuildingsInUIPanel();
     }
+
 
     /// <summary>
     /// Method used to start building a civilian house in case of beign in popup, or start selection mode
@@ -129,7 +150,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
                 gridContainerInCanvas.transform);
             CivilianBuildingContainer container = newBuilding.GetComponent<CivilianBuildingContainer>();
             container.SetProperties(building);
-            civilianBuildingContainersList.Add(container);
+            _civilianBuildingContainersList.Add(container);
         }
     }
     
@@ -140,7 +161,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     public void BlockBuildingsWithLargerSizeInUIPanel(int size)
     {
         isPanelOpenedFromPopup = true;
-        foreach (var containers in civilianBuildingContainersList)
+        foreach (var containers in _civilianBuildingContainersList)
         {
             if (containers._civilianBuildingInfo.buildSize > size)
             {
@@ -159,7 +180,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     public void UnblockAllBuildingsInUIPanel()
     {
         isPanelOpenedFromPopup = false;
-        foreach (var containers in civilianBuildingContainersList)
+        foreach (var containers in _civilianBuildingContainersList)
         {
             containers.UnblockContainer();
         }
@@ -198,6 +219,31 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         _currentContainerSelected = null;
         buildingButtonText.text = "Build";
     }
+    
+    
+    /// <summary>
+    /// Methods to update text / container if there aren't enough resources
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    private void StartRefreshingContainerStatus()
+    {
+        foreach (var container in _civilianBuildingContainersList)
+        {
+            container.StartRefreshingIfPlayerHasResources();
+        }
+    }
+    
+    /// <summary>
+    /// Methods to update text / container if there aren't enough resources
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    private void StopRefreshingContainerStatus()
+    {
+        foreach (var container in _civilianBuildingContainersList)
+        {
+            container.StopRefreshingIfPlayerHasResources();
+        }
+    }
 
     /// <summary>
     /// This is a helper method, used to get sprites from resources
@@ -226,7 +272,6 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
                 return goldSprite;
                 break; 
         }
-
         return null;
     }
 }
