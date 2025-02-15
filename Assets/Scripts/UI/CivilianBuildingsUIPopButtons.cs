@@ -14,7 +14,7 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
     public Action onCameraCenterCompleted;
     private Vector2 buildingInPosition;
     private int buildingSize;
-
+    private GridSlot popupOnGridSlot;
     [SerializeField] private Button buildButton;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button destroyButton;
@@ -35,14 +35,13 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
     {
         buildingSize = gridSlot.buildingSize;
         buildingInPosition = position;
+        popupOnGridSlot = gridSlot;
         CameraScroll.Instance.SetIfPlayerCanMoveCamera(false);
-
         CameraScroll.Instance.CenterCameraOnBuildingWithCallback(position.y, onCameraCenterCompleted);
 
         buildButton.onClick.RemoveAllListeners();
         upgradeButton.onClick.RemoveAllListeners();
         destroyButton.onClick.RemoveAllListeners();
-        HandleButtonsVisibility(gridSlot);
         
     }
 
@@ -86,6 +85,8 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
     {
         civilianBuildUI.SetActive(true);
         CivilianBuildingUIBlocker.onPanelClick += OnPanelClick;
+        HandleButtonsVisibility(popupOnGridSlot);
+
         _animator.SetTrigger("onEnable");
         civilianBuildUI.transform.position = Camera.main.WorldToScreenPoint(buildingInPosition);
     }
