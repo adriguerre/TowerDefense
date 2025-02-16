@@ -1,4 +1,5 @@
 using System;
+using PopupSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -51,7 +52,6 @@ namespace MainNavBarUI
 		{
         
 		}
-
 		void Start()
 		{
 			button1.onClick.AddListener(() => OpenScreenCanvas(TabTypes.Button1));
@@ -65,14 +65,7 @@ namespace MainNavBarUI
 
 			OpenScreenCanvas(TabTypes.Gameplay);
 		}
-
-		private void Update()
-		{
-			//if (Input.GetKeyDown(KeyCode.Escape))
-			//{
-			//	CloseCurrentTab();
-			//}
-		}
+		
 
 		#endregion
 		
@@ -150,7 +143,8 @@ namespace MainNavBarUI
 					currentButtonClicked = button4;
 					break;		
 				case TabTypes.Button5:
-					OpenModsScreen();
+					PopupManager.Instance.ShowWorkInProgressPopup();
+					//OpenModsScreen();
 					currentButtonClicked = button5;
 					break;				
 				case TabTypes.Settings:

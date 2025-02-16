@@ -1,10 +1,11 @@
 ﻿using PopupSystem.PopupFactory;
+using PopupSystem.Popups.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace PopupSystem
 {
-    public class PopupManager : MonoBehaviour
+    public class PopupManager : ISingleton<PopupManager>
     {
         [SerializeField] private PopupsLibrary _popupsLibrary;
         [SerializeField] private Transform _prefabsRoot;
@@ -23,5 +24,15 @@ namespace PopupSystem
             _buttonUrgent.onClick.AddListener(() =>
                 _popupMessageService.PushPopup(new ErrorPopupData(Priority.Urgent, "Urgent error", "Error")));*/
         }
+        public void ShowWorkInProgressPopup()
+        {
+            _popupMessageService.PushPopup(new InfoPopupData(Priority.Low, "This feature is still in development. Stay tuned for updates!", "Work In Progress"));
+        }
+
+        public void ShowInfoPopup(Priority priority, string message, string title)
+        {
+            _popupMessageService.PushPopup(new InfoPopupData(priority, message, title));
+        }
+        
     }
 }
