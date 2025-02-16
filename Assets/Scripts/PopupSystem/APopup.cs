@@ -12,6 +12,7 @@ namespace PopupSystem
         [SerializeField] protected Button _closeButton;
         [SerializeField] protected Button _acceptButton;
 
+        private Animator _animator;
         public event Action OnOpened;
         public event Action<PopupResultData> OnClosed;
         public event Action OnHide;
@@ -24,6 +25,8 @@ namespace PopupSystem
             {
                 _closeButton.onClick.AddListener(Close);
             }
+            
+            _animator = GetComponentInChildren<Animator>();
         }
 
         protected virtual void Start()

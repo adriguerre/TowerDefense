@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: PopupLibrary
   m_EditorClassIdentifier: 
   PopupItems:
-  - Type: Info
+  - Type: InfoPopupData
     Popup: {fileID: 2898990286247173811, guid: ad0c129af9ea8c64ea5849750dd23263, type: 3}
+  - Type: DestroyBuildingPopupData
+    Popup: {fileID: 7575664460918606102, guid: 4f6942bf664601441ae5174346e9b0c6, type: 3}

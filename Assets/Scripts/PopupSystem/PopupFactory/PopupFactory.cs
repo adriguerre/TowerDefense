@@ -23,7 +23,6 @@ namespace PopupSystem.PopupFactory
             
             //get popup prefab from the popups library
             //system search for the prefab by the input APopupData type
-            Debug.Log(popupData.GetType().Name);
             var data = _popupsLibrary.PopupItems.FirstOrDefault(t => t.Type.Equals(popupData.GetType().Name));
             if (data == null)
             {

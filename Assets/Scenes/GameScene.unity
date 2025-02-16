@@ -35763,6 +35763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66cd93757b004ef884f8ae60764d6db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPersistentAcrossScenes: 0
   _popupsLibrary: {fileID: 11400000, guid: a20a8846c5e62844782821764063d231, type: 2}
   _prefabsRoot: {fileID: 1206926575}
   _buttonSettings: {fileID: 0}

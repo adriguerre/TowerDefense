@@ -63,7 +63,15 @@ namespace Buildings.CivilianBuildings
             }
             return blockerList;
         }
-        
+
+        public void DestroyBuilding(int locationID)
+        {
+            if (CurrentCivilianBuildingsDictionary.ContainsKey(locationID))
+            {
+                Destroy(CurrentCivilianBuildingsDictionary[locationID]);
+                CurrentCivilianBuildingsDictionary.Remove(locationID);
+            }
+        }
     }
     
 

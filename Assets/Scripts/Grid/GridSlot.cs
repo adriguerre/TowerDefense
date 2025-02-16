@@ -38,6 +38,18 @@ public class GridSlot
 	    civilianBuildingSO = building;
     }
 
+    public void RemoveCivilianBuildingFromAllSlots()
+    {
+	    //This should be linked to all the linked positions
+	    LevelGrid.Instance.UnlinkBuildingFromAllCloseSlots(this);
+	    civilianBuildingSO = null;
+    }
+
+    public void RemoveCivilianBuildingFromSlot()
+    {
+	    civilianBuildingSO = null;
+    }
+
     public CivilianBuildingsSO GetBuildingInGridSlot()
     {
 	    return civilianBuildingSO;

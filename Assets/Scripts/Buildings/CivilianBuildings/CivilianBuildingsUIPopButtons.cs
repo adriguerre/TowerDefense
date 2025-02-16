@@ -1,5 +1,6 @@
 using System;
 using MainNavBarUI;
+using PopupSystem;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -67,7 +68,8 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
 
     private void DestroyCivilianBuilding(Vector2 vector2)
     {
-       
+        GridSlot buildingGridSlot = popupOnGridSlot;
+        PopupManager.Instance.ShowDestroyBuildingPopup(buildingGridSlot);
     }
 
     private void UpgradeCivilianBuildingPopUp(Vector2 vector2)
@@ -107,8 +109,6 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
         LevelGrid.Instance.DestroyGridBuildPrefab();
         // buildingSize = 0;
         CameraScroll.Instance.SetIfPlayerCanMoveCamera(true);
-
-
     }
 
 

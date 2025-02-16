@@ -235,6 +235,25 @@ public class LevelGrid : Singleton<LevelGrid>
 			}
 		}
 	}
+
+	public void UnlinkBuildingFromAllCloseSlots(GridSlot gridSlotParent)
+	{
+		foreach (var civilianBuildingsPosition in CurrentLevelSO.CivilianBuildingGridPosisitions)
+		{
+			if (civilianBuildingsPosition.gridPositionList.Contains(gridSlotParent._gridPosition))
+			{
+				foreach (var gridPosition in civilianBuildingsPosition.gridPositionList)
+				{
+					if (gridSlotParent._gridPosition != gridPosition)
+					{
+						GridSlot slot = gridSystem.GetGridSlotFromGridPosition(gridPosition);
+						slot.RemoveCivilianBuildingFromSlot();
+					}
+				}
+				return;
+			}
+		}
+	}
 	
 	public CivilianBuildingGridPosition GetClosestCivilianBuildingToMousePositionAndActivateGrid(int size)
 	{

@@ -28,7 +28,6 @@ namespace PopupSystem
                 Debug.LogError($"[{nameof(PopupMessageService)}] - Unable to push message. Null APopupData");
                 return;
             }
-            
             _popupsToShow ??= new List<APopupData>();
             _popupsToShow.Add(data);
             ShowPopup();
@@ -68,6 +67,7 @@ namespace PopupSystem
             }
             
             //remove popup from the queue and instantiate it with the IPopupFactory
+            CameraScroll.Instance.SetIfPlayerCanMoveCamera(false);
             _popupsToShow.Remove(popupData);
             _openedPopup = _popupsFactory.InstantiatePopup(popupData, _prefabsRoot);
             _openedPopup.OnClosed += PopupOnClosedHandler;
@@ -77,6 +77,7 @@ namespace PopupSystem
         
         private void PopupOnClosedHandler(PopupResultData obj)
         {
+            CameraScroll.Instance.SetIfPlayerCanMoveCamera(true);
             _openedPopup.OnClosed -= PopupOnClosedHandler;
             _openedPopup = null;
             ShowPopup();

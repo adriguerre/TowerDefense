@@ -86,6 +86,15 @@ namespace Buildings.CivilianBuildings
             }
         }
 
+        public void StopBuilderFromBuilding()
+        {
+            if (builder != null)
+            {
+                ChangePeasantBehaviourOnBuildedFinished();
+                builder = null;
+            }
+        }
+
         private void ChangePeasantBehaviourOnBuildedFinished()
         {
             Vector2 positionToMoveBuilder = new Vector2(builder.transform.position.x - InjectorManager.Instance.BuildersOffsetToMoveAwayFromBuilding.x,

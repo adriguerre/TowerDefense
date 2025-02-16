@@ -26,12 +26,21 @@ namespace PopupSystem
         }
         public void ShowWorkInProgressPopup()
         {
-            _popupMessageService.PushPopup(new InfoPopupData(Priority.Low, "This feature is still in development. Stay tuned for updates!", "Work In Progress"));
+            _popupMessageService.PushPopup(new InfoPopupData(Priority.Low, "This feature is still in development. " +
+                                                                           "Stay tuned for updates!", "Work In Progress"));
         }
 
         public void ShowInfoPopup(Priority priority, string message, string title)
         {
+            
             _popupMessageService.PushPopup(new InfoPopupData(priority, message, title));
+            
+        }
+
+        public void ShowDestroyBuildingPopup(GridSlot buildingInGridSlot)
+        {
+            _popupMessageService.PushPopup(new DestroyBuildingPopupData(Priority.Low, "This building will be destroyed, " +
+                "this action cannot be undone ", "Destroying " + buildingInGridSlot.GetBuildingInGridSlot().buildingName, buildingInGridSlot));
         }
         
     }
