@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Buildings.CivilianBuildings;
+using BuildingsTest;
 using NaughtyAttributes;
 using NUnit.Framework.Internal;
 using UnityEngine;
@@ -217,7 +218,7 @@ public class LevelGrid : Singleton<LevelGrid>
 	/// </summary>
 	/// <param name="building"></param>
 	/// <param name="gridSlotParent"></param>
-	public void LinkGridSlotsToBuilding(CivilianBuildingsSO building, GridSlot gridSlotParent)
+	public void LinkGridSlotsToBuilding(IBuildingsSO building, GridSlot gridSlotParent)
 	{
 		foreach (var civilianBuildingsPosition in CurrentLevelSO.CivilianBuildingGridPosisitions)
 		{

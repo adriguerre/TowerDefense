@@ -1,6 +1,7 @@
 using System;
 using Buildings;
 using Buildings.CivilianBuildings;
+using BuildingsTest;
 using MainNavBarUI;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class BuilderManager : ISingleton<BuilderManager>
 	[SerializeField] private GameObject civilianBuildingParentTransform;
 
 	public GameObject _civilianBuildingPlaceholder;
-	public CivilianBuildingsSO BuildInfo { get; private set; }
+	public IBuildingsSO BuildInfo { get; private set; }
 
 	private void Start()
 	{
@@ -28,7 +29,7 @@ public class BuilderManager : ISingleton<BuilderManager>
 
 	}
 
-	public void SpawnMoveableObjectSelector(CivilianBuildingsSO civilianBuildingInfo)
+	public void SpawnMoveableObjectSelector(IBuildingsSO civilianBuildingInfo)
 	{
 		try
 		{
@@ -58,7 +59,7 @@ public class BuilderManager : ISingleton<BuilderManager>
 	/// We will instantiate object (start animation, etc..), save info in buildingsDicctionary
 	/// </summary>
 	/// <param name="civilianBuildingInfo"></param>
-	public void BuildCivilianBuildings(CivilianBuildingsSO civilianBuildingInfo)
+	public void BuildCivilianBuildings(IBuildingsSO civilianBuildingInfo)
 	{
 		//Spawn building in position
 		// try

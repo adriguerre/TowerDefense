@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BuildingsTest;
 using UnityEngine;
 
 namespace Buildings.CivilianBuildings
@@ -15,6 +16,7 @@ namespace Buildings.CivilianBuildings
 
         private void Awake()
         {
+            Debug.Log(CivilianBuildingsUIManager.Instance);
             CivilianBuildingsUIManager.Instance.OnSpawnBlockers += SpawnBlockers;
         }
 
@@ -29,7 +31,7 @@ namespace Buildings.CivilianBuildings
             civilianBuildingBlockers = new List<GameObject>();
         }
 
-        private void SpawnBlockers(CivilianBuildingsSO buildingInfo)
+        private void SpawnBlockers(IBuildingsSO buildingInfo)
         {
             List<BlockInfo> blockersPositions = CivilianBuildingsManager.Instance.GetCivilianBuildingToBlock(buildingInfo);
 

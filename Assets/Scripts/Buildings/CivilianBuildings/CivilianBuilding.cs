@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Buildings.CivilianBuildings.CivilianBuildingFSM;
+using BuildingsTest;
 using Game;
 using Peasants;
 using Peasants.PeasantFSM;
@@ -15,7 +16,6 @@ namespace Buildings.CivilianBuildings
         public CivilianBuildingsSO BuildingSOInfo { get; private set; }
         private Peasant builder;
         private CivilianBuildingFillAmount _buildingFiller;
-        private Coroutine _productionCoroutine;
 
         [field: SerializeField] public GameObject BuildedGameObject { get; private set; }
         [field: SerializeField] public GameObject ConstructionGameObject { get; private set; }
@@ -115,7 +115,11 @@ namespace Buildings.CivilianBuildings
                 peasant.TransitionToState(new Peasant_Move(peasant, positionToSpawn, false));
                 builder = peasant;
             }
- 
+        }
+
+        private void OnDestroy()
+        {
+            StopBuilderFromBuilding();
         }
         // private void SpawnBuilders()
         // {
@@ -128,9 +132,9 @@ namespace Buildings.CivilianBuildings
         //     builder =builderToSpawn;
         // }
 
-        public void Init(CivilianBuildingsSO buildingSOInfo)
+        public void Init(IBuildingsSO buildingSOInfo)
         {
-            BuildingSOInfo = buildingSOInfo;
+            BuildingSOInfo = buildingSOInfo as CivilianBuildingsSO;
             StartBuildingBehaviour();
         }
         

@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BuildingsTest;
 using GameResources;
 using MainNavBarUI;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -11,40 +13,37 @@ using UnityEngine.UI;
 /// <summary>
 /// This script is responsible of all the UI from the panel CivilianBuildings
 /// </summary>
-public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
+public class CivilianBuildingsUIManager : IBuildingsUIManager
 {
-    [SerializeField] private GameObject civilianBuildingContainerPrefab;
-    [SerializeField] private Button buildButton;
-    private TextMeshProUGUI buildingButtonText;
-    [SerializeField] private GameObject gridContainerInCanvas;
-    private List<CivilianBuildingContainer> _civilianBuildingContainersList;
-    private List<CivilianBuildingsSO> _civilianBuildings;
-    private CivilianBuildingsSO _currentSelectedCivilianBuilding;
+
+    public static CivilianBuildingsUIManager Instance;
+    
     private CivilianBuildingContainer _currentContainerSelected;
     public bool isPanelOpenedFromPopup { get; private set; }
-    public Action<CivilianBuildingsSO> OnBuildingStarted;
-    public Action<CivilianBuildingsSO> OnChoosingBuildingPlace;
+    public Action<IBuildingsSO> OnBuildingStarted;
 
     /// <summary>
     /// Int -> Building size
     /// </summary>
-    public Action<CivilianBuildingsSO> OnSpawnBlockers;
-    public Action<CivilianBuildingsSO> OnDespawnBlockers;
+    public Action<IBuildingsSO> OnSpawnBlockers;
+    public Action<IBuildingsSO> OnDespawnBlockers;
     
     public bool playerIsChoosingPlaceToCivilianBuild { get; set; }
     
-    [Header("Resources Sprites")] 
-    [SerializeField] private Sprite foodSprite;
-    [SerializeField] private Sprite woodSprite;
-    [SerializeField] private Sprite stoneSprite;
-    [SerializeField] private Sprite ironSprite;
-    [SerializeField] private Sprite goldSprite;
-    protected override void Awake()
+
+    protected void Awake()
     {
-        base.Awake();
-        _civilianBuildings = new List<CivilianBuildingsSO>();
-        _civilianBuildings = Resources.LoadAll<CivilianBuildingsSO>("CivilianBuildings").ToList();
-        _civilianBuildingContainersList = new List<CivilianBuildingContainer>();
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            Debug.LogError("THERE IS ALREADY A CIV UI MANAGER");
+        }
+
+        Instance = this;
+        
+        _buildings = new List<IBuildingsSO>();
+        _buildings = Resources.LoadAll<IBuildingsSO>("CivilianBuildings").ToList();
+        _BuildingContainersList = new List<CivilianBuildingContainer>();
         buildingButtonText = buildButton.GetComponentInChildren<TextMeshProUGUI>();
     }
 
@@ -86,7 +85,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// </summary>
     private void BuildCivilianBuilding()
     {
-        if (_currentContainerSelected == null || _currentSelectedCivilianBuilding == null)
+        if (_currentContainerSelected == null || _currentSelectedBuilding == null)
             return;
         
         //If we are building from popup, we want to insta build it where we select in the map
@@ -105,22 +104,22 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     {
         //Block all buildings slots that are not available
         //START SELECTION MODE
-        CivilianBuildingGridPosition closestBuilding = LevelGrid.Instance.GetClosestCivilianBuildingToMousePositionAndActivateGrid(_currentSelectedCivilianBuilding.buildSize);
+        CivilianBuildingGridPosition closestBuilding = LevelGrid.Instance.GetClosestCivilianBuildingToMousePositionAndActivateGrid(_currentSelectedBuilding.buildSize);
         if (closestBuilding == null)
         {
             Debug.Log("NO AVAILABLE CIVILIAN BUILDING");
         }
         else
         {
-            OnSpawnBlockers?.Invoke(_currentSelectedCivilianBuilding);
+            OnSpawnBlockers?.Invoke(_currentSelectedBuilding);
 
-            var positionToBuild = LevelGrid.Instance.GetCenterPositionFromCivilianBuilding(closestBuilding.buildingId, _currentSelectedCivilianBuilding.buildSize);
+            var positionToBuild = LevelGrid.Instance.GetCenterPositionFromCivilianBuilding(closestBuilding.buildingId, _currentSelectedBuilding.buildSize);
             LevelGrid.Instance.SetCurrentGridSlotFromWorldPosition(positionToBuild);
 
             CameraScroll.Instance.CenterCameraOnBuilding(positionToBuild.y);
             playerIsChoosingPlaceToCivilianBuild = true;
             Debug.Log("KWB: " + positionToBuild);
-            OnChoosingBuildingPlace?.Invoke(_currentSelectedCivilianBuilding);
+            OnChoosingBuildingPlace?.Invoke(_currentSelectedBuilding);
         }
         //Find civilian building closest to camera position
         NavigationManager.Instance.CloseCurrentTab();
@@ -133,7 +132,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
         Debug.Log("KW: BUYING CIVILIAN BUILDING");
         //TODO KW: Cambiar el modo de pasar argumentos a ese método para no tener que buscar todo el rato ( si es madera pasa x, si es lo otro pasa y)
         //TODO if(InjectorManager.Instance.TryToSpendResources())
-        OnBuildingStarted?.Invoke(_currentSelectedCivilianBuilding);
+        OnBuildingStarted?.Invoke(_currentSelectedBuilding);
         NavigationManager.Instance.CloseCurrentTab();
         CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
         isPanelOpenedFromPopup = false;
@@ -144,13 +143,13 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// </summary>
     private void SpawnBuildingContainersInPanel()
     {
-        foreach (var building in _civilianBuildings)
+        foreach (var building in _buildings)
         {
-            GameObject newBuilding = Instantiate(civilianBuildingContainerPrefab, Vector3.zero, Quaternion.identity,
+            GameObject newBuilding = Instantiate(BuildingContainerPrefab, Vector3.zero, Quaternion.identity,
                 gridContainerInCanvas.transform);
             CivilianBuildingContainer container = newBuilding.GetComponent<CivilianBuildingContainer>();
             container.SetProperties(building);
-            _civilianBuildingContainersList.Add(container);
+            _BuildingContainersList.Add(container);
         }
     }
     
@@ -161,7 +160,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     public void BlockBuildingsWithLargerSizeInUIPanel(int size)
     {
         isPanelOpenedFromPopup = true;
-        foreach (var containers in _civilianBuildingContainersList)
+        foreach (var containers in _BuildingContainersList)
         {
             if (containers._civilianBuildingInfo.buildSize > size)
             {
@@ -180,7 +179,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     public void UnblockAllBuildingsInUIPanel()
     {
         isPanelOpenedFromPopup = false;
-        foreach (var containers in _civilianBuildingContainersList)
+        foreach (var containers in _BuildingContainersList)
         {
             containers.UnblockContainer();
         }
@@ -191,18 +190,18 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// </summary>
     /// <param name="ContainerSelected"></param>
     /// <param name="civilianBuilding"></param>
-    public void SelectBuildingInMenu(CivilianBuildingContainer ContainerSelected, CivilianBuildingsSO civilianBuilding)
+    public void SelectBuildingInMenu(CivilianBuildingContainer ContainerSelected, IBuildingsSO civilianBuilding)
     {
-        if (civilianBuilding == _currentSelectedCivilianBuilding)
+        if (civilianBuilding == _currentSelectedBuilding)
             return;
         
-        _currentSelectedCivilianBuilding = civilianBuilding;
+        _currentSelectedBuilding = civilianBuilding;
         if (_currentContainerSelected != null)
         {
             _currentContainerSelected.HideSelectorUI();
         }
         _currentContainerSelected = ContainerSelected;
-        buildingButtonText.text = "Build " + _currentSelectedCivilianBuilding.buildingName;
+        buildingButtonText.text = "Build " + _currentSelectedBuilding.buildingName;
 
     }
 
@@ -211,7 +210,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// </summary>
     public void UnSelectBuildingInMenu()
     {
-        _currentSelectedCivilianBuilding = null;
+        _currentSelectedBuilding = null;
         if (_currentContainerSelected != null)
         {
             _currentContainerSelected.HideSelectorUI();
@@ -227,7 +226,7 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// <exception cref="NotImplementedException"></exception>
     private void StartRefreshingContainerStatus()
     {
-        foreach (var container in _civilianBuildingContainersList)
+        foreach (var container in _BuildingContainersList)
         {
             container.StartRefreshingIfPlayerHasResources();
         }
@@ -239,39 +238,10 @@ public class CivilianBuildingsUIManager : ISingleton<CivilianBuildingsUIManager>
     /// <exception cref="NotImplementedException"></exception>
     private void StopRefreshingContainerStatus()
     {
-        foreach (var container in _civilianBuildingContainersList)
+        foreach (var container in _BuildingContainersList)
         {
             container.StopRefreshingIfPlayerHasResources();
         }
     }
 
-    /// <summary>
-    /// This is a helper method, used to get sprites from resources
-    /// </summary>
-    /// <param name="resourceType"></param>
-    /// <returns></returns>
-    public Sprite GetSpriteFromResource(ResourceType resourceType)
-    {
-        switch (resourceType)
-        {
-            case ResourceType.Undefined:
-                break; 
-            case ResourceType.Food:
-                return foodSprite;
-                break; 
-            case ResourceType.Wood:
-                return woodSprite;
-                break; 
-            case ResourceType.Stone:
-                return stoneSprite;
-                break; 
-            case ResourceType.Iron:
-                return ironSprite;
-                break; 
-            case ResourceType.Gold:
-                return goldSprite;
-                break; 
-        }
-        return null;
-    }
 }

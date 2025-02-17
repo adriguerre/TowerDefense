@@ -1,4 +1,5 @@
 using System;
+using BuildingsTest;
 using Game;
 using GameResources;
 using TMPro;
@@ -153,9 +154,9 @@ public class CivilianBuildingContainer : MonoBehaviour
     /// Set properties of a single container
     /// </summary>
     /// <param name="civilianBuilding"></param>
-    public void SetProperties(CivilianBuildingsSO civilianBuilding)
+    public void SetProperties(IBuildingsSO civilianBuilding)
     {
-        _civilianBuildingInfo = civilianBuilding;
+        _civilianBuildingInfo = civilianBuilding as CivilianBuildingsSO;
         _buildingIcon.sprite = _civilianBuildingInfo.buildingIcon;
         _buildingName.text = _civilianBuildingInfo.buildingName;
 

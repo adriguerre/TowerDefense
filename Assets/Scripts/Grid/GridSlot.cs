@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BuildingsTest;
 using UnityEngine;
 
 public class GridSlot
@@ -12,7 +13,7 @@ public class GridSlot
 	//This can be 0 if no building is there
 	public int buildingSize {get; private set;}
 	
-	public CivilianBuildingsSO civilianBuildingSO {get; private set;}
+	public IBuildingsSO civilianBuildingSO {get; private set;}
 	
     #endregion
 
@@ -25,14 +26,14 @@ public class GridSlot
 	    this.buildingSize = buildingSize;
     }
 
-    public void AddCivilianBuildingToAllSlot(CivilianBuildingsSO building)
+    public void AddCivilianBuildingToAllSlot(IBuildingsSO building)
     {
 	    //This should be linked to all the linked positions
 	    LevelGrid.Instance.LinkGridSlotsToBuilding(building, this);
 	    civilianBuildingSO = building;
     }
     
-    public void AddCivilianBuildingToOneSlot(CivilianBuildingsSO building)
+    public void AddCivilianBuildingToOneSlot(IBuildingsSO building)
     {
 	    //This should be linked to all the linked positions
 	    civilianBuildingSO = building;
@@ -50,7 +51,7 @@ public class GridSlot
 	    civilianBuildingSO = null;
     }
 
-    public CivilianBuildingsSO GetBuildingInGridSlot()
+    public IBuildingsSO GetBuildingInGridSlot()
     {
 	    return civilianBuildingSO;
     }

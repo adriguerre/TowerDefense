@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BuildingsTest;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ namespace Buildings.CivilianBuildings
             }
         }
 
-        public List<BlockInfo> GetCivilianBuildingToBlock(CivilianBuildingsSO constructionBuildingInfo)
+        public List<BlockInfo> GetCivilianBuildingToBlock(IBuildingsSO constructionBuildingInfo)
         {
             List<BlockInfo> blockerList = new List<BlockInfo>();
             foreach (var ownedBuilding in AllCivilianBuildingsPositions)

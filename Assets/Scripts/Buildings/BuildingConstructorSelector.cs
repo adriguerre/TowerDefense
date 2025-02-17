@@ -1,5 +1,6 @@
 ﻿using System;
 using Buildings.CivilianBuildings;
+using BuildingsTest;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -17,7 +18,7 @@ namespace Buildings
         [SerializeField] private Button confirmButton;
         [SerializeField] private Button cancelButton;
         
-        public CivilianBuildingsSO CivilianBuildingsSO { get; private set; }
+        public IBuildingsSO CivilianBuildingsSO { get; private set; }
         
         private void Awake()
         {
@@ -26,7 +27,7 @@ namespace Buildings
         }
 
 
-        public void ActivateBuildingConfirmOption(CivilianBuildingsSO civilianBuildingInfo)
+        public void ActivateBuildingConfirmOption(IBuildingsSO civilianBuildingInfo)
         {
             CivilianBuildingsSO = civilianBuildingInfo;
             constructionPlaceholder.SetActive(true);
