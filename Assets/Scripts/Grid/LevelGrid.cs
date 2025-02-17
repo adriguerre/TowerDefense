@@ -267,7 +267,7 @@ public class LevelGrid : Singleton<LevelGrid>
 			{
 				foreach (var gridPosition in civilianBuilding.gridPositionList)
 				{
-					if (!CivilianBuildingsManager.Instance.CurrentCivilianBuildingsDictionary.ContainsKey(civilianBuilding
+					if (!CivilianBuildingsManager.Instance.CurrentBuildingsDictionary.ContainsKey(civilianBuilding
 						    .buildingId)) //Make sure this spot is not take by other building
 					{
 						if (gridPosition.DistanceTo(closestPosition) < minDistance)

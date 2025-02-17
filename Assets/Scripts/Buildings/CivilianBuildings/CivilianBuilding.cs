@@ -15,7 +15,7 @@ namespace Buildings.CivilianBuildings
         private CivilianBuildingState _buildingStatus;
         public CivilianBuildingsSO BuildingSOInfo { get; private set; }
         private Peasant builder;
-        private CivilianBuildingFillAmount _buildingFiller;
+        private BuildingFillAmount _buildingFiller;
 
         [field: SerializeField] public GameObject BuildedGameObject { get; private set; }
         [field: SerializeField] public GameObject ConstructionGameObject { get; private set; }
@@ -60,7 +60,7 @@ namespace Buildings.CivilianBuildings
         private void SpawnConstructionUISlider()
         {
             GameObject constructionPercentage = gameObject.transform.Find("ConstructionPercentage").gameObject;
-            _buildingFiller = constructionPercentage.GetComponentInChildren<CivilianBuildingFillAmount>();
+            _buildingFiller = constructionPercentage.GetComponentInChildren<BuildingFillAmount>();
             _buildingFiller.StartFilling(0, BuildingSOInfo.timeToBuild);
             _buildingFiller.onBuildingFinished += OnBuildingFinished;
         }
@@ -69,7 +69,7 @@ namespace Buildings.CivilianBuildings
         {
             Debug.Log("SE HA TERMINADO EL EDIFICIO " + sender.ToString());
             //Remove fill amount UI
-            CivilianBuildingFillAmount buildingFiller = sender as CivilianBuildingFillAmount;
+            BuildingFillAmount buildingFiller = sender as BuildingFillAmount;
             buildingFiller.onBuildingFinished -= OnBuildingFinished;
             
             //Transition from Builded -> Start production

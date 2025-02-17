@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Buildings.CivilianBuildings
 {
-    public class CivilianBuildingFillAmount : MonoBehaviour
+    public class BuildingFillAmount : MonoBehaviour
     {
         public event EventHandler onBuildingFinished;
         private Image _fillAmountImage;

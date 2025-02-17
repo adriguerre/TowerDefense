@@ -18,7 +18,6 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
 
     public static CivilianBuildingsUIManager Instance;
     
-    private CivilianBuildingContainer _currentContainerSelected;
     public bool isPanelOpenedFromPopup { get; private set; }
     public Action<IBuildingsSO> OnBuildingStarted;
 
@@ -100,7 +99,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
         }
     }
 
-    private void StartSelectionMode()
+    protected override void StartSelectionMode()
     {
         //Block all buildings slots that are not available
         //START SELECTION MODE
@@ -184,64 +183,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
             containers.UnblockContainer();
         }
     }
-
-    /// <summary>
-    /// Select specific building, showing info in button and activating selector game object
-    /// </summary>
-    /// <param name="ContainerSelected"></param>
-    /// <param name="civilianBuilding"></param>
-    public void SelectBuildingInMenu(CivilianBuildingContainer ContainerSelected, IBuildingsSO civilianBuilding)
-    {
-        if (civilianBuilding == _currentSelectedBuilding)
-            return;
-        
-        _currentSelectedBuilding = civilianBuilding;
-        if (_currentContainerSelected != null)
-        {
-            _currentContainerSelected.HideSelectorUI();
-        }
-        _currentContainerSelected = ContainerSelected;
-        buildingButtonText.text = "Build " + _currentSelectedBuilding.buildingName;
-
-    }
-
-    /// <summary>
-    /// Unselect container, used when we close the panel, to reset all posible values/problems
-    /// </summary>
-    public void UnSelectBuildingInMenu()
-    {
-        _currentSelectedBuilding = null;
-        if (_currentContainerSelected != null)
-        {
-            _currentContainerSelected.HideSelectorUI();
-        }
-        _currentContainerSelected = null;
-        buildingButtonText.text = "Build";
-    }
     
-    
-    /// <summary>
-    /// Methods to update text / container if there aren't enough resources
-    /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    private void StartRefreshingContainerStatus()
-    {
-        foreach (var container in _BuildingContainersList)
-        {
-            container.StartRefreshingIfPlayerHasResources();
-        }
-    }
-    
-    /// <summary>
-    /// Methods to update text / container if there aren't enough resources
-    /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    private void StopRefreshingContainerStatus()
-    {
-        foreach (var container in _BuildingContainersList)
-        {
-            container.StopRefreshingIfPlayerHasResources();
-        }
-    }
+
 
 }

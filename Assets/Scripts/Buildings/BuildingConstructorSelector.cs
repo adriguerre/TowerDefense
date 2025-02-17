@@ -40,7 +40,7 @@ namespace Buildings
         
         private void CancelBuildingConstruction()
         {
-            CivilianConstructionBuildBlocker.Instance.DestroySpawnBlockers();
+            ConstructionBuildBlocker.Instance.DestroyCivilianBuildingsSpawnBlockers();
             CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild = false;
             LevelGrid.Instance.DestroyGridBuildPrefab();
             Destroy(this.gameObject);
@@ -48,7 +48,7 @@ namespace Buildings
 
         public void ConfirmBuildingConstruction()
         {
-            CivilianConstructionBuildBlocker.Instance.DestroySpawnBlockers();
+            ConstructionBuildBlocker.Instance.DestroyCivilianBuildingsSpawnBlockers();
             BuilderManager.Instance.BuildCivilianBuildings(CivilianBuildingsSO);
             Destroy(this.gameObject);
         }
