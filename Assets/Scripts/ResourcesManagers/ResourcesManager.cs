@@ -25,6 +25,13 @@ namespace GameResources
         private int _siege2Available;
         private int _siege3Available;
         
+        [Header("Resources Sprites")] 
+        [SerializeField] protected Sprite foodSprite;
+        [SerializeField] protected Sprite woodSprite;
+        [SerializeField] protected Sprite stoneSprite;
+        [SerializeField] protected Sprite ironSprite;
+        [SerializeField] protected Sprite goldSprite;
+        
         public delegate void OnVariableChangeDelegate(double currentValue, double newValue, ResourceType resourceType);
         public event OnVariableChangeDelegate onVariableChange;
 
@@ -250,6 +257,38 @@ namespace GameResources
             return new ResourcesDataDTO(_foodAvailable, _woodAvailable, _stoneAvailable,
                 _ironAvailable, _goldAvailable, _foodProduction, _woodProduction, _stoneProduction, _ironProduction,
                 _goldProduction);
+        }
+        
+        
+        
+        /// <summary>
+        /// This is a helper method, used to get sprites from resources
+        /// </summary>
+        /// <param name="resourceType"></param>
+        /// <returns></returns>
+        public virtual Sprite GetSpriteFromResource(ResourceType resourceType)
+        {
+            switch (resourceType)
+            {
+                case ResourceType.Undefined:
+                    break; 
+                case ResourceType.Food:
+                    return foodSprite;
+                    break; 
+                case ResourceType.Wood:
+                    return woodSprite;
+                    break; 
+                case ResourceType.Stone:
+                    return stoneSprite;
+                    break; 
+                case ResourceType.Iron:
+                    return ironSprite;
+                    break; 
+                case ResourceType.Gold:
+                    return goldSprite;
+                    break; 
+            }
+            return null;
         }
 
     }

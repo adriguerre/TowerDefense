@@ -1,4 +1,5 @@
 using System;
+using CDebugger;
 using MainNavBarUI;
 using PopupSystem;
 using UnityEngine;
@@ -8,9 +9,9 @@ using UnityEngine.UI;
 /// <summary>
 /// Pop up that shows when players click on a specific civilian building, allowing them to upgrade/build/Destroy, depending on the build status
 /// </summary>
-public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopButtons>
+public class BuildingsUIPopButtons : ISingleton<BuildingsUIPopButtons>
 {
-    private GameObject civilianBuildUI;
+    private GameObject _buildingUIPopup;
     private Animator _animator;
     public Action onCameraCenterCompleted;
     private Vector2 buildingInPosition;
@@ -21,8 +22,8 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
     [SerializeField] private Button destroyButton;
     protected override void Awake()
     {
-        civilianBuildUI = this.gameObject.transform.Find("CivilianBuildingsBuildUI").gameObject;
-        civilianBuildUI.SetActive(false);
+        _buildingUIPopup = this.gameObject.transform.Find("BuildingsBuildUIPopup").gameObject;
+        _buildingUIPopup.SetActive(false);
         onCameraCenterCompleted += OnCameraCenterCompleted;
         _animator = GetComponent<Animator>();
     }
@@ -34,6 +35,7 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
 
     public void OpenBuildUI(Vector2 position, GridSlot gridSlot)
     {
+        CustomDebugger.Log(LogCategories.Buildings, "Opened Building Popup view");
         buildingSize = gridSlot.buildingSize;
         buildingInPosition = position;
         popupOnGridSlot = gridSlot;
@@ -58,21 +60,21 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
         }
         else
         {
-            destroyButton.onClick.AddListener(() => DestroyCivilianBuilding(buildingInPosition));
-            upgradeButton.onClick.AddListener(() => UpgradeCivilianBuildingPopUp(buildingInPosition));
+            destroyButton.onClick.AddListener(() => DestroyBuilding(buildingInPosition));
+            upgradeButton.onClick.AddListener(() => UpgradeBuildingPopUp(buildingInPosition));
             buildButton.interactable = false; 
             upgradeButton.interactable = true;
             destroyButton.interactable = true;
         }
     }
 
-    private void DestroyCivilianBuilding(Vector2 vector2)
+    private void DestroyBuilding(Vector2 vector2)
     {
         GridSlot buildingGridSlot = popupOnGridSlot;
         PopupManager.Instance.ShowDestroyBuildingPopup(buildingGridSlot);
     }
 
-    private void UpgradeCivilianBuildingPopUp(Vector2 vector2)
+    private void UpgradeBuildingPopUp(Vector2 vector2)
     {
         
     } 
@@ -85,17 +87,17 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
 
     private void OnCameraCenterCompleted()
     {
-        civilianBuildUI.SetActive(true);
+        _buildingUIPopup.SetActive(true);
         CivilianBuildingUIBlocker.onPanelClick += OnPanelClick;
         HandleButtonsVisibility(popupOnGridSlot);
 
         _animator.SetTrigger("onEnable");
-        civilianBuildUI.transform.position = Camera.main.WorldToScreenPoint(buildingInPosition);
+        _buildingUIPopup.transform.position = Camera.main.WorldToScreenPoint(buildingInPosition);
     }
 
     public void CloseBuildUI()
     {
-        if (civilianBuildUI.activeSelf)
+        if (_buildingUIPopup.activeSelf)
         {
             _animator.SetTrigger("onDisable");
         }
@@ -105,7 +107,7 @@ public class CivilianBuildingsUIPopButtons : ISingleton<CivilianBuildingsUIPopBu
     public void DisableCivilianBuildUI()
     {
         CivilianBuildingUIBlocker.onPanelClick -= OnPanelClick;
-        civilianBuildUI.SetActive(false);
+        _buildingUIPopup.SetActive(false);
         LevelGrid.Instance.DestroyGridBuildPrefab();
         // buildingSize = 0;
         CameraScroll.Instance.SetIfPlayerCanMoveCamera(true);

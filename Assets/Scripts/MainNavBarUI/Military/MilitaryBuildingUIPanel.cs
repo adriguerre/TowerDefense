@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
 
-public class MilitaryUIManager : Singleton<MilitaryUIManager>
+public class MilitaryBuildingUIPanel : Singleton<MilitaryBuildingUIPanel>
 {
     
     private Canvas militaryCanvas;
-
+    public static Action onMilitaryBuildingOpened;
+    public static Action onMilitaryBuildingClosed;
 
     private void Awake()
     {
@@ -16,11 +17,15 @@ public class MilitaryUIManager : Singleton<MilitaryUIManager>
     {
         militaryCanvas.enabled = true;
         this.gameObject.SetActive(true);
+        CameraScroll.Instance.SetIfPlayerCanMoveCamera(false);
+        onMilitaryBuildingOpened?.Invoke();
     }
     
     public void CloseMilitaryUI()
     {
         militaryCanvas.enabled = false;
         this.gameObject.SetActive(false);
+        
+        onMilitaryBuildingClosed?.Invoke();
     }
 }

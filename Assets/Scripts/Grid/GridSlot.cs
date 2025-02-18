@@ -13,15 +13,15 @@ public class GridSlot
 	//This can be 0 if no building is there
 	public int buildingSize {get; private set;}
 	
-	public IBuildingsSO civilianBuildingSO {get; private set;}
+	public IBuildingsSO BuildingSO {get; private set;}
 	
     #endregion
 
-    public GridSlot(GridPosition gridPosition, CivilianBuildingsSO civilianBuildingInPosition, GridPositionType gridPositionType, int buildingID, int buildingSize)
+    public GridSlot(GridPosition gridPosition, CivilianBuildingsSO buildingInPosition, GridPositionType gridPositionType, int buildingID, int buildingSize)
     {
 	    this._gridPosition = gridPosition;
 	    this._gridPositionType = gridPositionType;
-	    this.civilianBuildingSO = civilianBuildingInPosition;
+	    this.BuildingSO = buildingInPosition;
 	    this.buildingID = buildingID;
 	    this.buildingSize = buildingSize;
     }
@@ -30,30 +30,30 @@ public class GridSlot
     {
 	    //This should be linked to all the linked positions
 	    LevelGrid.Instance.LinkGridSlotsToBuilding(building, this);
-	    civilianBuildingSO = building;
+	    BuildingSO = building;
     }
     
     public void AddCivilianBuildingToOneSlot(IBuildingsSO building)
     {
 	    //This should be linked to all the linked positions
-	    civilianBuildingSO = building;
+	    BuildingSO = building;
     }
 
     public void RemoveCivilianBuildingFromAllSlots()
     {
 	    //This should be linked to all the linked positions
 	    LevelGrid.Instance.UnlinkBuildingFromAllCloseSlots(this);
-	    civilianBuildingSO = null;
+	    BuildingSO = null;
     }
 
     public void RemoveCivilianBuildingFromSlot()
     {
-	    civilianBuildingSO = null;
+	    BuildingSO = null;
     }
 
     public IBuildingsSO GetBuildingInGridSlot()
     {
-	    return civilianBuildingSO;
+	    return BuildingSO;
     }
 
 

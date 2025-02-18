@@ -135,13 +135,13 @@ namespace BuildingsTest
 
         
             _buildingCost1Text.text = _buildingInfo.buildingCost1.cost.ToString();
-            _buildingCost1Image.sprite = CivilianBuildingsUIManager.Instance.
+            _buildingCost1Image.sprite = ResourcesManager.Instance.
                 GetSpriteFromResource(_buildingInfo.buildingCost1.resourceType);
             if (buildingInfoSO.buildingCost2.resourceType != ResourceType.Undefined)
             {
                 _buildingCost2Text.text = _buildingInfo.buildingCost1.cost.ToString();
                 _buildingCost2Image.sprite =
-                    CivilianBuildingsUIManager.Instance.GetSpriteFromResource(_buildingInfo.buildingCost2.resourceType);
+                    ResourcesManager.Instance.GetSpriteFromResource(_buildingInfo.buildingCost2.resourceType);
             }
             else
             {

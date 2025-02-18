@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.maciejddev.custom-debugger": {
+      "version": "https://github.com/MaciejDDev/custom-debugger.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "27a79ceb30c9890709b2e1a7609d6a8cafe1449a"
+    },
     "com.unity.2d.animation": {
       "version": "10.1.4",
       "depth": 1,

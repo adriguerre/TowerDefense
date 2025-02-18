@@ -49,7 +49,7 @@ public class CivilianBuildingContainer : IBuildingContainer
         base.SetProperties(civilianBuilding);
         _civilianBuildingInfo = civilianBuilding as CivilianBuildingsSO;
         _resourceProductionText.text = _civilianBuildingInfo.resourceProduced.resourceProducedBaseLevel1.ToString();
-        _resourceProductionIcon.sprite = CivilianBuildingsUIManager.Instance.GetSpriteFromResource(_civilianBuildingInfo.resourceProduced.resourceProduced);
+        _resourceProductionIcon.sprite = ResourcesManager.Instance.GetSpriteFromResource(_civilianBuildingInfo.resourceProduced.resourceProduced);
         
     }
     protected override void SetReferences()

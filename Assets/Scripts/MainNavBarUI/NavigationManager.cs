@@ -91,7 +91,7 @@ namespace MainNavBarUI
 				case TabTypes.Gameplay:
 					break;		
 				case TabTypes.Button4:
-					MilitaryUIManager.Instance.CloseMilitaryUI();
+					MilitaryBuildingUIPanel.Instance.CloseMilitaryUI();
 					break;		
 				case TabTypes.Button5:
 					MarketUIManager.Instance.CloseMarketUI();
@@ -178,7 +178,7 @@ namespace MainNavBarUI
 		private void OpenFactoryScreen()
 		{
 			ChangeButtonSprite(button4);
-			MilitaryUIManager.Instance.OpenMilitaryUI();
+			MilitaryBuildingUIPanel.Instance.OpenMilitaryUI();
 		}
 
 		private void OpenModsScreen()

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b0694d2de1c408aa4814d27af67504d, type: 3}
+  m_Name: GoblinTower
+  m_EditorClassIdentifier: 
+  buildingID: 102
+  buildingIcon: {fileID: 1355195777722144874, guid: 146f28d834e629c4e8d57fd190e014d7, type: 3}
+  buildingName: Goblin Tower
+  buildingDescription: "La Torre de Goblins es una estructura defensiva impredecible
+    y veloz, operada por traviesos goblins expertos en el uso de proyectiles. Desde
+    su precaria pero efectiva plataforma de madera, los goblins lanzan dardos, cuchillos
+    o peque\xF1os explosivos"
+  buildingPrefab: {fileID: 0}
+  timeToBuild: 12
+  timeToUpgrade: 7
+  buildSize: 1
+  buildingCost1:
+    resourceType: 2
+    cost: 100
+  buildingCost2:
+    resourceType: 2
+    cost: 50
+  singleTarget: 1

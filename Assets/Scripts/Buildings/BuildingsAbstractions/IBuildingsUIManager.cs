@@ -15,28 +15,35 @@ namespace BuildingsTest
         [SerializeField] protected GameObject gridContainerInCanvas;
         
         protected IBuildingContainer _currentContainerSelected;
-        protected List<CivilianBuildingContainer> _BuildingContainersList;
+        protected List<IBuildingContainer> _BuildingContainersList;
         protected List<IBuildingsSO> _buildings;
         protected IBuildingsSO _currentSelectedBuilding;
         
         public Action<IBuildingsSO> OnChoosingBuildingPlace;
-
-        [Header("Resources Sprites")] 
-        [SerializeField] protected Sprite foodSprite;
-        [SerializeField] protected Sprite woodSprite;
-        [SerializeField] protected Sprite stoneSprite;
-        [SerializeField] protected Sprite ironSprite;
-        [SerializeField] protected Sprite goldSprite;
+        
 
         protected abstract void StartSelectionMode();
+        /// <summary>
+        /// Start selection mode or start building (if it is coming from popup)
+        /// </summary>
+        protected abstract void StartBuildingConstruction();
+        /// <summary>
+        /// Spawn container inside ui to show info
+        /// </summary>
+        protected abstract void SpawnPanelContainers();
 
+        protected virtual void Start()
+        {
+            SpawnPanelContainers();
+            buildButton.onClick.AddListener(() => StartBuildingConstruction());
+        }
         
         /// <summary>
         /// Select specific building, showing info in button and activating selector game object
         /// </summary>
         /// <param name="ContainerSelected"></param>
         /// <param name="civilianBuilding"></param>
-        public virtual void SelectBuildingInMenu(CivilianBuildingContainer ContainerSelected, IBuildingsSO civilianBuilding)
+        public void SelectBuildingInMenu(IBuildingContainer ContainerSelected, IBuildingsSO civilianBuilding)
         {
             if (civilianBuilding == _currentSelectedBuilding)
                 return;
@@ -54,7 +61,7 @@ namespace BuildingsTest
         /// <summary>
         /// Unselect container, used when we close the panel, to reset all posible values/problems
         /// </summary>
-        public virtual void UnSelectBuildingInMenu()
+        public void UnSelectBuildingInMenu()
         {
             _currentSelectedBuilding = null;
             if (_currentContainerSelected != null)
@@ -70,7 +77,7 @@ namespace BuildingsTest
         /// Methods to update text / container if there aren't enough resources
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        protected virtual void StartRefreshingContainerStatus()
+        protected void StartRefreshingContainerStatus()
         {
             foreach (var container in _BuildingContainersList)
             {
@@ -82,7 +89,7 @@ namespace BuildingsTest
         /// Methods to update text / container if there aren't enough resources
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        protected virtual void StopRefreshingContainerStatus()
+        protected void StopRefreshingContainerStatus()
         {
             foreach (var container in _BuildingContainersList)
             {
@@ -90,34 +97,15 @@ namespace BuildingsTest
             }
         }
         
-        /// <summary>
-        /// This is a helper method, used to get sprites from resources
-        /// </summary>
-        /// <param name="resourceType"></param>
-        /// <returns></returns>
-        public virtual Sprite GetSpriteFromResource(ResourceType resourceType)
+        protected void OnUIClosed()
         {
-            switch (resourceType)
-            {
-                case ResourceType.Undefined:
-                    break; 
-                case ResourceType.Food:
-                    return foodSprite;
-                    break; 
-                case ResourceType.Wood:
-                    return woodSprite;
-                    break; 
-                case ResourceType.Stone:
-                    return stoneSprite;
-                    break; 
-                case ResourceType.Iron:
-                    return ironSprite;
-                    break; 
-                case ResourceType.Gold:
-                    return goldSprite;
-                    break; 
-            }
-            return null;
+            StopRefreshingContainerStatus();
         }
+
+        protected void OnUIOpened()
+        {
+            StartRefreshingContainerStatus();
+        }
+
     }
 }

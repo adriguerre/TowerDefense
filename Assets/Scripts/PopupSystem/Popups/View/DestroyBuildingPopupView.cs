@@ -21,7 +21,7 @@ namespace PopupSystem.Popups.View
             CivilianBuildingsManager.Instance.DestroyBuilding(destroyPopupData.BuildingInGridSlot.buildingID);
             //Reset map properties in this location (no building in all grid slots)
             LevelGrid.Instance.UnlinkBuildingFromAllCloseSlots(destroyPopupData.BuildingInGridSlot);
-            CivilianBuildingsUIPopButtons.Instance.DisableCivilianBuildUI();
+            BuildingsUIPopButtons.Instance.DisableCivilianBuildUI();
 
             Close();
         }

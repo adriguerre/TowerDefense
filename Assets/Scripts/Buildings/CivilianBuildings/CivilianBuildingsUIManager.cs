@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BuildingsTest;
+using CDebugger;
 using GameResources;
 using MainNavBarUI;
 using TMPro;
@@ -35,24 +36,25 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
         if (Instance != null)
         {
             Destroy(gameObject);
-            Debug.LogError("THERE IS ALREADY A CIV UI MANAGER");
+            CustomDebugger.LogError(LogCategories.CivilianBuildings,
+                "There is already an instance of CivilianBuildingsUIManager");
+
         }
 
         Instance = this;
         
         _buildings = new List<IBuildingsSO>();
         _buildings = Resources.LoadAll<IBuildingsSO>("CivilianBuildings").ToList();
-        _BuildingContainersList = new List<CivilianBuildingContainer>();
+        _BuildingContainersList = new List<IBuildingContainer>();
         buildingButtonText = buildButton.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Start()
     {
+        base.Start();
         CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += OnUIOpenedWithoutPopup;
         CivilianBuildingUIPanel.onCivilianBuildingOpened += OnUIOpened;
         CivilianBuildingUIPanel.onCivilianBuildingClosed += OnUIClosed;
-        SpawnBuildingContainersInPanel();
-        buildButton.onClick.AddListener(() => BuildCivilianBuilding());
     }
 
     private void OnDisable()
@@ -60,19 +62,8 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
         CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += OnUIOpenedWithoutPopup;
         CivilianBuildingUIPanel.onCivilianBuildingOpened -= OnUIOpened;
         CivilianBuildingUIPanel.onCivilianBuildingClosed -= OnUIClosed;
-        
     }
-
-    private void OnUIClosed()
-    {
-        StopRefreshingContainerStatus();
-    }
-
-    private void OnUIOpened()
-    {
-        StartRefreshingContainerStatus();
-    }
-
+    
     private void OnUIOpenedWithoutPopup()
     {
         UnblockAllBuildingsInUIPanel();
@@ -82,7 +73,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
     /// <summary>
     /// Method used to start building a civilian house in case of beign in popup, or start selection mode
     /// </summary>
-    private void BuildCivilianBuilding()
+    protected override void StartBuildingConstruction()
     {
         if (_currentContainerSelected == null || _currentSelectedBuilding == null)
             return;
@@ -122,7 +113,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
         }
         //Find civilian building closest to camera position
         NavigationManager.Instance.CloseCurrentTab();
-        CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
+        BuildingsUIPopButtons.Instance.CloseBuildUI();
     }
 
     private void BuildFromPopupPanel()
@@ -133,14 +124,14 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
         //TODO if(InjectorManager.Instance.TryToSpendResources())
         OnBuildingStarted?.Invoke(_currentSelectedBuilding);
         NavigationManager.Instance.CloseCurrentTab();
-        CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
+        BuildingsUIPopButtons.Instance.CloseBuildUI();
         isPanelOpenedFromPopup = false;
     }
 
     /// <summary>
     /// Spawn containers in civilianbuilding UI panel
     /// </summary>
-    private void SpawnBuildingContainersInPanel()
+    protected override void SpawnPanelContainers()
     {
         foreach (var building in _buildings)
         {
@@ -161,13 +152,14 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
         isPanelOpenedFromPopup = true;
         foreach (var containers in _BuildingContainersList)
         {
-            if (containers._civilianBuildingInfo.buildSize > size)
+            var container = containers as CivilianBuildingContainer;
+            if (container._civilianBuildingInfo.buildSize > size)
             {
-                containers.BlockContainer();
+                container.BlockContainer();
             }
             else
             {
-                containers.UnblockContainer();
+                container.UnblockContainer();
             }
         }
     }
@@ -180,7 +172,8 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
         isPanelOpenedFromPopup = false;
         foreach (var containers in _BuildingContainersList)
         {
-            containers.UnblockContainer();
+            var container = containers as CivilianBuildingContainer;
+            container.UnblockContainer();
         }
     }
     

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b0694d2de1c408aa4814d27af67504d, type: 3}
+  m_Name: ArcherTower
+  m_EditorClassIdentifier: 
+  buildingID: 101
+  buildingIcon: {fileID: -4866884309602757033, guid: cbf77bf265074d94eaafeaf60867fabd, type: 3}
+  buildingName: Archer Tower
+  buildingDescription: "Una Torre de Arqueros es una estructura defensiva \xE1gil
+    y precisa, dise\xF1ada para eliminar enemigos a distancia con ataques individuales.
+    Construida en una plataforma elevada, cuenta con arqueros expertos que disparan
+    flechas con gran precisi\xF3n a objetivos espec\xEDficos."
+  buildingPrefab: {fileID: 0}
+  timeToBuild: 10
+  timeToUpgrade: 5
+  buildSize: 1
+  buildingCost1:
+    resourceType: 2
+    cost: 100
+  buildingCost2:
+    resourceType: 0
+    cost: 0
+  singleTarget: 1

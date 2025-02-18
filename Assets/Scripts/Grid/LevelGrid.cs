@@ -200,7 +200,7 @@ public class LevelGrid : Singleton<LevelGrid>
 		{
 			if (currentGridSlot._gridPositionType == GridPositionType.CivilianBuilding)
 			{
-				CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
+				BuildingsUIPopButtons.Instance.CloseBuildUI();
 			}
 		}
 		currentGridSlot = null;
@@ -358,7 +358,7 @@ public class LevelGrid : Singleton<LevelGrid>
 				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
 				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize4ObjectPrefab, position, Quaternion.identity); 
 				    if(showBuildUIPopup)
-						CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
+						BuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
 				    positionToBuild = position;
 			    }
 			    else
@@ -366,14 +366,14 @@ public class LevelGrid : Singleton<LevelGrid>
 				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
 				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize6ObjectPrefab, position, Quaternion.identity); 
 				    if(showBuildUIPopup)
-						CivilianBuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
+						BuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
 				    positionToBuild = position;
 			    }
 		    } 
 	    }
 	    else
 	    {
-		    CivilianBuildingsUIPopButtons.Instance.CloseBuildUI();
+		    BuildingsUIPopButtons.Instance.CloseBuildUI();
 		    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity);
 		    //TODO KW
 		    positionToBuild = GetWorldPosition(gridSlot._gridPosition);
