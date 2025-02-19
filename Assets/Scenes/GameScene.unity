@@ -17262,7 +17262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 519420031}
   topLimit: 25
-  bottomLimit: 4.67
+  bottomLimit: 2.71
   SmoothTime: 2
   direction: {x: 0, y: 0, z: 0}
   clickDurationThreshold: 0.15

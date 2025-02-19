@@ -65,8 +65,17 @@ public class CameraScroll : MonoBehaviour
 
     private void CenterCameraOnTarget()
     {
-        SetIfPlayerCanMoveCamera(false);
+        if (moveToPosition.y < bottomLimit)
+        {  
+            IsBeingCentered = false;
+            SetIfPlayerCanMoveCamera(true);
 
+            onCameraCenterCompleted?.Invoke();
+            onCameraCenterCompleted = null;
+            
+            return;
+        }
+        SetIfPlayerCanMoveCamera(false);
         Vector3 cameraPosition = new Vector3(cam.transform.position.x, cam.transform.position.y, -10);
         cam.transform.position = Vector3.Lerp(cameraPosition, moveToPosition, TimeToGetCentered * Time.deltaTime);
         if (Vector2.Distance(cam.transform.position, moveToPosition) <= 0.02f)
@@ -123,18 +132,29 @@ public class CameraScroll : MonoBehaviour
             // Si al soltar el botón sigue siendo un clic, ejecuta la acción de clic
             if (isClick)
             {
-                if(!CivilianBuildingsUIManager.Instance.playerIsTryingToStartConstruction) //Selecting all posible grids slots
+                if (!CivilianBuildingsUIManager.Instance
+                        .playerIsTryingToStartConstruction && !MilitaryBuildingsUIManager.Instance
+                        .playerIsTryingToStartConstruction) //Selecting all posible grids slots
                 {
                     if (LevelGrid.Instance != null)
                     {
                         LevelGrid.Instance.ClickOnLevelGrid();
                     }
                 }
-                else if(CivilianBuildingsUIManager.Instance.playerIsTryingToStartConstruction)//Selecting civilian building position
+                else if (CivilianBuildingsUIManager.Instance
+                         .playerIsTryingToStartConstruction) //Selecting civilian building position
                 {
                     if (LevelGrid.Instance != null)
                     {
-                        LevelGrid.Instance.SelectSlotAsPossibleLocation();
+                        LevelGrid.Instance.SelectSlotAsPossibleCivilianLocation();
+                    }
+                }
+                else if (MilitaryBuildingsUIManager.Instance
+                         .playerIsTryingToStartConstruction) // Selecting military building position
+                {
+                    if (LevelGrid.Instance != null)
+                    {
+                        LevelGrid.Instance.SelectSlotAsPossibleMilitaryLocation();
                     }
                 }
             }

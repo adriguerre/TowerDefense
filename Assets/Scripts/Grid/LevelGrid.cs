@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Buildings.CivilianBuildings;
 using Buildings.MilitaryBuildings;
 using BuildingsTest;
+using CDebugger;
 using NaughtyAttributes;
 using NUnit.Framework.Internal;
 using UnityEngine;
@@ -166,7 +167,7 @@ public class LevelGrid : Singleton<LevelGrid>
 		}
 	}
 
-	public void SelectSlotAsPossibleLocation()
+	public void SelectSlotAsPossibleCivilianLocation()
 	{
 		GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();
 		Debug.Log(gridSlot._gridPosition);
@@ -190,7 +191,29 @@ public class LevelGrid : Singleton<LevelGrid>
 			}
 		}
 	}
-
+	
+	public void SelectSlotAsPossibleMilitaryLocation()
+	{
+		GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();
+		Debug.Log(gridSlot._gridPosition);
+		if (gridSlot != null && currentGridSlot != gridSlot)
+		{
+			if (gridSlot._gridPositionType == GridPositionType.Obstacle || gridSlot._gridPositionType == GridPositionType.CivilianBuilding
+			    || gridSlot._gridPositionType == GridPositionType.Path || gridSlot._gridPositionType == GridPositionType.TemporaryObstacle)
+			{
+				return;
+			}
+			currentGridSlot = gridSlot;
+			if (currentGridSlot.GetBuildingInGridSlot() == null)
+			{
+				positionToBuild = new Vector2(gridSlot._gridPosition.x, gridSlot._gridPosition.y);
+				currentGridSlot = gridSlot;
+				ActivateGridSlotBuildingUI(currentGridSlot, false, false);
+				BuilderManager.Instance.MoveBuildingPlace(positionToBuild);
+			}
+			
+		}
+	}
 	public void DesactivateGridSlotPrefabAndHideBuildUIPop()
 	{
 		if (currentGridBuildingUI != null)
@@ -296,7 +319,10 @@ public class LevelGrid : Singleton<LevelGrid>
 	public GridSlot GetClosestAvailablePositionToMilitaryBuilding()
 	{
 		GridSlot closestBuildingObject = null;
-		GridPosition closestPosition = gridSystem.GetGridSlotFromMousePosition()._gridPosition;
+		GridPosition position = new GridPosition((int)Camera.main.gameObject.transform.position.x,
+			(int)Camera.main.gameObject.transform.position.y);
+		CustomDebugger.Log(LogCategories.MilitaryBuildings, position.ToString());
+		GridPosition closestPosition = new GridPosition((int) Camera.main.gameObject.transform.position.x, (int) Camera.main.gameObject.transform.position.y);
 		GridPosition gridPosition = null;
 		double minDistance = 100;
 
@@ -305,6 +331,7 @@ public class LevelGrid : Singleton<LevelGrid>
 			for (int j = 0; j < gridSystem.height; j++)
 			{
 				gridPosition = new GridPosition(i, j);
+				//Este gridslot no se asigna bien, por lo tanto es siempre 0 0
 				GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(gridPosition);
 				if (gridSlot == null || gridSlot.IsRoad || 
 				    MilitaryBuildingsManager.Instance.CurrentBuildingsDictionary.ContainsKey(gridPosition))
@@ -312,7 +339,7 @@ public class LevelGrid : Singleton<LevelGrid>
 					continue;
 				}
 				
-				if (gridPosition.DistanceTo(closestPosition) < minDistance)
+				if (gridPosition.DistanceTo(position) < minDistance)
 				{
 					minDistance = gridPosition.DistanceTo(closestPosition);
 					closestBuildingObject = gridSlot;
