@@ -19,7 +19,7 @@ MonoBehaviour:
     y precisa, dise\xF1ada para eliminar enemigos a distancia con ataques individuales.
     Construida en una plataforma elevada, cuenta con arqueros expertos que disparan
     flechas con gran precisi\xF3n a objetivos espec\xEDficos."
-  buildingPrefab: {fileID: 0}
+  buildingPrefab: {fileID: 2179510780641455167, guid: f19825fde0f8869489ab0b1be086cd89, type: 3}
   timeToBuild: 10
   timeToUpgrade: 5
   buildSize: 1
@@ -30,3 +30,4 @@ MonoBehaviour:
     resourceType: 0
     cost: 0
   singleTarget: 1
+  canPlaceInRoad: 0

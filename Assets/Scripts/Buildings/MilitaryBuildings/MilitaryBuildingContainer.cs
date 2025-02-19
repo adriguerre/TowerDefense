@@ -10,6 +10,9 @@ namespace Buildings.MilitaryBuildings
     {
         public MilitaryBuildingsSO _militaryBuildingInfo { get; private set; }
 
+        [SerializeField] private TextMeshProUGUI enemiesTarget;
+        [SerializeField] private TextMeshProUGUI canPlaceInRoad;
+
         private void Awake()
         {
             SetReferences();
@@ -30,6 +33,9 @@ namespace Buildings.MilitaryBuildings
         {
             base.SetProperties(civilianBuilding);
             _militaryBuildingInfo = civilianBuilding as MilitaryBuildingsSO;
+            
+            enemiesTarget.text = _militaryBuildingInfo.singleTarget ? "Single Target" : "Multiple Targets";
+            canPlaceInRoad.text = _militaryBuildingInfo.canPlaceInRoad ? "Can Place In Road" : "Can't Place In Road";
         }
         
         //TODO: CHANGE THIS TO NEWEST CONTAINER REFERENCES
@@ -42,7 +48,10 @@ namespace Buildings.MilitaryBuildings
             _upgradeTimeText = transform.Find("BuildingInfo/Timers/UpgradeTime/UpgradeTimeText").GetComponent<TextMeshProUGUI>();
             _gridSizeText = transform.Find("BuildingInfo/Timers/BuildSize/BuildSizeText").GetComponent<TextMeshProUGUI>();
         
+            enemiesTarget = transform.Find("BuildingInfo/EnemiesTarget/EnemiesTargetText").GetComponent<TextMeshProUGUI>();
+            canPlaceInRoad = transform.Find("BuildingInfo/CanPlaceInRoad/CanPlaceInRoadText").GetComponent<TextMeshProUGUI>();
         
+            
             _buildingCost1Text = transform.Find("ResourcesCost/Button/ResourcesCost/Cost1/Resource1Cost").GetComponent<TextMeshProUGUI>();
             _buildingCost1Image = transform.Find("ResourcesCost/Button/ResourcesCost/Cost1/Resource1Icon").GetComponent<Image>();
             _resource2CostGameObject = transform.Find("ResourcesCost/Button/ResourcesCost/Cost2").GameObject();

@@ -6313,7 +6313,7 @@ Transform:
   m_GameObject: {fileID: 192558679}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5102986, y: 5.546546, z: -0.0051272637}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6805,10 +6805,10 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.51, y: 0.32}
+  m_Size: {x: 3.1875, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &220234332
@@ -7019,8 +7019,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -145, y: 33.775}
-  m_SizeDelta: {x: 182.0781, y: 167.5845}
+  m_AnchoredPosition: {x: -138.51, y: 0.58235}
+  m_SizeDelta: {x: 73.78, y: 77.3261}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &223431941
 MonoBehaviour:
@@ -7042,7 +7042,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6865e435abb4e31439679fd1f9cc155c, type: 3}
+  m_Sprite: {fileID: 2993571543192110368, guid: 6865e435abb4e31439679fd1f9cc155c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -14819,6 +14819,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 439028742}
   m_CullTransparentMesh: 1
+--- !u!1 &452464392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 452464393}
+  m_Layer: 0
+  m_Name: MilitaryBuildings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &452464393
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 452464392}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &455348185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17056,10 +17087,10 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.51, y: 0.32}
+  m_Size: {x: 3.1875, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &519420028
@@ -23742,10 +23773,10 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.51, y: 0.32}
+  m_Size: {x: 3.1875, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &730742352
@@ -25449,6 +25480,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minTimeToStart: 0
   maxTimeToStart: 0.3
+--- !u!1 &810861707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 810861708}
+  - component: {fileID: 810861709}
+  m_Layer: 0
+  m_Name: MilitaryBuildingsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &810861708
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810861707}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1971603923}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &810861709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810861707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3179c7ffa39b4b678736a4d8b10be1ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isPersistentAcrossScenes: 0
 --- !u!1 &815458874
 GameObject:
   m_ObjectHideFlags: 0
@@ -31799,7 +31875,7 @@ GameObject:
   - component: {fileID: 1050556005}
   - component: {fileID: 1050556006}
   m_Layer: 0
-  m_Name: CivilianBuildingsBlocker
+  m_Name: BuildingsBlocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33124,7 +33200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isPersistentAcrossScenes: 0
   civilianBuildingParentTransform: {fileID: 192558679}
-  _civilianBuildingPlaceholder: {fileID: 0}
+  militaryBuildingParentTransform: {fileID: 452464392}
 --- !u!1001 &1104180143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34039,10 +34115,10 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.51, y: 0.32}
+  m_Size: {x: 3.1875, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1001 &1133508809
@@ -41133,8 +41209,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isPersistentAcrossScenes: 0
-  foodSprite: {fileID: 21300000, guid: bb39031a380abb744a8933938b9fe1a2, type: 3}
-  woodSprite: {fileID: 21300000, guid: 6865e435abb4e31439679fd1f9cc155c, type: 3}
+  foodSprite: {fileID: -7642991735494033064, guid: c1a8a5703b3d1b04b8575ff83bea96b9, type: 3}
+  woodSprite: {fileID: 2993571543192110368, guid: 6865e435abb4e31439679fd1f9cc155c, type: 3}
   stoneSprite: {fileID: -2276259661975475453, guid: ee30fb299ffbdd44d874ac70b225d95f, type: 3}
   ironSprite: {fileID: 8389134475083476877, guid: 66bf51e40b92ee3468bf23c65fa49090, type: 3}
   goldSprite: {fileID: 21300000, guid: b7d6ab95c1f4a294590ffc729068292f, type: 3}
@@ -49565,8 +49641,8 @@ Transform:
   - {fileID: 1056701433}
   - {fileID: 1589349971}
   - {fileID: 1094189871}
-  - {fileID: 1971603923}
   - {fileID: 1351086704}
+  - {fileID: 1888137059}
   m_Father: {fileID: 1425677211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1599661809
@@ -54082,6 +54158,7 @@ MonoBehaviour:
   BuildingContainerPrefab: {fileID: 5743838154658077368, guid: 854af4227b773234c8c9e7e833c455f7, type: 3}
   buildButton: {fileID: 1328146526}
   gridContainerInCanvas: {fileID: 730742352}
+  playerIsTryingToStartConstruction: 0
 --- !u!1001 &1713544030
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60038,6 +60115,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884772182}
   m_CullTransparentMesh: 1
+--- !u!1 &1888137058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1888137059}
+  m_Layer: 0
+  m_Name: Buildings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1888137059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888137058}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1971603923}
+  m_Father: {fileID: 1597818125}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1890182754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62680,14 +62789,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971603922}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1050556005}
   - {fileID: 1466556575}
-  m_Father: {fileID: 1597818125}
+  - {fileID: 810861708}
+  m_Father: {fileID: 1888137059}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1980293818
 PrefabInstance:
@@ -63551,6 +63661,7 @@ MonoBehaviour:
   BuildingContainerPrefab: {fileID: 5743838154658077368, guid: 10653b35004c9ba428991e343b285b13, type: 3}
   buildButton: {fileID: 251129280}
   gridContainerInCanvas: {fileID: 1221503840}
+  playerIsTryingToStartConstruction: 0
 --- !u!1001 &2026340302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71663,4 +71774,5 @@ SceneRoots:
   - {fileID: 894933768}
   - {fileID: 350051207}
   - {fileID: 192558680}
+  - {fileID: 452464393}
   - {fileID: 200145907}

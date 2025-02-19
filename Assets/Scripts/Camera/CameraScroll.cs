@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Buildings.MilitaryBuildings;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -100,7 +101,7 @@ public class CameraScroll : MonoBehaviour
             // Si se sobrepasa el umbral, considera que no es un clic
             if (clickTimer > clickDurationThreshold)
             {
-                if (!CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild)
+                if (!CivilianBuildingsUIManager.Instance.playerIsTryingToStartConstruction || !MilitaryBuildingsUIManager.Instance.playerIsTryingToStartConstruction)
                 {
                     LevelGrid.Instance.DesactivateGridSlotPrefabAndHideBuildUIPop();
                 }
@@ -122,14 +123,14 @@ public class CameraScroll : MonoBehaviour
             // Si al soltar el botón sigue siendo un clic, ejecuta la acción de clic
             if (isClick)
             {
-                if(!CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild) //Selecting all posible grids slots
+                if(!CivilianBuildingsUIManager.Instance.playerIsTryingToStartConstruction) //Selecting all posible grids slots
                 {
                     if (LevelGrid.Instance != null)
                     {
                         LevelGrid.Instance.ClickOnLevelGrid();
                     }
                 }
-                else if(CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild)//Selecting civilian building position
+                else if(CivilianBuildingsUIManager.Instance.playerIsTryingToStartConstruction)//Selecting civilian building position
                 {
                     if (LevelGrid.Instance != null)
                     {

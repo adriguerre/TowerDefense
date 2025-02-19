@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Buildings.CivilianBuildings;
+using Buildings.MilitaryBuildings;
 using BuildingsTest;
 using NaughtyAttributes;
 using NUnit.Framework.Internal;
@@ -135,7 +136,6 @@ public class LevelGrid : Singleton<LevelGrid>
 	public void SetCurrentGridSlotFromWorldPosition(Vector2 position)
 	{
 		GridPosition gridPosition = GetGridPosition(position);
-			
 		currentGridSlot = gridSystem.GetGridSlotFromGridPosition(gridPosition);
 	}
 	
@@ -274,7 +274,7 @@ public class LevelGrid : Singleton<LevelGrid>
 						{
 							minDistance = gridPosition.DistanceTo(closestPosition);
 							closestBuildingObject = civilianBuilding;
-							closestPosition = gridPosition;
+							closestPosition = gridPosition; //Check if can remove
 						}
 					}
 				}
@@ -289,6 +289,35 @@ public class LevelGrid : Singleton<LevelGrid>
 			else
 				positionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
 
+		}
+		return closestBuildingObject;
+	}
+	
+	public GridSlot GetClosestAvailablePositionToMilitaryBuilding()
+	{
+		GridSlot closestBuildingObject = null;
+		GridPosition closestPosition = gridSystem.GetGridSlotFromMousePosition()._gridPosition;
+		GridPosition gridPosition = null;
+		double minDistance = 100;
+
+		for (int i = 0; i < gridSystem.width; i++)
+		{
+			for (int j = 0; j < gridSystem.height; j++)
+			{
+				gridPosition = new GridPosition(i, j);
+				GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(gridPosition);
+				if (gridSlot == null || gridSlot.IsRoad || 
+				    MilitaryBuildingsManager.Instance.CurrentBuildingsDictionary.ContainsKey(gridPosition))
+				{
+					continue;
+				}
+				
+				if (gridPosition.DistanceTo(closestPosition) < minDistance)
+				{
+					minDistance = gridPosition.DistanceTo(closestPosition);
+					closestBuildingObject = gridSlot;
+				}
+			}
 		}
 		return closestBuildingObject;
 	}

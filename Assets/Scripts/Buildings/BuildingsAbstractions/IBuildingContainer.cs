@@ -129,8 +129,8 @@ namespace BuildingsTest
             _buildingIcon.sprite = _buildingInfo.buildingIcon;
             _buildingName.text = _buildingInfo.buildingName;
 
-            _buildTimeText.text = _buildingInfo.timeToBuild.ToString();
-            _upgradeTimeText.text = _buildingInfo.timeToUpgrade.ToString();
+            _buildTimeText.text = _buildingInfo.timeToBuild.ToString() + "s";
+            _upgradeTimeText.text = _buildingInfo.timeToUpgrade.ToString() + "s";
             _gridSizeText.text = _buildingInfo.buildSize.ToString();
 
         

@@ -14,6 +14,7 @@ public class GridSlot
 	public int buildingSize {get; private set;}
 	
 	public IBuildingsSO BuildingSO {get; private set;}
+	public bool IsRoad { get; private set; }
 	
     #endregion
 
@@ -56,6 +57,7 @@ public class GridSlot
 	    return BuildingSO;
     }
 
+   
 
   /*  public void AddCivilianBuildingSpot(IBuilding building, List<GridPosition> positionLinkedWithThisBuilding)
     {

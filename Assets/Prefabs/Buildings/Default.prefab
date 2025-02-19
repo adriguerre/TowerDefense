@@ -577,7 +577,7 @@ GameObject:
   - component: {fileID: 2026871988669708330}
   - component: {fileID: 8814760588253654181}
   m_Layer: 0
-  m_Name: CivilianBuildDefault
+  m_Name: Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

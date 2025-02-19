@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using BuildingsTest;
+using CDebugger;
 using UnityEngine;
 
 namespace Buildings.CivilianBuildings
@@ -53,6 +54,11 @@ namespace Buildings.CivilianBuildings
                 Destroy(blocker.gameObject);
             }
             civilianBuildingBlockers.Clear();
+        }
+
+        public void DestroyMilitaryBuildingsSpawnBlockers()
+        {
+            CustomDebugger.Log(LogCategories.MilitaryBuildings, "Remove spawn blockers from military");
         }
     }
 

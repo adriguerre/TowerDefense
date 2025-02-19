@@ -6,7 +6,15 @@ namespace BuildingsTest
 {
     public class IBuildingManager : MonoBehaviour
     {
+        /// <summary>
+        /// Key - Building ID
+        /// Value - Its Gameobject
+        /// </summary>
         public Dictionary<int, GameObject> CurrentBuildingsDictionary {get; private set;}
+        /// <summary>
+        /// Key - Building id from all buildings in level
+        /// Value - Position
+        /// </summary>
         public Dictionary<int, Vector2> AllBuildingsPositions { get; private set; }
         
         protected virtual void Awake()

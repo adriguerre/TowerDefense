@@ -20,7 +20,7 @@ namespace BuildingsTest
         protected IBuildingsSO _currentSelectedBuilding;
         
         public Action<IBuildingsSO> OnChoosingBuildingPlace;
-        
+        public bool playerIsTryingToStartConstruction;
 
         protected abstract void StartSelectionMode();
         /// <summary>

@@ -1,7 +1,9 @@
 using System;
 using Buildings;
 using Buildings.CivilianBuildings;
+using Buildings.MilitaryBuildings;
 using BuildingsTest;
+using CDebugger;
 using MainNavBarUI;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,45 +14,73 @@ public class BuilderManager : ISingleton<BuilderManager>
 {
 
 	[SerializeField] private GameObject civilianBuildingParentTransform;
+	[SerializeField] private GameObject militaryBuildingParentTransform;
 
-	public GameObject _civilianBuildingPlaceholder;
+	private GameObject _BuildingPlaceholder;
 	public IBuildingsSO BuildInfo { get; private set; }
 
 	private void Start()
 	{
 		CivilianBuildingsUIManager.Instance.OnBuildingStarted += BuildCivilianBuildings;
-		CivilianBuildingsUIManager.Instance.OnChoosingBuildingPlace += SpawnMoveableObjectSelector;
+		CivilianBuildingsUIManager.Instance.OnChoosingBuildingPlace += SpawnCivilianMoveableObjectSelector;
+
+		MilitaryBuildingsUIManager.Instance.OnChoosingBuildingPlace += SpawnMilitaryMoveableObjectSelector;
 	}
+
+
 
 	private void OnDisable()
 	{
 		CivilianBuildingsUIManager.Instance.OnBuildingStarted -= BuildCivilianBuildings;
-		CivilianBuildingsUIManager.Instance.OnChoosingBuildingPlace -= SpawnMoveableObjectSelector;
+		CivilianBuildingsUIManager.Instance.OnChoosingBuildingPlace -= SpawnCivilianMoveableObjectSelector;
+		
+		MilitaryBuildingsUIManager.Instance.OnChoosingBuildingPlace -= SpawnMilitaryMoveableObjectSelector;
+
 
 	}
 
-	public void SpawnMoveableObjectSelector(IBuildingsSO civilianBuildingInfo)
+	
+	private void SpawnMilitaryMoveableObjectSelector(IBuildingsSO militaryBuildingInfo)
+	{
+		try
+		{
+			BuildInfo = militaryBuildingInfo;
+			_BuildingPlaceholder = Instantiate(militaryBuildingInfo.buildingPrefab,
+				LevelGrid.Instance.positionToBuild, Quaternion.identity, militaryBuildingParentTransform.transform);
+
+			BuildingConstructorSelector buildingConstructorSelector = _BuildingPlaceholder.GetComponent<BuildingConstructorSelector>();
+			buildingConstructorSelector.ActivateBuildingConfirmOption(militaryBuildingInfo, false);
+			//CivilianBuildingsManager.Instance.AddCivilianBuilding(LevelGrid.Instance.currentGridSlot.buildingID, _BuildingPlaceholder);
+		}
+		catch (Exception e)
+		{
+			CustomDebugger.LogError(LogCategories.MilitaryBuildings, "There was an error choosing place for this building " + militaryBuildingInfo.buildingName);
+			Debug.LogError(e.Message);
+		}
+	}
+	public void SpawnCivilianMoveableObjectSelector(IBuildingsSO civilianBuildingInfo)
 	{
 		try
 		{
 			BuildInfo = civilianBuildingInfo;
-			_civilianBuildingPlaceholder = Instantiate(civilianBuildingInfo.buildingPrefab,
+			_BuildingPlaceholder = Instantiate(civilianBuildingInfo.buildingPrefab,
 				LevelGrid.Instance.positionToBuild, Quaternion.identity, civilianBuildingParentTransform.transform);
 
-			BuildingConstructorSelector buildingConstructorSelector = _civilianBuildingPlaceholder.GetComponent<BuildingConstructorSelector>();
-			buildingConstructorSelector.ActivateBuildingConfirmOption(civilianBuildingInfo);
-			//CivilianBuildingsManager.Instance.AddCivilianBuilding(LevelGrid.Instance.currentGridSlot.buildingID, _civilianBuildingPlaceholder);
+			BuildingConstructorSelector buildingConstructorSelector = _BuildingPlaceholder.GetComponent<BuildingConstructorSelector>();
+			buildingConstructorSelector.ActivateBuildingConfirmOption(civilianBuildingInfo, true);
+			//CivilianBuildingsManager.Instance.AddCivilianBuilding(LevelGrid.Instance.currentGridSlot.buildingID, _BuildingPlaceholder);
 		}
 		catch (Exception e)
 		{
-			Debug.LogError("There was an error choosing place for this building " + civilianBuildingInfo.buildingName);
+			CustomDebugger.LogError(LogCategories.CivilianBuildings, "There was an error choosing place for this building " + civilianBuildingInfo.buildingName);
+
 			Debug.LogError(e.Message);
 		}
 	}
 
 	public void MoveBuildingPlace(Vector2 position)
 	{
-		_civilianBuildingPlaceholder.transform.position = position;
+		_BuildingPlaceholder.transform.position = position;
 	}
 
 
@@ -68,7 +98,7 @@ public class BuilderManager : ISingleton<BuilderManager>
 				LevelGrid.Instance.positionToBuild, Quaternion.identity, civilianBuildingParentTransform.transform);
 			LevelGrid.Instance.currentGridSlot.AddCivilianBuildingToAllSlot(civilianBuildingInfo);
 			CivilianBuildingsManager.Instance.AddCivilianBuilding(LevelGrid.Instance.currentGridSlot.buildingID, civilianBuilding);
-			CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild = false;
+			CivilianBuildingsUIManager.Instance.playerIsTryingToStartConstruction = false;
 			NavigationManager.Instance.OpenScreenCanvas(TabTypes.Gameplay, false);
 			civilianBuilding.GetComponent<CivilianBuilding>().Init(civilianBuildingInfo);
 		// }

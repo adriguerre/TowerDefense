@@ -7,5 +7,6 @@ namespace Buildings.MilitaryBuildings
     public class MilitaryBuildingsSO : IBuildingsSO
     {
         public bool singleTarget;
+        public bool canPlaceInRoad;
     }
 }

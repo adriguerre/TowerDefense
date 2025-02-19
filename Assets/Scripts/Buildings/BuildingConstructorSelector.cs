@@ -1,6 +1,8 @@
 ﻿using System;
 using Buildings.CivilianBuildings;
+using Buildings.MilitaryBuildings;
 using BuildingsTest;
+using CDebugger;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -17,6 +19,7 @@ namespace Buildings
         [SerializeField] private GameObject ConfirmBackButtons;
         [SerializeField] private Button confirmButton;
         [SerializeField] private Button cancelButton;
+        private bool isTryingToBuildCivilianBuilding = false;
         
         public IBuildingsSO CivilianBuildingsSO { get; private set; }
         
@@ -27,10 +30,11 @@ namespace Buildings
         }
 
 
-        public void ActivateBuildingConfirmOption(IBuildingsSO civilianBuildingInfo)
+        public void ActivateBuildingConfirmOption(IBuildingsSO civilianBuildingInfo, bool isCivilianBuilding)
         {
             CivilianBuildingsSO = civilianBuildingInfo;
             constructionPlaceholder.SetActive(true);
+            isTryingToBuildCivilianBuilding = isCivilianBuilding;
             _spriteRenderer.color = Color.green;
             ConfirmBackButtons.SetActive(true);
             cancelButton.onClick.AddListener(() => CancelBuildingConstruction());
@@ -40,17 +44,37 @@ namespace Buildings
         
         private void CancelBuildingConstruction()
         {
-            ConstructionBuildBlocker.Instance.DestroyCivilianBuildingsSpawnBlockers();
-            CivilianBuildingsUIManager.Instance.playerIsChoosingPlaceToCivilianBuild = false;
+            if (isTryingToBuildCivilianBuilding) //cancel civilian building
+            {
+                ConstructionBuildBlocker.Instance.DestroyCivilianBuildingsSpawnBlockers();
+                CivilianBuildingsUIManager.Instance.playerIsTryingToStartConstruction = false;
+            }
+            else //Cancel military building
+            {
+                ConstructionBuildBlocker.Instance.DestroyMilitaryBuildingsSpawnBlockers();
+                MilitaryBuildingsUIManager.Instance.playerIsTryingToStartConstruction = false;
+            }
+
             LevelGrid.Instance.DestroyGridBuildPrefab();
             Destroy(this.gameObject);
         }
 
         public void ConfirmBuildingConstruction()
         {
-            ConstructionBuildBlocker.Instance.DestroyCivilianBuildingsSpawnBlockers();
-            BuilderManager.Instance.BuildCivilianBuildings(CivilianBuildingsSO);
+            if (isTryingToBuildCivilianBuilding)
+            {
+                ConstructionBuildBlocker.Instance.DestroyCivilianBuildingsSpawnBlockers();
+                BuilderManager.Instance.BuildCivilianBuildings(CivilianBuildingsSO);
+            }
+            else
+            {
+                ConstructionBuildBlocker.Instance.DestroyMilitaryBuildingsSpawnBlockers();
+                CustomDebugger.Log(LogCategories.MilitaryBuildings, "Add building to builder manager");
+                //BuilderManager.Instance.BuildCivilianBuildings(CivilianBuildingsSO);
+            }
+
             Destroy(this.gameObject);
+
         }
     }
 }

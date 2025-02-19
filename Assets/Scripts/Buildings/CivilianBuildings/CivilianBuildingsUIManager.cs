@@ -28,8 +28,6 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
     public Action<IBuildingsSO> OnSpawnBlockers;
     public Action<IBuildingsSO> OnDespawnBlockers;
     
-    public bool playerIsChoosingPlaceToCivilianBuild { get; set; }
-    
 
     protected void Awake()
     {
@@ -107,7 +105,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
             LevelGrid.Instance.SetCurrentGridSlotFromWorldPosition(positionToBuild);
 
             CameraScroll.Instance.CenterCameraOnBuilding(positionToBuild.y);
-            playerIsChoosingPlaceToCivilianBuild = true;
+            playerIsTryingToStartConstruction = true;
             Debug.Log("KWB: " + positionToBuild);
             OnChoosingBuildingPlace?.Invoke(_currentSelectedBuilding);
         }

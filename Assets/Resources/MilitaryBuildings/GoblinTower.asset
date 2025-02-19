@@ -19,14 +19,15 @@ MonoBehaviour:
     y veloz, operada por traviesos goblins expertos en el uso de proyectiles. Desde
     su precaria pero efectiva plataforma de madera, los goblins lanzan dardos, cuchillos
     o peque\xF1os explosivos"
-  buildingPrefab: {fileID: 0}
+  buildingPrefab: {fileID: 3435504987945099276, guid: bca57ff1d1582c64b9fc678ef21b2134, type: 3}
   timeToBuild: 12
   timeToUpgrade: 7
   buildSize: 1
   buildingCost1:
-    resourceType: 2
-    cost: 100
+    resourceType: 1
+    cost: 50
   buildingCost2:
     resourceType: 2
-    cost: 50
+    cost: 100
   singleTarget: 1
+  canPlaceInRoad: 0
