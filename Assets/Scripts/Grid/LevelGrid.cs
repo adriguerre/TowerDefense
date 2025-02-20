@@ -21,9 +21,9 @@ public class LevelGrid : Singleton<LevelGrid>
 	[SerializeField] private int width;
 	[SerializeField] private int height;
 	[SerializeField] private float cellSize;
-	[field: SerializeField] public GameObject gridDebugObjectPrefab {get; private set;}
-	[field: SerializeField] public GameObject gridDebugCivilianBuildingSize4ObjectPrefab {get; private set;}
-	[field: SerializeField] public GameObject gridDebugCivilianBuildingSize6ObjectPrefab {get; private set;}
+	[field: SerializeField] public GameObject gridObserverObjectPrefab {get; private set;}
+	[field: SerializeField] public GameObject gridObserverCivilianBuildingSize4ObjectPrefab {get; private set;}
+	[field: SerializeField] public GameObject gridObserverCivilianBuildingSize6ObjectPrefab {get; private set;}
 	
 
 	[SerializeField] private LevelSO defaultLevel;
@@ -149,6 +149,7 @@ public class LevelGrid : Singleton<LevelGrid>
 		{
 			currentGridSlot = gridSlot;
 			bool isBuilding = false;
+			bool isMilitaryBuilding = false;
 			if (gridSlot._gridPositionType == GridPositionType.CivilianBuilding)
 			{
 				Debug.Log("WE ARE CLICKING CIVILIAN BUILDING WITH ID: " + currentGridSlot.buildingID);
@@ -157,9 +158,11 @@ public class LevelGrid : Singleton<LevelGrid>
 					Debug.Log("THERE IS ALREADY A BUILDING IN THIS LOCATION:" + currentGridSlot.GetBuildingInGridSlot().buildingName.ToString());
 				}
 				isBuilding = true;
-
+			}else if (gridSlot._gridPositionType == GridPositionType.MilitaryBuilding)
+			{
+				isMilitaryBuilding = true;
 			}
-			ActivateGridSlotBuildingUI(currentGridSlot, isBuilding, true);
+			ActivateGridSlotBuildingUI(currentGridSlot, isBuilding, true,isMilitaryBuilding);
 			CheckIfLevelCreatorIsEnabled(currentGridSlot);
 		}else if (currentGridSlot == gridSlot)
 		{
@@ -185,7 +188,7 @@ public class LevelGrid : Singleton<LevelGrid>
 				{
 					positionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID,  BuilderManager.Instance.BuildInfo.buildSize);
 					currentGridSlot = gridSlot;
-					ActivateGridSlotBuildingUI(currentGridSlot, true, false);
+					ActivateGridSlotBuildingUI(currentGridSlot, true, false, false);
 					BuilderManager.Instance.MoveBuildingPlace(positionToBuild);
 				}
 			}
@@ -198,8 +201,7 @@ public class LevelGrid : Singleton<LevelGrid>
 		Debug.Log(gridSlot._gridPosition);
 		if (gridSlot != null && currentGridSlot != gridSlot)
 		{
-			if (gridSlot._gridPositionType == GridPositionType.Obstacle || gridSlot._gridPositionType == GridPositionType.CivilianBuilding
-			    || gridSlot._gridPositionType == GridPositionType.Path || gridSlot._gridPositionType == GridPositionType.TemporaryObstacle)
+			if (IsNotValidPositionForMilitaryBuilding(gridSlot))
 			{
 				return;
 			}
@@ -208,11 +210,19 @@ public class LevelGrid : Singleton<LevelGrid>
 			{
 				positionToBuild = new Vector2(gridSlot._gridPosition.x, gridSlot._gridPosition.y);
 				currentGridSlot = gridSlot;
-				ActivateGridSlotBuildingUI(currentGridSlot, false, false);
+				ActivateGridSlotBuildingUI(currentGridSlot, false, false, true);
 				BuilderManager.Instance.MoveBuildingPlace(positionToBuild);
 			}
 			
 		}
+	}
+
+	public bool IsNotValidPositionForMilitaryBuilding(GridSlot gridSlot)
+	{
+		return (gridSlot._gridPositionType == GridPositionType.Obstacle || 
+		        gridSlot._gridPositionType == GridPositionType.CivilianBuilding ||
+		        gridSlot._gridPositionType == GridPositionType.Path ||
+		        gridSlot._gridPositionType == GridPositionType.TemporaryObstacle);
 	}
 	public void DesactivateGridSlotPrefabAndHideBuildUIPop()
 	{
@@ -306,7 +316,7 @@ public class LevelGrid : Singleton<LevelGrid>
 		if (closestBuildingObject != null)
 		{
 			GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(closestBuildingObject.gridPositionList.First());
-			ActivateGridSlotBuildingUI(gridSlot, true, false);
+			ActivateGridSlotBuildingUI(gridSlot, true, false, false);
 			if (size == 6)
 				positionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
 			else
@@ -334,7 +344,8 @@ public class LevelGrid : Singleton<LevelGrid>
 				//Este gridslot no se asigna bien, por lo tanto es siempre 0 0
 				GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(gridPosition);
 				if (gridSlot == null || gridSlot.IsRoad || 
-				    MilitaryBuildingsManager.Instance.CurrentBuildingsDictionary.ContainsKey(gridPosition))
+				    MilitaryBuildingsManager.Instance.CurrentBuildingsDictionary.ContainsKey(gridPosition)
+				    || IsNotValidPositionForMilitaryBuilding(gridSlot) )
 				{
 					continue;
 				}
@@ -346,6 +357,13 @@ public class LevelGrid : Singleton<LevelGrid>
 				}
 			}
 		}
+
+		if (closestBuildingObject != null)
+		{
+			ActivateGridSlotBuildingUI(closestBuildingObject, false, false, true);
+			positionToBuild = GetWorldPosition(closestBuildingObject._gridPosition);
+		}
+		
 		return closestBuildingObject;
 	}
 	
@@ -400,50 +418,62 @@ public class LevelGrid : Singleton<LevelGrid>
 	/// <param name="gridSlot"></param>
 	/// <param name="isBuilding"></param>
 	/// <param name="showBuildUIPopup"></param>
-	public void ActivateGridSlotBuildingUI(GridSlot gridSlot, bool isBuilding, bool showBuildUIPopup)
+	public void ActivateGridSlotBuildingUI(GridSlot gridSlot, bool isBuilding, bool showBuildUIPopup,bool isMilitaryBuilding)
     {
 	    if (currentGridBuildingUI != null)
 		    Destroy(currentGridBuildingUI);
 	    //If it is a building, we spawn 4 grid size object or 6 grid size
 	    if (isBuilding)
 	    {
-		    if (gridSlot.buildingSize != 0)
-		    {
-			    if (gridSlot.buildingSize == 4)
-			    {
-				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
-				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize4ObjectPrefab, position, Quaternion.identity); 
-				    if(showBuildUIPopup)
-						BuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
-				    positionToBuild = position;
-			    }
-			    else
-			    {
-				    Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
-				    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugCivilianBuildingSize6ObjectPrefab, position, Quaternion.identity); 
-				    if(showBuildUIPopup)
-						BuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
-				    positionToBuild = position;
-			    }
-		    } 
+		    ActivateCivilianBuildingObserver(gridSlot, showBuildUIPopup);
+	    }
+	    else if (isMilitaryBuilding)
+	    {
+		    Vector2 position = new Vector2(gridSlot._gridPosition.x, gridSlot._gridPosition.y);
+		    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridObserverObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity); 
+		    if(showBuildUIPopup)
+			    BuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
+		    positionToBuild = GetWorldPosition(gridSlot._gridPosition);
 	    }
 	    else
 	    {
 		    BuildingsUIPopButtons.Instance.CloseBuildUI();
-		    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity);
+		    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridObserverObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity);
 		    //TODO KW
 		    positionToBuild = GetWorldPosition(gridSlot._gridPosition);
 	    }
- 
-	    
 	    currentGridBuildingUI.GetComponent<GridSlotHolder>().SetProperties(gridSlot);
     }
+
+	private void ActivateCivilianBuildingObserver(GridSlot gridSlot, bool showBuildUIPopup)
+	{
+		if (gridSlot.buildingSize == 0)
+			return;
+		
+		
+		if (gridSlot.buildingSize == 4)
+		{
+			Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
+			currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridObserverCivilianBuildingSize4ObjectPrefab, position, Quaternion.identity); 
+			if(showBuildUIPopup)
+				BuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
+			positionToBuild = position;
+		}
+		else
+		{
+			Vector2 position = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
+			currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridObserverCivilianBuildingSize6ObjectPrefab, position, Quaternion.identity); 
+			if(showBuildUIPopup)
+				BuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
+			positionToBuild = position;
+		}
+	}
 
     #region Public Methods
 
     public void InstantiateGridSlotPrefab(GridPosition gridPosition)
     {
-	  // Instantiate(LevelGrid.Instance.gridDebugObjectPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
+	  // Instantiate(LevelGrid.Instance.gridObserverObjectPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
     }
     
     private void OnDrawGizmos()

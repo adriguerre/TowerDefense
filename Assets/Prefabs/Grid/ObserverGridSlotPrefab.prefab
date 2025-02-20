@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 5583363218704380594}
   - component: {fileID: 3264235852509301139}
   m_Layer: 0
-  m_Name: GridSlotPrefab
+  m_Name: ObserverGridSlotPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

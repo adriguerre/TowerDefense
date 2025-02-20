@@ -47,6 +47,7 @@ public class BuilderManager : ISingleton<BuilderManager>
 			BuildInfo = militaryBuildingInfo;
 			_BuildingPlaceholder = Instantiate(militaryBuildingInfo.buildingPrefab,
 				LevelGrid.Instance.positionToBuild, Quaternion.identity, militaryBuildingParentTransform.transform);
+			CustomDebugger.Log(LogCategories.MilitaryBuildings, "POSITION TO BUILD: " + LevelGrid.Instance.positionToBuild.ToString());
 
 			BuildingConstructorSelector buildingConstructorSelector = _BuildingPlaceholder.GetComponent<BuildingConstructorSelector>();
 			buildingConstructorSelector.ActivateBuildingConfirmOption(militaryBuildingInfo, false);
