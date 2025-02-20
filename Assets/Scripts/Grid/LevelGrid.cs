@@ -325,6 +325,22 @@ public class LevelGrid : Singleton<LevelGrid>
 		}
 		return closestBuildingObject;
 	}
+
+	public List<GridPosition> GetAllPositionsToBlockWhenBuilding()
+	{
+		List<GridPosition> blockPositions = new List<GridPosition>();
+
+		for (int i = 0; i < gridSystem.width; i++)
+		{
+			for (int j = 0; j < gridSystem.height; j++)
+			{
+				GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(new GridPosition(i, j));
+				if (IsNotValidPositionForMilitaryBuilding(gridSlot))
+				blockPositions.Add(gridSlot._gridPosition);	
+			}
+		}
+		return blockPositions;
+	}
 	
 	public GridSlot GetClosestAvailablePositionToMilitaryBuilding()
 	{
