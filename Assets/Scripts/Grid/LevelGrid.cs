@@ -64,6 +64,14 @@ public class LevelGrid : Singleton<LevelGrid>
 			Debug.Log("LEVEL SAVED");
 			levelToModify.pathList.Clear();
 			levelToModify.pathList = pathsSlots;
+			
+			//TODO KW: DO civilian building editor
+			// levelToModify.CivilianBuildingGridPosisitions.Clear();
+			// for (int i = 0; i < civilianBuildingsSlots.Count; i++)
+			// {
+			// 	levelToModify.CivilianBuildingGridPosisitions.Add(new CivilianBuildingGridPosition(i, civilianBuildingsSlots[i].));
+			// }
+			// Debug.Log(levelToModify.pathList.Count);
 		}
 		else
 		{

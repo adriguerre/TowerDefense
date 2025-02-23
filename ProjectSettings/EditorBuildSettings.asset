@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/CampaignScene.unity
     guid: b594e26d268c0b848b6c2b1f865d2b8d
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
+    path: Assets/Scenes/MobileGameScene.unity
     guid: 944215e40a41694489525dcafdd44583
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: d291de56a5c24cf4c946b127a4225165, type: 2}

@@ -10,6 +10,7 @@ public class CameraScroll : MonoBehaviour
     public static CameraScroll Instance;
     
     [SerializeField] private Camera cam;
+    [SerializeField] private bool IsPCGame;
 
     Vector3 touchStart;
     [field: SerializeField] private float topLimit = 25f;
@@ -60,12 +61,13 @@ public class CameraScroll : MonoBehaviour
         }
         
         PanCamera();
-        CameraMovementInScroll();
+        if(!IsPCGame)
+            CameraMovementInScroll();
     }
 
     private void CenterCameraOnTarget()
     {
-        if (moveToPosition.y < bottomLimit)
+        if (moveToPosition.y < bottomLimit || IsPCGame)
         {  
             IsBeingCentered = false;
             SetIfPlayerCanMoveCamera(true);
@@ -115,6 +117,10 @@ public class CameraScroll : MonoBehaviour
                     LevelGrid.Instance.DesactivateGridSlotPrefabAndHideBuildUIPop();
                 }
 
+                if (!IsPCGame)
+                {
+                    return;
+                }
                 isClick = false;
                 //isMovingCamera = true;
                 //Debug.Log("Scrolling...");
