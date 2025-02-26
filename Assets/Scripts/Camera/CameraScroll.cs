@@ -3,6 +3,7 @@ using System.Collections;
 using Buildings.MilitaryBuildings;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraScroll : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class CameraScroll : MonoBehaviour
     public static CameraScroll Instance;
     
     [SerializeField] private Camera cam;
-    [SerializeField] private bool IsPCGame;
+    [FormerlySerializedAs("IsPCGame")] [SerializeField] private bool IsMobileGame;
 
     Vector3 touchStart;
     [field: SerializeField] private float topLimit = 25f;
@@ -61,13 +62,13 @@ public class CameraScroll : MonoBehaviour
         }
         
         PanCamera();
-        if(!IsPCGame)
+        if(!IsMobileGame)
             CameraMovementInScroll();
     }
 
     private void CenterCameraOnTarget()
     {
-        if (moveToPosition.y < bottomLimit || IsPCGame)
+        if (moveToPosition.y < bottomLimit || IsMobileGame)
         {  
             IsBeingCentered = false;
             SetIfPlayerCanMoveCamera(true);
@@ -117,7 +118,7 @@ public class CameraScroll : MonoBehaviour
                     LevelGrid.Instance.DesactivateGridSlotPrefabAndHideBuildUIPop();
                 }
 
-                if (!IsPCGame)
+                if (!IsMobileGame)
                 {
                     return;
                 }
