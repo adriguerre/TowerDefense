@@ -27,11 +27,11 @@ public class CameraScroll : MonoBehaviour
     private float clickTimer = 0.0f;
     private bool isClick = false;
     //If canMoveCamera is false, players won't be able to scroll
+
     [field: SerializeField] private bool canMoveCamera { get; set; }
-    
+    [field: SerializeField] float TimeToGetCentered { get; set; }
     //Variable used when we need to center camera in any buildings
     private bool IsBeingCentered { get; set; }
-    [field: SerializeField] float TimeToGetCentered { get; set; }
     private Vector3 moveToPosition;
     private Coroutine enableCameraMovementCoroutine;
     public Action onCameraCenterCompleted;

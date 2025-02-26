@@ -22,162 +22,68 @@ MonoBehaviour:
     y la amenaza de un inminente ataque pondr\xE1 a prueba el coraje y la unidad
     de los aldeanos. "
   pathList:
-  - x: 25
-    y: 12
-  - x: 25
-    y: 11
-  - x: 26
-    y: 11
-  - x: 26
-    y: 12
-  - x: 24
-    y: 12
-  - x: 24
-    y: 11
-  - x: 23
-    y: 12
-  - x: 22
-    y: 11
-  - x: 22
-    y: 12
-  - x: 22
-    y: 11
-  - x: 23
-    y: 11
-  - x: 20
-    y: 11
-  - x: 21
-    y: 12
-  - x: 21
-    y: 11
-  - x: 20
-    y: 12
-  - x: 19
-    y: 11
-  - x: 19
-    y: 12
-  - x: 17
-    y: 12
-  - x: 18
-    y: 11
-  - x: 18
-    y: 12
-  - x: 17
-    y: 11
-  - x: 15
-    y: 12
-  - x: 16
-    y: 11
-  - x: 16
-    y: 12
-  - x: 14
-    y: 11
-  - x: 13
-    y: 12
-  - x: 14
-    y: 11
-  - x: 13
-    y: 12
-  - x: 15
-    y: 11
-  - x: 14
-    y: 12
-  - x: 12
-    y: 11
-  - x: 13
-    y: 11
-  - x: 12
-    y: 12
-  - x: 12
-    y: 10
-  - x: 13
-    y: 10
-  - x: 12
-    y: 10
-  - x: 12
-    y: 9
-  - x: 13
-    y: 9
-  - x: 12
-    y: 8
-  - x: 12
-    y: 8
-  - x: 12
-    y: 7
-  - x: 13
-    y: 7
-  - x: 13
-    y: 8
-  - x: 13
+  - x: 3
     y: 6
-  - x: 11
+  - x: 4
     y: 6
-  - x: 11
+  - x: 4
     y: 5
-  - x: 12
+  - x: 3
     y: 5
-  - x: 12
-    y: 6
-  - x: 12
-    y: 5
-  - x: 13
-    y: 5
-  - x: 9
-    y: 6
-  - x: 10
-    y: 5
-  - x: 10
-    y: 6
-  - x: 9
-    y: 5
+  - x: 3
+    y: 4
+  - x: 4
+    y: 4
   blockedSlotList: []
-  temporaryBlockedSlotsList: []
+  temporaryBlockedSlotsList:
+  - x: 0
+    y: 0
   CivilianBuildingGridPosisitions:
   - buildingId: 1
     size: 6
     gridPositionList:
-    - x: 14
+    - x: 0
       y: 6
-    - x: 15
+    - x: 1
       y: 6
-    - x: 15
+    - x: 2
+      y: 6
+    - x: 0
       y: 7
-    - x: 14
+    - x: 1
       y: 7
-    - x: 16
-      y: 6
-    - x: 16
+    - x: 2
       y: 7
   - buildingId: 2
     size: 4
     gridPositionList:
-    - x: 19
-      y: 10
-    - x: 20
-      y: 10
-    - x: 19
-      y: 11
-    - x: 20
-      y: 11
+    - x: 2
+      y: 8
+    - x: 3
+      y: 8
+    - x: 2
+      y: 9
+    - x: 3
+      y: 9
   - buildingId: 3
     size: 4
     gridPositionList:
-    - x: 16
-      y: 8
-    - x: 17
-      y: 8
-    - x: 16
-      y: 9
-    - x: 17
-      y: 9
+    - x: 5
+      y: 10
+    - x: 5
+      y: 11
+    - x: 6
+      y: 10
+    - x: 6
+      y: 11
   - buildingId: 4
     size: 4
     gridPositionList:
-    - x: 19
+    - x: 5
       y: 4
-    - x: 20
+    - x: 6
       y: 4
-    - x: 19
+    - x: 6
       y: 5
-    - x: 20
+    - x: 5
       y: 5
