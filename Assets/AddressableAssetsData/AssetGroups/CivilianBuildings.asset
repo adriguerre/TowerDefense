@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: CivilianBuildings
+  m_EditorClassIdentifier: 
+  m_GroupName: CivilianBuildings
+  m_GUID: f42983b2b42c8564dadaaea87f81e4ec
+  m_SerializeEntries:
+  - m_GUID: abc0715b8ec32094d9fce9a9fa375979
+    m_Address: Assets/Resources_moved/CivilianBuildings
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 2da5eaf234f1c2a4799ad43a3b54a8a1, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 7fe560f9f5a47924b9758d752f86710b, type: 2}
+    - {fileID: 11400000, guid: 0de4d18cd276d9c4dbb375d4cf72fe6d, type: 2}
