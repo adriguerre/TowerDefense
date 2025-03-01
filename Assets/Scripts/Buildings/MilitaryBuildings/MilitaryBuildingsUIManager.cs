@@ -37,15 +37,26 @@ namespace Buildings.MilitaryBuildings
         private void Start()
         {
             base.Start();
+            AddressablesManager.AddressablesManager.OnMilitaryBuildingsLoaded += OnMilitaryBuildingsInfoLoaded;
             MilitaryBuildingUIPanel.onMilitaryBuildingOpened += OnUIOpened;
             MilitaryBuildingUIPanel.onMilitaryBuildingClosed += OnUIClosed;
         }
         
         private void OnDisable()
         {
+            AddressablesManager.AddressablesManager.OnMilitaryBuildingsLoaded -= OnMilitaryBuildingsInfoLoaded;
             MilitaryBuildingUIPanel.onMilitaryBuildingOpened -= OnUIOpened;
             MilitaryBuildingUIPanel.onMilitaryBuildingClosed -= OnUIClosed;
         }
+        
+        
+        private void OnMilitaryBuildingsInfoLoaded(object sender, List<IBuildingsSO> e)
+        {
+            _buildings = e;
+            SpawnPanelContainers();
+            buildButton.onClick.AddListener(() => StartBuildingConstruction());
+        }
+        
         
         /// <summary>
         /// Method used to start building a civilian house in case of beign in popup, or start selection mode

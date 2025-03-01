@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 9a92be3be41f6914a9adec74c0fecabf
   m_currentHash:
     serializedVersion: 2
-    Hash: f108ccf0a48b1f656b3b9dc1f725510e
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -59,6 +59,7 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: 28855d4c42ca5af469a6c91cd4586b63, type: 2}
   - {fileID: 11400000, guid: 0025bd61bd909a84b9e1f69ff3139a08, type: 2}
   - {fileID: 11400000, guid: 02a0a501da48b5444b712cb11cb7b061, type: 2}
   m_BuildSettings:
@@ -100,6 +101,8 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - CivilianBuildings
+    - MilitaryBuildings
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 40e7a2acf0a388946893e8bf5b54938c, type: 2}

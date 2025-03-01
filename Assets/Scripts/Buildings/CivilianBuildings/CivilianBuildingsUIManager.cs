@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AddressablesManager;
 using BuildingsTest;
 using CDebugger;
 using GameResources;
@@ -42,7 +43,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
         Instance = this;
         
         _buildings = new List<IBuildingsSO>();
-        _buildings = Resources.LoadAll<IBuildingsSO>("CivilianBuildings").ToList();
+        //_buildings = Resources.LoadAll<IBuildingsSO>("CivilianBuildings").ToList();
         _BuildingContainersList = new List<IBuildingContainer>();
         buildingButtonText = buildButton.GetComponentInChildren<TextMeshProUGUI>();
     }
@@ -50,13 +51,22 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
     private void Start()
     {
         base.Start();
+        AddressablesManager.AddressablesManager.OnCivilianBuildingsLoaded += OnCivilianBuildingsInfoLoaded;
         CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += OnUIOpenedWithoutPopup;
         CivilianBuildingUIPanel.onCivilianBuildingOpened += OnUIOpened;
         CivilianBuildingUIPanel.onCivilianBuildingClosed += OnUIClosed;
     }
 
+    private void OnCivilianBuildingsInfoLoaded(object sender, List<IBuildingsSO> e)
+    {
+        _buildings = e;
+        SpawnPanelContainers();
+        buildButton.onClick.AddListener(() => StartBuildingConstruction());
+    }
+
     private void OnDisable()
     {
+        AddressablesManager.AddressablesManager.OnCivilianBuildingsLoaded -= OnCivilianBuildingsInfoLoaded;
         CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += OnUIOpenedWithoutPopup;
         CivilianBuildingUIPanel.onCivilianBuildingOpened -= OnUIOpened;
         CivilianBuildingUIPanel.onCivilianBuildingClosed -= OnUIClosed;

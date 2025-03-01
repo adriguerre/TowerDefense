@@ -43,7 +43,7 @@ namespace Buildings.CivilianBuildings
 
             foreach (var blockPosition in blockersPositions)
             {
-                int buildingSize =  LevelGrid.Instance.GetSizeFromBuildingID(buildingInfo.buildingID);
+                //int buildingSize =  LevelGrid.Instance.GetSizeFromBuildingID(buildingInfo.buildingID);
                 if(blockPosition.buildingSize == 4)
                     civilianBuildingBlockers.Add(Instantiate(CivilianBuildingBlockerSize4Prefab,blockPosition.blockPosition, Quaternion.identity));
                 else

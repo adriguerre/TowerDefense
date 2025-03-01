@@ -34,8 +34,8 @@ namespace BuildingsTest
 
         protected virtual void Start()
         {
-            SpawnPanelContainers();
-            buildButton.onClick.AddListener(() => StartBuildingConstruction());
+           // SpawnPanelContainers();
+           // buildButton.onClick.AddListener(() => StartBuildingConstruction());
         }
         
         /// <summary>

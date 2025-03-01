@@ -68,7 +68,7 @@ public class CameraScroll : MonoBehaviour
 
     private void CenterCameraOnTarget()
     {
-        if (moveToPosition.y < bottomLimit || IsMobileGame)
+        if (moveToPosition.y < bottomLimit)
         {  
             IsBeingCentered = false;
             SetIfPlayerCanMoveCamera(true);
