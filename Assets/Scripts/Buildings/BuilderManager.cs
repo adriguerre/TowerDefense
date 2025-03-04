@@ -46,8 +46,8 @@ public class BuilderManager : ISingleton<BuilderManager>
 		{
 			BuildInfo = militaryBuildingInfo;
 			_BuildingPlaceholder = Instantiate(militaryBuildingInfo.buildingPrefab,
-				LevelGrid.Instance.positionToBuild, Quaternion.identity, militaryBuildingParentTransform.transform);
-			CustomDebugger.Log(LogCategories.MilitaryBuildings, "POSITION TO BUILD: " + LevelGrid.Instance.positionToBuild.ToString());
+				LevelGrid.Instance.PositionToBuild, Quaternion.identity, militaryBuildingParentTransform.transform);
+			CustomDebugger.Log(LogCategories.MilitaryBuildings, "POSITION TO BUILD: " + LevelGrid.Instance.PositionToBuild.ToString());
 
 			BuildingConstructorSelector buildingConstructorSelector = _BuildingPlaceholder.GetComponent<BuildingConstructorSelector>();
 			buildingConstructorSelector.ActivateBuildingConfirmOption(militaryBuildingInfo, false);
@@ -65,7 +65,7 @@ public class BuilderManager : ISingleton<BuilderManager>
 		{
 			BuildInfo = civilianBuildingInfo;
 			_BuildingPlaceholder = Instantiate(civilianBuildingInfo.buildingPrefab,
-				LevelGrid.Instance.positionToBuild, Quaternion.identity, civilianBuildingParentTransform.transform);
+				LevelGrid.Instance.PositionToBuild, Quaternion.identity, civilianBuildingParentTransform.transform);
 
 			BuildingConstructorSelector buildingConstructorSelector = _BuildingPlaceholder.GetComponent<BuildingConstructorSelector>();
 			buildingConstructorSelector.ActivateBuildingConfirmOption(civilianBuildingInfo, true);
@@ -96,7 +96,7 @@ public class BuilderManager : ISingleton<BuilderManager>
 		// try
 		// {
 			GameObject civilianBuilding = Instantiate(civilianBuildingInfo.buildingPrefab, 
-				LevelGrid.Instance.positionToBuild, Quaternion.identity, civilianBuildingParentTransform.transform);
+				LevelGrid.Instance.PositionToBuild, Quaternion.identity, civilianBuildingParentTransform.transform);
 			LevelGrid.Instance.currentGridSlot.AddCivilianBuildingToAllSlot(civilianBuildingInfo);
 			CivilianBuildingsManager.Instance.AddCivilianBuilding(LevelGrid.Instance.currentGridSlot.buildingID, civilianBuilding);
 			CivilianBuildingsUIManager.Instance.playerIsTryingToStartConstruction = false;

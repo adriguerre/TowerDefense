@@ -20,11 +20,6 @@ public class GameManager : Singleton<GameManager>
     //private PlayerData.PlayerData _playerData;
     #endregion 	
 
-    #region Properties 
-    #endregion 	
-    
-    #region Events 
-    #endregion
 
 
     #region Unity Methods
@@ -39,12 +34,6 @@ public class GameManager : Singleton<GameManager>
     {
         LoadGameData();
     }
-    
-    void Update()
-    {
-        
-    }
-    
     #endregion
 
 

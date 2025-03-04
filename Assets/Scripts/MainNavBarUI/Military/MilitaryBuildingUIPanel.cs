@@ -4,9 +4,10 @@ using UnityEngine;
 public class MilitaryBuildingUIPanel : Singleton<MilitaryBuildingUIPanel>
 {
     
-    private Canvas militaryCanvas;
     public static Action onMilitaryBuildingOpened;
     public static Action onMilitaryBuildingClosed;
+    
+    private Canvas militaryCanvas;
 
     private void Awake()
     {

@@ -29,8 +29,7 @@ namespace Buildings.MilitaryBuildings
             Instance = this;
         
             _buildings = new List<IBuildingsSO>();
-            _buildings = Resources.LoadAll<IBuildingsSO>("MilitaryBuildings").ToList();
-            _BuildingContainersList = new List<IBuildingContainer>();
+            _buildingContainersList = new List<IBuildingContainer>();
             buildingButtonText = buildButton.GetComponentInChildren<TextMeshProUGUI>();
         }
 
@@ -74,11 +73,11 @@ namespace Buildings.MilitaryBuildings
             foreach (var building in _buildings)
             {
                 var militaryBuilding = building as MilitaryBuildingsSO;
-                GameObject newBuilding = Instantiate(BuildingContainerPrefab, Vector3.zero, Quaternion.identity,
+                GameObject newBuilding = Instantiate(_buildingContainerPrefab, Vector3.zero, Quaternion.identity,
                     gridContainerInCanvas.transform);
                 MilitaryBuildingContainer container = newBuilding.GetComponent<MilitaryBuildingContainer>();
                 container.SetProperties(militaryBuilding);
-                _BuildingContainersList.Add(container);
+                _buildingContainersList.Add(container);
             }
         }
         
@@ -94,7 +93,7 @@ namespace Buildings.MilitaryBuildings
                 OnSpawnBlockers?.Invoke(_currentSelectedBuilding);
 
                 var positionToBuild = closestAvailablePlaceForBuilding._gridPosition;
-                //LevelGrid.Instance.SetCurrentGridSlotFromWorldPosition(positionToBuild);
+                //LevelGrid.Instance.SetCurrentGridSlotFromWorldPosition(PositionToBuild);
 
                 CameraScroll.Instance.CenterCameraOnBuilding(positionToBuild.y);
                 playerIsTryingToStartConstruction = true;

@@ -44,7 +44,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
         
         _buildings = new List<IBuildingsSO>();
         //_buildings = Resources.LoadAll<IBuildingsSO>("CivilianBuildings").ToList();
-        _BuildingContainersList = new List<IBuildingContainer>();
+        _buildingContainersList = new List<IBuildingContainer>();
         buildingButtonText = buildButton.GetComponentInChildren<TextMeshProUGUI>();
     }
 
@@ -143,11 +143,11 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
     {
         foreach (var building in _buildings)
         {
-            GameObject newBuilding = Instantiate(BuildingContainerPrefab, Vector3.zero, Quaternion.identity,
+            GameObject newBuilding = Instantiate(_buildingContainerPrefab, Vector3.zero, Quaternion.identity,
                 gridContainerInCanvas.transform);
             CivilianBuildingContainer container = newBuilding.GetComponent<CivilianBuildingContainer>();
             container.SetProperties(building);
-            _BuildingContainersList.Add(container);
+            _buildingContainersList.Add(container);
         }
     }
     
@@ -158,7 +158,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
     public void BlockBuildingsWithLargerSizeInUIPanel(int size)
     {
         isPanelOpenedFromPopup = true;
-        foreach (var containers in _BuildingContainersList)
+        foreach (var containers in _buildingContainersList)
         {
             var container = containers as CivilianBuildingContainer;
             if (container._civilianBuildingInfo.buildSize > size)
@@ -178,7 +178,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
     public void UnblockAllBuildingsInUIPanel()
     {
         isPanelOpenedFromPopup = false;
-        foreach (var containers in _BuildingContainersList)
+        foreach (var containers in _buildingContainersList)
         {
             var container = containers as CivilianBuildingContainer;
             container.UnblockContainer();

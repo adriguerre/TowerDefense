@@ -9,17 +9,18 @@ public class CameraMovements : ISingleton<CameraMovements>
 {
 	//public static CameraMovements Instance;
 	
-	private Camera _mainCamera;
-	
-	private Vector2 pastPosition;
-	private Vector2 levelPosition;
 
+	public bool canMoveCamera { get; private set; }
+	
 	[SerializeField] private float FocusZoomValue = 3;
 	[SerializeField] private float UnfocusZoomValue = 5; 
 	[SerializeField] private float AnimationTimeMultiplier = 10f;
+	
+	private Camera _mainCamera;
 	private bool needToFocusIn;
-	private bool needToFocusOut;
-	public bool canMoveCamera { get; private set; }
+	private bool needToFocusOut;	
+	private Vector2 pastPosition;
+    private Vector2 levelPosition;
 	private void Awake()
 	{
 		// if (Instance != null)

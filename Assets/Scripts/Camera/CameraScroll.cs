@@ -9,35 +9,34 @@ public class CameraScroll : MonoBehaviour
 {
     
     public static CameraScroll Instance;
-    
-    [SerializeField] private Camera cam;
-    [FormerlySerializedAs("IsPCGame")] [SerializeField] private bool IsMobileGame;
-
-    Vector3 touchStart;
-    [field: SerializeField] private float topLimit = 25f;
-    [field: SerializeField] private float bottomLimit = 4.67f;
-
-    private Vector3 _curPosition;
-    private Vector3 _velocity;
-    private bool _underInertia;
-    private float _time = 0.0f;
-    [HideInInspector] public float SmoothTime = 2;
-    [HideInInspector] public Vector3 direction;
-    [SerializeField] float clickDurationThreshold = 0.2f; // Time to detect is a click
-    private float clickTimer = 0.0f;
-    private bool isClick = false;
-    //If canMoveCamera is false, players won't be able to scroll
-
-    [field: SerializeField] private bool canMoveCamera { get; set; }
-    [field: SerializeField] float TimeToGetCentered { get; set; }
-    //Variable used when we need to center camera in any buildings
-    private bool IsBeingCentered { get; set; }
-    private Vector3 moveToPosition;
-    private Coroutine enableCameraMovementCoroutine;
     public Action onCameraCenterCompleted;
 
 
-
+  
+  
+    private Vector3 _curPosition;
+    private Vector3 _velocity;
+    private bool _underInertia;
+    private float _time = 0.0f; 
+    Vector3 touchStart;
+    [HideInInspector] public float SmoothTime = 2;
+    [HideInInspector] public Vector3 direction;
+    private bool IsBeingCentered { get; set; }
+    private Vector3 moveToPosition;
+    private Coroutine enableCameraMovementCoroutine;
+    private float clickTimer = 0.0f;
+    private bool isClick = false;
+    //If canMoveCamera is false, players won't be able to scroll
+    
+    [SerializeField] private Camera cam;
+    [SerializeField] private bool IsMobileGame;
+    [field: SerializeField] private float topLimit = 25f;
+    [field: SerializeField] private float bottomLimit = 4.67f;
+    [SerializeField] float clickDurationThreshold = 0.2f; // Time to detect is a click
+    [field: SerializeField] private bool canMoveCamera { get; set; }
+    [field: SerializeField] float TimeToGetCentered { get; set; }
+    //Variable used when we need to center camera in any buildings
+    
     private void Awake()
     {
         if (Instance != null)

@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using GameResources;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace BuildingsTest
 {
     public abstract class IBuildingsUIManager : MonoBehaviour
     {
-        [SerializeField] protected GameObject BuildingContainerPrefab;
+        [FormerlySerializedAs("BuildingContainerPrefab")] [SerializeField] protected GameObject _buildingContainerPrefab;
         [SerializeField] protected Button buildButton;
         protected TextMeshProUGUI buildingButtonText;
         [SerializeField] protected GameObject gridContainerInCanvas;
         
         protected IBuildingContainer _currentContainerSelected;
-        protected List<IBuildingContainer> _BuildingContainersList;
+        protected List<IBuildingContainer> _buildingContainersList;
         protected List<IBuildingsSO> _buildings;
         protected IBuildingsSO _currentSelectedBuilding;
         
@@ -79,7 +80,7 @@ namespace BuildingsTest
         /// <exception cref="NotImplementedException"></exception>
         protected void StartRefreshingContainerStatus()
         {
-            foreach (var container in _BuildingContainersList)
+            foreach (var container in _buildingContainersList)
             {
                 container.StartRefreshingIfPlayerHasResources();
             }
@@ -91,7 +92,7 @@ namespace BuildingsTest
         /// <exception cref="NotImplementedException"></exception>
         protected void StopRefreshingContainerStatus()
         {
-            foreach (var container in _BuildingContainersList)
+            foreach (var container in _buildingContainersList)
             {
                 container.StopRefreshingIfPlayerHasResources();
             }
