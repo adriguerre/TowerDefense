@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: CivilianBuildings
+  m_Name: MilitaryBuildings
   m_EditorClassIdentifier: 
-  m_GroupName: CivilianBuildings
-  m_GUID: f42983b2b42c8564dadaaea87f81e4ec
+  m_GroupName: MilitaryBuildings
+  m_GUID: 4b90f30c9864d3e43a6e00b2a5d26633
   m_SerializeEntries:
-  - m_GUID: abc0715b8ec32094d9fce9a9fa375979
-    m_Address: Assets/Resources_moved/CivilianBuildings
+  - m_GUID: b4f8797032e7b0146942558e16ac37a4
+    m_Address: MilitaryBuildings
     m_ReadOnly: 0
     m_SerializedLabels:
-    - CivilianBuildings
+    - MilitaryBuildings
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 2da5eaf234f1c2a4799ad43a3b54a8a1, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 7fe560f9f5a47924b9758d752f86710b, type: 2}
-    - {fileID: 11400000, guid: 0de4d18cd276d9c4dbb375d4cf72fe6d, type: 2}
+    - {fileID: 11400000, guid: aa3cb36074cefbd46a114b3d91a51fad, type: 2}
+    - {fileID: 11400000, guid: f861569b1f37abe419b299d0e651afdb, type: 2}

@@ -8,19 +8,14 @@ using UnityEngine;
 public class GridManager
 {
     
-    #region Private Fields
     
     public int width { get; private set; }
     public int height { get; private set; }
-    private float cellSize;
-
     public GridSlot[,] grid { get; private set;}
-
+    
+    private float cellSize;
     private List<int> civilianBuildingsAlreadyMarked;
     
-    #endregion 	
-
-
     public GridManager(int width, int height, float cellSize, LevelSO levelSO)
     {
         this.width = width;

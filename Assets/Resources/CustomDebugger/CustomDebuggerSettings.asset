@@ -28,3 +28,6 @@ MonoBehaviour:
   - name: Buildings
     customColor: {r: 0.030838395, g: 0.29706407, b: 0.9339623, a: 1}
     enabled: 1
+  - name: Addressables
+    customColor: {r: 0.34293926, g: 0.8207547, b: 0.17421682, a: 1}
+    enabled: 1

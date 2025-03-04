@@ -12,14 +12,12 @@ namespace Buildings.CivilianBuildings
 {
     public class CivilianBuilding : MonoBehaviour
     {
-        private CivilianBuildingState _buildingStatus;
         public CivilianBuildingsSO BuildingSOInfo { get; private set; }
+
+        
+        private CivilianBuildingState _buildingStatus;
         private Peasant builder;
         private BuildingFillAmount _buildingFiller;
-
-        [field: SerializeField] public GameObject BuildedGameObject { get; private set; }
-        [field: SerializeField] public GameObject ConstructionGameObject { get; private set; }
-
         /// <summary>
         /// 0 - Undefined
         /// 1 - Start Building
@@ -27,7 +25,12 @@ namespace Buildings.CivilianBuildings
         /// 3 - Destroying
         /// </summary>
         private int buildingStatusFromLoad = 1;
+        
+        
+        [field: SerializeField] public GameObject BuildedGameObject { get; private set; }
+        [field: SerializeField] public GameObject ConstructionGameObject { get; private set; }
 
+        
         private void Update()
         {
             if(_buildingStatus != null)

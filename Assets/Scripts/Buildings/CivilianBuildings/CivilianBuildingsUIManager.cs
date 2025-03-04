@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AddressablesManager;
 using BuildingsTest;
 using CDebugger;
 using GameResources;
@@ -42,21 +43,30 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
         Instance = this;
         
         _buildings = new List<IBuildingsSO>();
-        _buildings = Resources.LoadAll<IBuildingsSO>("CivilianBuildings").ToList();
-        _BuildingContainersList = new List<IBuildingContainer>();
+        //_buildings = Resources.LoadAll<IBuildingsSO>("CivilianBuildings").ToList();
+        _buildingContainersList = new List<IBuildingContainer>();
         buildingButtonText = buildButton.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Start()
     {
         base.Start();
+        AddressablesManager.AddressablesManager.OnCivilianBuildingsLoaded += OnCivilianBuildingsInfoLoaded;
         CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += OnUIOpenedWithoutPopup;
         CivilianBuildingUIPanel.onCivilianBuildingOpened += OnUIOpened;
         CivilianBuildingUIPanel.onCivilianBuildingClosed += OnUIClosed;
     }
 
+    private void OnCivilianBuildingsInfoLoaded(object sender, List<IBuildingsSO> e)
+    {
+        _buildings = e;
+        SpawnPanelContainers();
+        buildButton.onClick.AddListener(() => StartBuildingConstruction());
+    }
+
     private void OnDisable()
     {
+        AddressablesManager.AddressablesManager.OnCivilianBuildingsLoaded -= OnCivilianBuildingsInfoLoaded;
         CivilianBuildingUIPanel.onCivilianBuildingOpenedWithoutPopup += OnUIOpenedWithoutPopup;
         CivilianBuildingUIPanel.onCivilianBuildingOpened -= OnUIOpened;
         CivilianBuildingUIPanel.onCivilianBuildingClosed -= OnUIClosed;
@@ -133,11 +143,11 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
     {
         foreach (var building in _buildings)
         {
-            GameObject newBuilding = Instantiate(BuildingContainerPrefab, Vector3.zero, Quaternion.identity,
+            GameObject newBuilding = Instantiate(_buildingContainerPrefab, Vector3.zero, Quaternion.identity,
                 gridContainerInCanvas.transform);
             CivilianBuildingContainer container = newBuilding.GetComponent<CivilianBuildingContainer>();
             container.SetProperties(building);
-            _BuildingContainersList.Add(container);
+            _buildingContainersList.Add(container);
         }
     }
     
@@ -148,7 +158,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
     public void BlockBuildingsWithLargerSizeInUIPanel(int size)
     {
         isPanelOpenedFromPopup = true;
-        foreach (var containers in _BuildingContainersList)
+        foreach (var containers in _buildingContainersList)
         {
             var container = containers as CivilianBuildingContainer;
             if (container._civilianBuildingInfo.buildSize > size)
@@ -168,7 +178,7 @@ public class CivilianBuildingsUIManager : IBuildingsUIManager
     public void UnblockAllBuildingsInUIPanel()
     {
         isPanelOpenedFromPopup = false;
-        foreach (var containers in _BuildingContainersList)
+        foreach (var containers in _buildingContainersList)
         {
             var container = containers as CivilianBuildingContainer;
             container.UnblockContainer();

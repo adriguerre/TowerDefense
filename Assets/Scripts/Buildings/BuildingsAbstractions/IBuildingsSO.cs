@@ -1,9 +1,11 @@
-﻿using GameResources;
+﻿using System;
+using GameResources;
 using NaughtyAttributes;
 using UnityEngine;
 
 namespace BuildingsTest
 {
+    [Serializable]
     public abstract class IBuildingsSO : ScriptableObject
     {
         private int[] sizeValues = new int[] { 1, 4, 6 };

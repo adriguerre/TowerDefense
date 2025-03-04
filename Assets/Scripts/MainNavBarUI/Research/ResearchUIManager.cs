@@ -5,8 +5,7 @@ public class ResearchUIManager : Singleton<ResearchUIManager>
 {
     
     private Canvas researchCanvas;
-
-
+    
     private void Awake()
     {
         researchCanvas = GetComponentInParent<Canvas>();

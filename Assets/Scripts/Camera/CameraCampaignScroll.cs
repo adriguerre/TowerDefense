@@ -5,11 +5,7 @@ public class CameraCampaignScroll : MonoBehaviour
 
        [SerializeField] private Camera cam;
 
-    Vector3 touchStart;
-    private float topLimit = 3.3f;
-    private float bottomLimit = 1.09f;
-    private float leftLimit = -3.25f; // Agrega un límite izquierdo
-    private float rightLimit = 11.19f; // Agrega un límite derecho
+
 
     private Vector3 _curPosition;
     private Vector3 _velocity;
@@ -21,7 +17,13 @@ public class CameraCampaignScroll : MonoBehaviour
     [SerializeField] float clickDurationThreshold = 0.2f; // Time to detect is a click
     private float clickTimer = 0.0f;
     private bool isClick = false;
-
+    Vector3 touchStart;
+    private float topLimit = 3.3f;
+    private float bottomLimit = 1.09f;
+    private float leftLimit = -3.25f; // Agrega un límite izquierdo
+    private float rightLimit = 11.19f; // Agrega un límite derecho
+    
+    
     void Update()
     {
         if (!CameraMovements.Instance.canMoveCamera)

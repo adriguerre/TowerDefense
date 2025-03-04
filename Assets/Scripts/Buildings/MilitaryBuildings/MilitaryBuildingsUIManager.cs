@@ -29,23 +29,33 @@ namespace Buildings.MilitaryBuildings
             Instance = this;
         
             _buildings = new List<IBuildingsSO>();
-            _buildings = Resources.LoadAll<IBuildingsSO>("MilitaryBuildings").ToList();
-            _BuildingContainersList = new List<IBuildingContainer>();
+            _buildingContainersList = new List<IBuildingContainer>();
             buildingButtonText = buildButton.GetComponentInChildren<TextMeshProUGUI>();
         }
 
         private void Start()
         {
             base.Start();
+            AddressablesManager.AddressablesManager.OnMilitaryBuildingsLoaded += OnMilitaryBuildingsInfoLoaded;
             MilitaryBuildingUIPanel.onMilitaryBuildingOpened += OnUIOpened;
             MilitaryBuildingUIPanel.onMilitaryBuildingClosed += OnUIClosed;
         }
         
         private void OnDisable()
         {
+            AddressablesManager.AddressablesManager.OnMilitaryBuildingsLoaded -= OnMilitaryBuildingsInfoLoaded;
             MilitaryBuildingUIPanel.onMilitaryBuildingOpened -= OnUIOpened;
             MilitaryBuildingUIPanel.onMilitaryBuildingClosed -= OnUIClosed;
         }
+        
+        
+        private void OnMilitaryBuildingsInfoLoaded(object sender, List<IBuildingsSO> e)
+        {
+            _buildings = e;
+            SpawnPanelContainers();
+            buildButton.onClick.AddListener(() => StartBuildingConstruction());
+        }
+        
         
         /// <summary>
         /// Method used to start building a civilian house in case of beign in popup, or start selection mode
@@ -63,11 +73,11 @@ namespace Buildings.MilitaryBuildings
             foreach (var building in _buildings)
             {
                 var militaryBuilding = building as MilitaryBuildingsSO;
-                GameObject newBuilding = Instantiate(BuildingContainerPrefab, Vector3.zero, Quaternion.identity,
+                GameObject newBuilding = Instantiate(_buildingContainerPrefab, Vector3.zero, Quaternion.identity,
                     gridContainerInCanvas.transform);
                 MilitaryBuildingContainer container = newBuilding.GetComponent<MilitaryBuildingContainer>();
                 container.SetProperties(militaryBuilding);
-                _BuildingContainersList.Add(container);
+                _buildingContainersList.Add(container);
             }
         }
         
@@ -83,7 +93,7 @@ namespace Buildings.MilitaryBuildings
                 OnSpawnBlockers?.Invoke(_currentSelectedBuilding);
 
                 var positionToBuild = closestAvailablePlaceForBuilding._gridPosition;
-                //LevelGrid.Instance.SetCurrentGridSlotFromWorldPosition(positionToBuild);
+                //LevelGrid.Instance.SetCurrentGridSlotFromWorldPosition(PositionToBuild);
 
                 CameraScroll.Instance.CenterCameraOnBuilding(positionToBuild.y);
                 playerIsTryingToStartConstruction = true;

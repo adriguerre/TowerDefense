@@ -16,7 +16,11 @@ using Input = UnityEngine.Input;
 
 public class LevelGrid : Singleton<LevelGrid>
 {
-
+	
+	public GridSlot currentGridSlot { get; private set; }
+	public Vector2 PositionToBuild { get; private set; }
+	public LevelSO CurrentLevelSO { get; private set; }
+	
 	[Header("Properties")]
 	[SerializeField] private int width;
 	[SerializeField] private int height;
@@ -25,15 +29,12 @@ public class LevelGrid : Singleton<LevelGrid>
 	[field: SerializeField] public GameObject gridObserverCivilianBuildingSize4ObjectPrefab {get; private set;}
 	[field: SerializeField] public GameObject gridObserverCivilianBuildingSize6ObjectPrefab {get; private set;}
 	
-
 	[SerializeField] private LevelSO defaultLevel;
+	
+	
 	private GridManager gridSystem;
 	private GameObject currentGridBuildingUI;
 	private List<GameObject> selectorGridBuildingsObjects;
-	public GridSlot currentGridSlot { get; private set; }
-	public Vector2 positionToBuild;
-	public LevelSO CurrentLevelSO { get; private set; }
-
 
 	#region Level Creator
 
@@ -194,10 +195,10 @@ public class LevelGrid : Singleton<LevelGrid>
 				currentGridSlot = gridSlot;
 				if (currentGridSlot.GetBuildingInGridSlot() == null)
 				{
-					positionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID,  BuilderManager.Instance.BuildInfo.buildSize);
+					PositionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID,  BuilderManager.Instance.BuildInfo.buildSize);
 					currentGridSlot = gridSlot;
 					ActivateGridSlotBuildingUI(currentGridSlot, true, false, false);
-					BuilderManager.Instance.MoveBuildingPlace(positionToBuild);
+					BuilderManager.Instance.MoveBuildingPlace(PositionToBuild);
 				}
 			}
 		}
@@ -216,10 +217,10 @@ public class LevelGrid : Singleton<LevelGrid>
 			currentGridSlot = gridSlot;
 			if (currentGridSlot.GetBuildingInGridSlot() == null)
 			{
-				positionToBuild = new Vector2(gridSlot._gridPosition.x, gridSlot._gridPosition.y);
+				PositionToBuild = new Vector2(gridSlot._gridPosition.x, gridSlot._gridPosition.y);
 				currentGridSlot = gridSlot;
 				ActivateGridSlotBuildingUI(currentGridSlot, false, false, true);
-				BuilderManager.Instance.MoveBuildingPlace(positionToBuild);
+				BuilderManager.Instance.MoveBuildingPlace(PositionToBuild);
 			}
 			
 		}
@@ -326,9 +327,9 @@ public class LevelGrid : Singleton<LevelGrid>
 			GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(closestBuildingObject.gridPositionList.First());
 			ActivateGridSlotBuildingUI(gridSlot, true, false, false);
 			if (size == 6)
-				positionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
+				PositionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 6);
 			else
-				positionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
+				PositionToBuild = GetCenterPositionFromCivilianBuilding(gridSlot.buildingID, 4);
 
 		}
 		return closestBuildingObject;
@@ -385,7 +386,7 @@ public class LevelGrid : Singleton<LevelGrid>
 		if (closestBuildingObject != null)
 		{
 			ActivateGridSlotBuildingUI(closestBuildingObject, false, false, true);
-			positionToBuild = GetWorldPosition(closestBuildingObject._gridPosition);
+			PositionToBuild = GetWorldPosition(closestBuildingObject._gridPosition);
 		}
 		
 		return closestBuildingObject;
@@ -457,14 +458,14 @@ public class LevelGrid : Singleton<LevelGrid>
 		    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridObserverObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity); 
 		    if(showBuildUIPopup)
 			    BuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
-		    positionToBuild = GetWorldPosition(gridSlot._gridPosition);
+		    PositionToBuild = GetWorldPosition(gridSlot._gridPosition);
 	    }
 	    else
 	    {
 		    BuildingsUIPopButtons.Instance.CloseBuildUI();
 		    currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridObserverObjectPrefab, GetWorldPosition(gridSlot._gridPosition), Quaternion.identity);
 		    //TODO KW
-		    positionToBuild = GetWorldPosition(gridSlot._gridPosition);
+		    PositionToBuild = GetWorldPosition(gridSlot._gridPosition);
 	    }
 	    currentGridBuildingUI.GetComponent<GridSlotHolder>().SetProperties(gridSlot);
     }
@@ -481,7 +482,7 @@ public class LevelGrid : Singleton<LevelGrid>
 			currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridObserverCivilianBuildingSize4ObjectPrefab, position, Quaternion.identity); 
 			if(showBuildUIPopup)
 				BuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
-			positionToBuild = position;
+			PositionToBuild = position;
 		}
 		else
 		{
@@ -489,7 +490,7 @@ public class LevelGrid : Singleton<LevelGrid>
 			currentGridBuildingUI = Instantiate(LevelGrid.Instance.gridObserverCivilianBuildingSize6ObjectPrefab, position, Quaternion.identity); 
 			if(showBuildUIPopup)
 				BuildingsUIPopButtons.Instance.OpenBuildUI(position, currentGridSlot);
-			positionToBuild = position;
+			PositionToBuild = position;
 		}
 	}
 

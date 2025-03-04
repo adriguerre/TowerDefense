@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class GridSlot
 {
-    #region Private Fields
-    public GridPosition _gridPosition { get; private set; }
-	public GridPositionType _gridPositionType { get; set; }
-	private GridManager _gridManager;
+	
 	//This can be 0 if no building is there
 	public int buildingID {get; private set;}
 	//This can be 0 if no building is there
@@ -15,9 +12,10 @@ public class GridSlot
 	
 	public IBuildingsSO BuildingSO {get; private set;}
 	public bool IsRoad { get; private set; }
+    public GridPosition _gridPosition { get; private set; }
+	public GridPositionType _gridPositionType { get; set; }
+	private GridManager _gridManager;
 	
-    #endregion
-
     public GridSlot(GridPosition gridPosition, CivilianBuildingsSO buildingInPosition, GridPositionType gridPositionType, int buildingID, int buildingSize)
     {
 	    this._gridPosition = gridPosition;
