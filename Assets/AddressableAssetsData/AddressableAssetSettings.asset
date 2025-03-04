@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 9a92be3be41f6914a9adec74c0fecabf
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 52b7f5d74c536bf45624bb65b7747e00
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -101,8 +101,6 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
-    - CivilianBuildings
-    - MilitaryBuildings
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 40e7a2acf0a388946893e8bf5b54938c, type: 2}
