@@ -21,7 +21,7 @@ namespace Buildings
         [SerializeField] private Button cancelButton;
         private bool isTryingToBuildCivilianBuilding = false;
         
-        public IBuildingsSO CivilianBuildingsSO { get; private set; }
+        public IBuildingsSO BuildingSO { get; private set; }
         
         private void Awake()
         {
@@ -30,11 +30,11 @@ namespace Buildings
         }
 
 
-        public void ActivateBuildingConfirmOption(IBuildingsSO civilianBuildingInfo, bool isCivilianBuilding)
+        public void ActivateBuildingConfirmOption(IBuildingsSO buildingInfo)
         {
-            CivilianBuildingsSO = civilianBuildingInfo;
+            BuildingSO = buildingInfo;
             constructionPlaceholder.SetActive(true);
-            isTryingToBuildCivilianBuilding = isCivilianBuilding;
+            isTryingToBuildCivilianBuilding = buildingInfo is CivilianBuildingsSO;
             _spriteRenderer.color = Color.green;
             ConfirmBackButtons.SetActive(true);
             cancelButton.onClick.AddListener(() => CancelBuildingConstruction());
@@ -64,13 +64,13 @@ namespace Buildings
             if (isTryingToBuildCivilianBuilding)
             {
                 ConstructionBuildBlocker.Instance.DestroyCivilianBuildingsSpawnBlockers();
-                BuilderManager.Instance.BuildCivilianBuildings(CivilianBuildingsSO);
+                BuilderManager.Instance.StartBuildingConstruction(BuildingSO);
             }
             else
             {
                 ConstructionBuildBlocker.Instance.DestroyMilitaryBuildingsSpawnBlockers();
                 CustomDebugger.Log(LogCategories.MilitaryBuildings, "Add building to builder manager");
-                //BuilderManager.Instance.BuildCivilianBuildings(CivilianBuildingsSO);
+                BuilderManager.Instance.StartBuildingConstruction(BuildingSO);
             }
 
             Destroy(this.gameObject);

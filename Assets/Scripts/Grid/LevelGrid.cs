@@ -139,6 +139,12 @@ public class LevelGrid : Singleton<LevelGrid>
 		return Vector2.zero;
 	}
 
+
+	public void ChangeGridSlotTypeToMilitary(GridPosition gridPosition)
+	{
+		gridSystem.AddMilitaryBuildingToGrid(gridPosition);
+	}
+
 	/// <summary>
 	/// Set grid slot from a given position
 	/// </summary>
@@ -179,6 +185,9 @@ public class LevelGrid : Singleton<LevelGrid>
 		}
 	}
 
+	/// <summary>
+	/// Check if this slot is valid for a civilian building, if it is, we select this as the current slot
+	/// </summary>
 	public void SelectSlotAsPossibleCivilianLocation()
 	{
 		GridSlot gridSlot = gridSystem.GetGridSlotFromMousePosition();
@@ -231,7 +240,8 @@ public class LevelGrid : Singleton<LevelGrid>
 		return (gridSlot._gridPositionType == GridPositionType.Obstacle || 
 		        gridSlot._gridPositionType == GridPositionType.CivilianBuilding ||
 		        gridSlot._gridPositionType == GridPositionType.Path ||
-		        gridSlot._gridPositionType == GridPositionType.TemporaryObstacle);
+		        gridSlot._gridPositionType == GridPositionType.TemporaryObstacle
+		        || gridSlot._gridPositionType == GridPositionType.MilitaryBuilding);
 	}
 	public void DesactivateGridSlotPrefabAndHideBuildUIPop()
 	{
@@ -345,7 +355,7 @@ public class LevelGrid : Singleton<LevelGrid>
 			{
 				GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(new GridPosition(i, j));
 				if (IsNotValidPositionForMilitaryBuilding(gridSlot))
-				blockPositions.Add(gridSlot._gridPosition);	
+					blockPositions.Add(gridSlot._gridPosition);	
 			}
 		}
 		return blockPositions;
@@ -574,7 +584,7 @@ public class LevelGrid : Singleton<LevelGrid>
 					    Gizmos.color = new Color(0.7f, 0.1f, 0.7f, 0.5f);
 					    break;
 				    case GridPositionType.MilitaryBuilding:
-					    Gizmos.color = new Color(0.2f, 0.1f, 0.7f, 0.5f);
+					    Gizmos.color = new Color(0.2f, 0.6f, 0.7f, 0.5f);
 					    break;
 				    case GridPositionType.TemporaryObstacle:
 					    Gizmos.color = new Color(0.2f, 0.1f, 0.2f, 0.5f);

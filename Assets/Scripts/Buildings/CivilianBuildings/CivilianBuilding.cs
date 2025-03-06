@@ -12,7 +12,7 @@ namespace Buildings.CivilianBuildings
 {
     public class CivilianBuilding : MonoBehaviour
     {
-        public CivilianBuildingsSO BuildingSOInfo { get; private set; }
+        public IBuildingsSO BuildingSOInfo { get; private set; }
 
         
         private CivilianBuildingState _buildingStatus;
@@ -52,7 +52,10 @@ namespace Buildings.CivilianBuildings
                     TransitionToState(new ConstructingCivilianBuildingState(this));
                     break;
                 case 2:
-                    TransitionToState(new BuildedState(this));
+                    if(BuildingSOInfo is CivilianBuildingsSO)
+                        TransitionToState(new CivilianBuildedState(this));
+                    else
+                        Debug.Log("ES");
                     break;
                 case 3:
                     TransitionToState(new DestroyedState(this));
@@ -76,7 +79,8 @@ namespace Buildings.CivilianBuildings
             buildingFiller.onBuildingFinished -= OnBuildingFinished;
             
             //Transition from Builded -> Start production
-            TransitionToState(new BuildedState(this));
+            if(BuildingSOInfo is CivilianBuildingsSO)
+                TransitionToState(new CivilianBuildedState(this));
            
             //GetComponent<SpriteRenderer>().sprite = buildedSprite;
 
@@ -137,7 +141,7 @@ namespace Buildings.CivilianBuildings
 
         public void Init(IBuildingsSO buildingSOInfo)
         {
-            BuildingSOInfo = buildingSOInfo as CivilianBuildingsSO;
+            BuildingSOInfo = buildingSOInfo;
             StartBuildingBehaviour();
         }
         

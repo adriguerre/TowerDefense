@@ -4,7 +4,7 @@ using NaughtyAttributes;
 using GameResources;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CivilianBuildingsSO", menuName = "ScriptableObjects/CivilianBuildings/CivilianBuildingsSO")]
+[CreateAssetMenu(fileName = "BuildingSO", menuName = "ScriptableObjects/CivilianBuildings/BuildingSO")]
 public class CivilianBuildingsSO : IBuildingsSO
 {
     public ResourceProduced resourceProduced;

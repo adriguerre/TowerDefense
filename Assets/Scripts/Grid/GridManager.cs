@@ -80,6 +80,16 @@ public class GridManager
 
         return false;
     }
+    
+    
+    /// <summary>
+    /// Replace this gridSlot to military building slot
+    /// </summary>
+    /// <param name="gridPosition"></param>
+    public void AddMilitaryBuildingToGrid(GridPosition gridPosition)
+    {
+        grid[gridPosition.x, gridPosition.y]._gridPositionType = GridPositionType.MilitaryBuilding;
+    }
 
 
     /// <summary>
