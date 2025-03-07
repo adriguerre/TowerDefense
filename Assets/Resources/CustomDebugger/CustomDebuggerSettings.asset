@@ -31,3 +31,6 @@ MonoBehaviour:
   - name: Addressables
     customColor: {r: 0.34293926, g: 0.8207547, b: 0.17421682, a: 1}
     enabled: 1
+  - name: Enemies
+    customColor: {r: 0.7735849, g: 0.105820596, b: 0.105820596, a: 1}
+    enabled: 1

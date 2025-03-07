@@ -8,5 +8,6 @@ namespace CDebugger
         public static readonly string MilitaryBuildings = "MilitaryBuildings";
         public static readonly string Buildings = "Buildings";
         public static readonly string Addressables = "Addressables";
+        public static readonly string Enemies = "Enemies";
     }
 }
