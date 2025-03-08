@@ -34,3 +34,9 @@ MonoBehaviour:
   - name: Enemies
     customColor: {r: 0.7735849, g: 0.105820596, b: 0.105820596, a: 1}
     enabled: 1
+  - name: ObjectPool
+    customColor: {r: 0.10457456, g: 0.7417021, b: 0.8867924, a: 1}
+    enabled: 1
+  - name: ObjectPoolFactory
+    customColor: {r: 0, g: 1, b: 0.74838066, a: 1}
+    enabled: 1

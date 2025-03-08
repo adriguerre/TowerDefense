@@ -8,9 +8,13 @@ namespace Enemies.Factory
     [CreateAssetMenu(menuName = "Enemies/FactoryConfigutation")]
     public class EnemyFactoryConfiguration : ScriptableObject
     {
+        public List<IEnemy> Enemies => _enemies;
+        
         [SerializeField] private List<IEnemy> _enemies;
+        
         private Dictionary<EnemyType, IEnemy> _idToEnemy;
 
+        
 
         private void Awake()
         {

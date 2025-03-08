@@ -19,10 +19,10 @@ namespace Enemies.Factory
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                _enemyFactory.Create(EnemyType.Infantry);
+                _enemyFactory.Create(EnemyType.Infantry, Vector2.zero);
             }else if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                _enemyFactory.Create(EnemyType.Archer);
+                _enemyFactory.Create(EnemyType.Archer, Vector2.zero);
             }
         }
         

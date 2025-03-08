@@ -9,5 +9,7 @@ namespace CDebugger
         public static readonly string Buildings = "Buildings";
         public static readonly string Addressables = "Addressables";
         public static readonly string Enemies = "Enemies";
+        public static readonly string ObjectPool = "CustomObjectPool";
+        public static readonly string ObjectPoolFactory = "ObjectPoolFactory";
     }
 }
