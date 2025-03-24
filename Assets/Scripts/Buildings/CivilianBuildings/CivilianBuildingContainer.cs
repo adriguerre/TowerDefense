@@ -43,11 +43,11 @@ public class CivilianBuildingContainer : IBuildingContainer
     /// <summary>
     /// Set properties of a single container
     /// </summary>
-    /// <param name="civilianBuilding"></param>
-    public override void SetProperties(IBuildingsSO civilianBuilding)
+    /// <param name="building"></param>
+    public override void SetProperties(IBuildingsSO building)
     {
-        base.SetProperties(civilianBuilding);
-        _civilianBuildingInfo = civilianBuilding as CivilianBuildingsSO;
+        base.SetProperties(building);
+        _civilianBuildingInfo = building as CivilianBuildingsSO;
         _resourceProductionText.text = _civilianBuildingInfo.resourceProduced.resourceProducedBaseLevel1.ToString();
         _resourceProductionIcon.sprite = ResourcesManager.Instance.GetSpriteFromResource(_civilianBuildingInfo.resourceProduced.resourceProduced);
         

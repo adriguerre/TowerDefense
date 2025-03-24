@@ -123,9 +123,10 @@ namespace BuildingsTest
             panelIsShowing = false;
         }
 
-        public virtual void SetProperties(IBuildingsSO buildingInfoSO)
+        public virtual void SetProperties(IBuildingsSO building)
         {
-            this._buildingInfo = buildingInfoSO; 
+            this._buildingInfo = building; 
+            Debug.Log(building.name);
             _buildingIcon.sprite = _buildingInfo.buildingIcon;
             _buildingName.text = _buildingInfo.buildingName;
 
@@ -137,7 +138,7 @@ namespace BuildingsTest
             _buildingCost1Text.text = _buildingInfo.buildingCost1.cost.ToString();
             _buildingCost1Image.sprite = ResourcesManager.Instance.
                 GetSpriteFromResource(_buildingInfo.buildingCost1.resourceType);
-            if (buildingInfoSO.buildingCost2.resourceType != ResourceType.Undefined)
+            if (building.buildingCost2.resourceType != ResourceType.Undefined)
             {
                 _buildingCost2Text.text = _buildingInfo.buildingCost1.cost.ToString();
                 _buildingCost2Image.sprite =

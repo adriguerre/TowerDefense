@@ -20,10 +20,12 @@ public class LevelGrid : Singleton<LevelGrid>
 	public GridSlot currentGridSlot { get; private set; }
 	public Vector2 PositionToBuild { get; private set; }
 	public LevelSO CurrentLevelSO { get; private set; }
+	[field: SerializeField] public NodeGrid2D CurrentNodeGrid2D { get; private set; }
 	
-	[Header("Properties")]
-	[SerializeField] private int width;
-	[SerializeField] private int height;
+
+	[field: Header("Properties")]
+	[field: SerializeField] public int Width { get; private set; }
+	[field: SerializeField] public int Height { get; private set; }
 	[SerializeField] private float cellSize;
 	[field: SerializeField] public GameObject gridObserverObjectPrefab {get; private set;}
 	[field: SerializeField] public GameObject gridObserverCivilianBuildingSize4ObjectPrefab {get; private set;}
@@ -101,14 +103,15 @@ public class LevelGrid : Singleton<LevelGrid>
 		{
 			CurrentLevelSO = levelSO;
 			Debug.Log("SE esta creando un level con la info de: " + levelSO.levelName + " con un camino count de: " + levelSO.pathList.Count);
-			gridSystem = new GridManager(width, height, cellSize, levelSO);
+			gridSystem = new GridManager(Width, Height, cellSize, levelSO);
 		}
 		else
 		{
 			LevelSO defaultLevel = Resources.Load<LevelSO>("Levels/LeveL_1");
 			CurrentLevelSO = defaultLevel;
-			gridSystem = new GridManager(width, height, cellSize, defaultLevel);
+			gridSystem = new GridManager(Width, Height, cellSize, defaultLevel);
 		}
+		CurrentNodeGrid2D.CreateGrid(gridSystem);
 		CivilianBuildingsManager.Instance.FillCivilianBuildingsDictionary(CurrentLevelSO);
 	}
 
@@ -528,9 +531,9 @@ public class LevelGrid : Singleton<LevelGrid>
 
     private void DrawLevelCreatorGizmos()
     {
-	    for(int x = 0; x < width; x++)
+	    for(int x = 0; x < Width; x++)
 	    {
-		    for(int y = 0; y < height; y++)
+		    for(int y = 0; y < Height; y++)
 		    {
 			    GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(new GridPosition(x, y));
 			    switch (gridSlot._gridPositionType)
@@ -564,9 +567,9 @@ public class LevelGrid : Singleton<LevelGrid>
 
     private void DrawNormalGizmos()
     {
-	    for(int x = 0; x < width; x++)
+	    for(int x = 0; x < Width; x++)
 	    {
-		    for(int y = 0; y < height; y++)
+		    for(int y = 0; y < Height; y++)
 		    {
 			    GridSlot gridSlot = gridSystem.GetGridSlotFromGridPosition(new GridPosition(x, y));
 			    switch (gridSlot._gridPositionType)

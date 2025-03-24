@@ -28,11 +28,11 @@ namespace Buildings.MilitaryBuildings
         /// <summary>
         /// Set properties of a single container
         /// </summary>
-        /// <param name="civilianBuilding"></param>
-        public override void SetProperties(IBuildingsSO civilianBuilding)
+        /// <param name="building"></param>
+        public override void SetProperties(IBuildingsSO building)
         {
-            base.SetProperties(civilianBuilding);
-            _militaryBuildingInfo = civilianBuilding as MilitaryBuildingsSO;
+            base.SetProperties(building);
+            _militaryBuildingInfo = building as MilitaryBuildingsSO;
             
             enemiesTarget.text = _militaryBuildingInfo.singleTarget ? "Single Target" : "Multiple Targets";
             canPlaceInRoad.text = _militaryBuildingInfo.canPlaceInRoad ? "Can Place In Road" : "Can't Place In Road";
